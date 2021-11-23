@@ -1,0 +1,12 @@
+# Build results
+*.pyc
+
+# Database
+migrations/
+*.sqlite3
+
+# IDE and editor settings
+.idea/
+
+# Libraries
+venv/
