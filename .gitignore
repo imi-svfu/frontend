@@ -12,5 +12,5 @@ migrations/
 venv/
 
 # Environment settings
-secret.key
+secret_key
 settings_*.py
