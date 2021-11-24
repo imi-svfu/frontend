@@ -10,3 +10,7 @@ migrations/
 
 # Libraries
 venv/
+
+# Environment settings
+secret.key
+settings_*.py
