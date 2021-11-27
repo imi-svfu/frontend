@@ -1,13 +1,20 @@
+from datetime import datetime
+
 from django.contrib import admin
 
-from . import models
+from .models import Question, Answer
 
 
-@admin.register(models.Question)
+@admin.register(Answer, Question)
 class AdminQuestion(admin.ModelAdmin):
-    pass
+    exclude = ['changed', 'created', 'author']
 
+    def save_model(self, request, obj: Question, form, change):
+        obj.changed = datetime.now()
+        if not obj.created:
+            obj.created = obj.changed
 
-@admin.register(models.Answer)
-class AdminAnswer(admin.ModelAdmin):
-    pass
+        if not obj.author:
+            obj.author = request.user
+
+        super().save_model(request, obj, form, change)

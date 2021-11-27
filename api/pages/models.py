@@ -5,7 +5,8 @@ class Page(models.Model):
     """
     Строницы сайта
     """
-    text = models.TextField('текст вопроса')
+    html = models.TextField('текст страницы')
+    markdown = models.TextField('текст страницы', blank=True, default='')
     created = models.DateTimeField('время создания')
     changed = models.DateTimeField('время изменения')
     author = models.ForeignKey('auth.User', verbose_name='автор',
