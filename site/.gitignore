@@ -1,0 +1,8 @@
+# Build result
+dist/
+
+# IDE and editor settings
+.idea/
+
+# Libraries
+node_modules/
