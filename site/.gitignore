@@ -1,6 +1,9 @@
 # Build result
 dist/
 
+# Environment settings
+*.env
+
 # IDE and editor settings
 .idea/
 

@@ -21,11 +21,11 @@ from pages.viewsets import UserViewSet, GroupViewSet, PageViewSet
 from questions.viewsets import QuestionViewSet, AnswerViewSet
 
 router = routers.DefaultRouter()
-router.register('user', UserViewSet)
-router.register('group', GroupViewSet)
-router.register('page', PageViewSet)
-router.register('question', QuestionViewSet)
-router.register('answer', AnswerViewSet)
+router.register('users', UserViewSet)
+router.register('groups', GroupViewSet)
+router.register('pages', PageViewSet)
+router.register('questions', QuestionViewSet)
+router.register('answers', AnswerViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
