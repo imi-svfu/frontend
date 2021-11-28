@@ -1,12 +1,11 @@
 import React from 'react'
-import ReactMarkdown from "react-markdown"
-import Container from 'react-bootstrap/Container'
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
+import {Container} from 'react-bootstrap'
+import ReactMarkdown from 'react-markdown'
+import Menu from '../menu.jsx'
 
 const {API_URL} = process.env;
 
-export default class App extends React.Component {
+export default class Home extends React.Component {
   state = {
     content: ''
   }
@@ -28,13 +27,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Container>
-        <Navbar bg="light">
-          <Container>
-            <Nav>
-              <Nav.Link href="#">Главная</Nav.Link>
-            </Nav>
-          </Container>
-        </Navbar>
+        <Menu/>
         <div className="row">
           <div className="col">
             <ReactMarkdown>{this.state.content}</ReactMarkdown>

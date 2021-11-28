@@ -4,7 +4,7 @@ const path = require('path')
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(__dirname, 'src', 'index.js'),
+  entry: path.resolve(__dirname, 'src', 'main.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
