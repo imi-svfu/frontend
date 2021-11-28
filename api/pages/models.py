@@ -1,17 +1,21 @@
-from django.db import models
+from django.db.models import (Model, CharField, TextField, DateTimeField,
+                              ForeignKey, SET_NULL)
 
 
-class Page(models.Model):
+class Page(Model):
     """
-    Строницы сайта
+    Статические строницы
     """
-    html = models.TextField('текст страницы')
-    markdown = models.TextField('текст страницы', blank=True, default='')
-    created = models.DateTimeField('время создания')
-    changed = models.DateTimeField('время изменения')
-    author = models.ForeignKey('auth.User', verbose_name='автор',
-                               on_delete=models.SET_NULL, blank=True, null=True)
+    title = CharField('заголовок', max_length=100)
+    markdown = TextField('текст в формате Markdown', blank=True, default='')
+    created = DateTimeField('время создания')
+    changed = DateTimeField('время изменения')
+    author = ForeignKey('auth.User', on_delete=SET_NULL, verbose_name='автор',
+                        blank=True, null=True)
 
     class Meta:
         verbose_name = 'страница'
         verbose_name_plural = 'страницы'
+
+    def __str__(self):
+        return self.title

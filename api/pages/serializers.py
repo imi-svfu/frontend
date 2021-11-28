@@ -16,7 +16,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         exclude = ['permissions']
 
 
-class PageSerializer(serializers.HyperlinkedModelSerializer):
+class PageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Page
         fields = '__all__'
