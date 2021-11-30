@@ -1,29 +1,36 @@
-from django.db import models
+from django.db.models import (Model, CharField, TextField, DateTimeField,
+                              ForeignKey, CASCADE, SET_NULL)
 
 
-class Question(models.Model):
+class Question(Model):
     """
     Вопросы пользователей
     """
-    text = models.TextField('текст вопроса')
-    created = models.DateTimeField('время создания')
-    changed = models.DateTimeField('время изменения')
-    author = models.ForeignKey('auth.User', verbose_name='автор', on_delete=models.SET_NULL, null=True)
+    title = CharField('заголовок', max_length=100)
+    text = TextField('текст', blank=True, default='')
+    created = DateTimeField('время создания')
+    changed = DateTimeField('время изменения')
+    author = ForeignKey('auth.User', verbose_name='автор', on_delete=SET_NULL,
+                        null=True)
 
     class Meta:
         verbose_name = 'вопрос'
         verbose_name_plural = 'вопросы'
 
+    def __str__(self):
+        return self.title
 
-class Answer(models.Model):
+
+class Answer(Model):
     """
     Ответы на вопросы пользователей
     """
-    question = models.ForeignKey('Question', verbose_name='вопрос', on_delete=models.CASCADE)
-    text = models.TextField('ответ')
-    created = models.DateTimeField('время создания')
-    changed = models.DateTimeField('время изменения')
-    author = models.ForeignKey('auth.User', verbose_name='автор', on_delete=models.SET_NULL, null=True)
+    question = ForeignKey('Question', verbose_name='вопрос', on_delete=CASCADE)
+    text = TextField('ответ')
+    created = DateTimeField('время создания')
+    changed = DateTimeField('время изменения')
+    author = ForeignKey('auth.User', verbose_name='автор', on_delete=SET_NULL,
+                        null=True)
 
     class Meta:
         verbose_name = 'ответ'

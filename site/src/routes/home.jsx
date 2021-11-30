@@ -1,7 +1,5 @@
 import React from 'react'
-import {Container} from 'react-bootstrap'
 import ReactMarkdown from 'react-markdown'
-import Menu from '../menu.jsx'
 
 const {API_URL} = process.env;
 
@@ -10,12 +8,10 @@ export default class Home extends React.Component {
     content: ''
   }
 
-  constructor(props) {
-    super(props);
-    const apiUrl = API_URL + '/pages/'
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((pages) => {
+  fetchContent() {
+    fetch(API_URL + '/pages/')
+      .then(response => response.json())
+      .then(pages => {
         if (pages.length > 0) {
           this.setState({
             content: pages[0]['markdown']
@@ -24,16 +20,14 @@ export default class Home extends React.Component {
       })
   }
 
+  constructor(props) {
+    super(props)
+    this.fetchContent()
+  }
+
   render() {
     return (
-      <Container>
-        <Menu/>
-        <div className="row">
-          <div className="col">
-            <ReactMarkdown>{this.state.content}</ReactMarkdown>
-          </div>
-        </div>
-      </Container>
+      <ReactMarkdown>{this.state.content}</ReactMarkdown>
     )
   }
 }
