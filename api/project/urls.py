@@ -18,14 +18,13 @@ from django.urls import include, path
 from rest_framework import routers
 
 from pages.viewsets import UserViewSet, GroupViewSet, PageViewSet
-from questions.viewsets import QuestionViewSet, AnswerViewSet
+from questions.viewsets import QuestionViewSet
 
 router = routers.DefaultRouter()
 router.register('users', UserViewSet)
 router.register('groups', GroupViewSet)
 router.register('pages', PageViewSet)
 router.register('questions', QuestionViewSet)
-router.register('answers', AnswerViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

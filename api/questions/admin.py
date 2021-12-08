@@ -2,10 +2,10 @@ from datetime import datetime
 
 from django.contrib import admin
 
-from .models import Question, Answer
+from .models import Question
 
 
-@admin.register(Answer, Question)
+@admin.register(Question)
 class AdminQuestion(admin.ModelAdmin):
     exclude = ['changed', 'created', 'author']
 
