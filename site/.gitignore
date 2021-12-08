@@ -2,7 +2,7 @@
 dist/
 
 # Environment settings
-*.env
+api_url.txt
 
 # IDE and editor settings
 .idea/
