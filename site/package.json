@@ -2,7 +2,9 @@
   "name": "nefu-imi-frontend",
   "version": "0.0.1",
   "description": "Фронтенд для сайта ИМИ СВФУ",
-  "browserslist": ["defaults"],
+  "browserslist": [
+    "defaults"
+  ],
   "scripts": {
     "build": "webpack",
     "build-prod": "webpack --mode=production",

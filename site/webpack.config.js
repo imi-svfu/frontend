@@ -8,7 +8,7 @@ module.exports = (env, argv) => {
   let api_url = 'http://localhost:8000'
   if (argv.mode === 'production') {
     try {
-      api_url = fs.readFileSync('api_url.txt')
+      api_url = fs.readFileSync('api_url.txt').toString()
     } catch (e) {
       console.log('api_url.txt is missing!')
       process.exit(1)
