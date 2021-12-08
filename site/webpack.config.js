@@ -43,7 +43,8 @@ module.exports = (env, argv) => {
       }),
       new CopyPlugin({
         patterns: [
-          {from: path.resolve(__dirname, 'src', 'index.html')}
+          {from: path.resolve(__dirname, 'src', 'index.html')},
+          {from: path.resolve(__dirname, 'src', 'service-worker.js')}
         ]
       })
     ]
