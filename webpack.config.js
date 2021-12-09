@@ -6,6 +6,8 @@ const webpack = require('webpack')
 module.exports = (env, argv) => {
   // Если продакшн-сборка тогда читаем URL к API из файла
   let api_url = 'http://localhost:8000'
+  let output_path = path.resolve(__dirname, 'dist')
+
   if (argv.mode === 'production') {
     try {
       api_url = fs.readFileSync('api_url.txt').toString()
@@ -13,13 +15,14 @@ module.exports = (env, argv) => {
       console.log('api_url.txt is missing!')
       process.exit(1)
     }
+    output_path = path.resolve(__dirname, 'docs')
   }
 
   return {
     mode: argv.mode || 'development',
     entry: path.resolve(__dirname, 'src', 'main.jsx'),
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: output_path,
       filename: 'bundle.js'
     },
     module: {
