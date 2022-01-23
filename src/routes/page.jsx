@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
-export default function Page(props) {
-  return (
-    <h1>Страница</h1>
-  )
+export default function PageComponent() {
+  return <h1>Страница</h1>;
 }

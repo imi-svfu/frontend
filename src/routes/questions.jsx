@@ -1,42 +1,27 @@
-import React from 'react'
-import {NavLink} from 'react-router-dom'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const {API_URL} = process.env;
-
-export default class Questions extends React.Component {
-  state = {
-    questions: []
-  }
-
-  fetchQuestions() {
-    fetch(API_URL + '/questions/')
-      .then(response => response.json())
-      .then(questions => {
-        this.setState({
-          questions: questions
-        })
-      })
-  }
-
-  constructor(props) {
-    super(props)
-    this.fetchQuestions()
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>Вопросы и ответы</h1>
-        <ul>
-          {this.state.questions.map(question => (
+export default function QuestionsComponent({ questions }) {
+  return (
+    <div>
+      <h1>Вопросы и ответы</h1>
+      <ul>
+        {
+          questions.map((question) => (
             <li key="{question['id']}">
-              <NavLink to={`/question/${question['id']}`}>
-                {question['title']}
+              <NavLink to={`/question/${question.id}`}>
+                {question.title}
               </NavLink>
             </li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
+          ))
+        }
+      </ul>
+    </div>
+  );
 }
+QuestionsComponent.propTypes = {
+  questions: PropTypes.arrayOf(
+    PropTypes.object,
+  ).isRequired,
+};

@@ -1,43 +1,42 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {BrowserRouter, NavLink, Outlet, Route, Routes} from 'react-router-dom'
-import {Container, Nav, Navbar} from 'react-bootstrap'
-import Home from './routes/home.jsx'
-import Page from './routes/page.jsx'
-import Question from './routes/question.jsx'
-import Questions from './routes/questions.jsx'
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import { CssBaseline } from '@mui/material';
+
+import MenuComponent from './menu';
+import HomeComponent from './routes/home';
+import PageComponent from './routes/page';
+import QuestionComponent from './routes/question';
+import QuestionsComponent from './routes/questions';
+
+const { API_URL } = process.env;
 
 function Main() {
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    if (!questions.length) {
+      fetch(`${API_URL}/questions/`)
+        .then((response) => response.json())
+        .then((data) => setQuestions(data));
+    }
+  });
+
   return (
-    <Container>
-      <Navbar bg="light">
-        <Container>
-          <Nav>
-            <NavLink className="nav-link" to="/">Главная</NavLink>
-            <NavLink className="nav-link" to="/page">Страница</NavLink>
-            <NavLink className="nav-link" to="/questions">Вопросы</NavLink>
-          </Nav>
-        </Container>
-      </Navbar>
-      <div className="row">
-        <div className="col">
-          <Outlet/>
-        </div>
-      </div>
-    </Container>
-  )
+    <React.StrictMode>
+      <HashRouter>
+        <CssBaseline />
+        <Routes>
+          <Route path="" element={<MenuComponent />}>
+            <Route index element={<HomeComponent />} />
+            <Route path="page" element={<PageComponent />} />
+            <Route path="questions" element={<QuestionsComponent questions={questions} />} />
+            <Route path="question/:id" element={<QuestionComponent questions={questions} />} />
+          </Route>
+        </Routes>
+      </HashRouter>
+    </React.StrictMode>
+  );
 }
 
-ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Main/>}>
-        <Route index element={<Home/>}/>
-        <Route path="page" element={<Page/>}/>
-        <Route path="questions" element={<Questions/>}/>
-        <Route path="question/:id" element={<Question/>}/>
-      </Route>
-    </Routes>
-  </BrowserRouter>,
-  document.getElementById('root')
-)
+ReactDOM.render(<Main />, document.getElementById('root'));
