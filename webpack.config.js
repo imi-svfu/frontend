@@ -10,7 +10,7 @@ module.exports = (env, argv) => {
   // Если продакшн-сборка тогда читаем URL к API из файла
   if (argv.mode === 'production') {
     try {
-      apiUrl = fs.readFileSync('apiUrl').toString();
+      apiUrl = fs.readFileSync('api_url').toString();
     } catch (e) {
       console.log('apiUrl is missing!'); // eslint-disable-line no-console
       process.exit(1);

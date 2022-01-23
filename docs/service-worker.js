@@ -1,11 +1,1 @@
-self.addEventListener('install', (event) => {
-  console.log('Install event!');
-});
-
-self.addEventListener('activate', (event) => {
-  console.log('Activate event!');
-});
-
-self.addEventListener('fetch', (event) => {
-  console.log('Fetch intercepted for:', event.request.url);
-});
+self.addEventListener("install",(e=>{console.log("Install event!")})),self.addEventListener("activate",(e=>{console.log("Activate event!")})),self.addEventListener("fetch",(e=>{console.log("Fetch intercepted for:",e.request.url)}));
