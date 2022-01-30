@@ -31,19 +31,19 @@ function drawer() {
         <ListItem>
           <ListItemIcon><HomeIcon /></ListItemIcon>
           <ListItemText>
-            <Link to="/" style={{ 'text-decoration': 'none' }}>Главная</Link>
+            <Link to="/" style={{ textDecoration: 'none' }}>Главная</Link>
           </ListItemText>
         </ListItem>
         <ListItem>
           <ListItemIcon><ArticleIcon /></ListItemIcon>
           <ListItemText>
-            <Link to="/page" style={{ 'text-decoration': 'none' }}>Страница</Link>
+            <Link to="/page" style={{ textDecoration: 'none' }}>Страница</Link>
           </ListItemText>
         </ListItem>
         <ListItem>
           <ListItemIcon><QuestionMarkIcon /></ListItemIcon>
           <ListItemText>
-            <Link to="/questions" style={{ 'text-decoration': 'none' }}>Вопросы</Link>
+            <Link to="/questions" style={{ textDecoration: 'none' }}>Вопросы</Link>
           </ListItemText>
         </ListItem>
       </List>
