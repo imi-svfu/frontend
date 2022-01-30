@@ -1,9 +1,10 @@
+/* https://mui.com/components/drawers/#responsive-drawer */
+
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import {
   AppBar,
   Box,
-  Divider,
   Drawer,
   IconButton,
   List, ListItem, ListItemIcon, ListItemText,
@@ -11,58 +12,80 @@ import {
   Typography,
 } from '@mui/material';
 
-import { Inbox as InboxIcon, Menu as MenuIcon } from '@mui/icons-material';
+import {
+  Article as ArticleIcon,
+  Home as HomeIcon,
+  Menu as MenuIcon,
+  QuestionMark as QuestionMarkIcon,
+} from '@mui/icons-material';
 
-const drawerWidth = 240;
-
-// <NavLink className="nav-link" to="/">Главная</NavLink>
-// <NavLink className="nav-link" to="/page">Страница</NavLink>
-// <NavLink className="nav-link" to="/questions">Вопросы</NavLink>
-
+// Меню
 function drawer() {
   return (
     <Box>
       {/* Пустая панель заполняющая место под верхней панелью */}
       <Toolbar />
-      <Divider />
+
+      {/* Пункты меню */}
       <List>
         <ListItem>
-          <ListItemIcon><InboxIcon /></ListItemIcon>
-          <ListItemText><Link to="/">Главная</Link></ListItemText>
+          <ListItemIcon><HomeIcon /></ListItemIcon>
+          <ListItemText>
+            <Link to="/" style={{ 'text-decoration': 'none' }}>Главная</Link>
+          </ListItemText>
         </ListItem>
         <ListItem>
-          <ListItemIcon><InboxIcon /></ListItemIcon>
-          <ListItemText><Link to="/page">Страница</Link></ListItemText>
+          <ListItemIcon><ArticleIcon /></ListItemIcon>
+          <ListItemText>
+            <Link to="/page" style={{ 'text-decoration': 'none' }}>Страница</Link>
+          </ListItemText>
         </ListItem>
         <ListItem>
-          <ListItemIcon><InboxIcon /></ListItemIcon>
-          <ListItemText><Link to="/questions">Вопросы</Link></ListItemText>
+          <ListItemIcon><QuestionMarkIcon /></ListItemIcon>
+          <ListItemText>
+            <Link to="/questions" style={{ 'text-decoration': 'none' }}>Вопросы</Link>
+          </ListItemText>
         </ListItem>
       </List>
     </Box>
   );
 }
 
+// Ширина выдвижного меню
+const drawerWidth = 240;
+
+// Функциональный компонент
 export default function MenuComponent() {
+  // На телефоне есть два состояния: выдвинут / задвинут
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  // Нажатие на гамбургер в верхней панели (заговке)
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* Верхняя панель */}
+
+      {/* Верхняя панель (заголовок) */}
       <AppBar
         position="fixed"
         sx={{
-          marginLeft: { sm: `${drawerWidth}px` },
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          marginLeft: { sm: `${drawerWidth}px` },
         }}
       >
         <Toolbar>
           <Typography>
-            <IconButton onClick={handleDrawerToggle}>
+            {/* Кнопка для выдвигания меню на телефоне */}
+            <IconButton
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{
+                marginRight: 1,
+                display: { sm: 'none' },
+              }}
+            >
               <MenuIcon />
             </IconButton>
             ИМИ СВФУ
@@ -78,28 +101,30 @@ export default function MenuComponent() {
           width: { sm: drawerWidth },
         }}
       >
-        {/* Мобильная версия */}
+        {/* Телефон */}
         <Drawer
           variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
           sx={{
             display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
-          // open={modalOpen}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true, // Чтобы не тормозило на телефоне
           }}
         >
           {drawer()}
         </Drawer>
-        {/* Десктопная версия */}
+
+        {/* Нетелефон */}
         <Drawer
           variant="permanent"
+          open
           sx={{
             display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
-          open
         >
           {drawer()}
         </Drawer>
@@ -110,13 +135,11 @@ export default function MenuComponent() {
         component="main"
         sx={{
           flexGrow: 1,
-          padding: 0,
+          padding: 2, // отступ вокруг
+          paddingTop: 6, // отступ сверху
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        {/* Пустая панель заполняющая место под верхней панелью */}
-        <Toolbar />
-        {/* Основной контент */}
         <Outlet />
       </Box>
     </Box>
