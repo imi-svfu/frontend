@@ -1,5 +1,5 @@
 # Build result
-dist/
+build/
 
 # Environment settings
 api_url
