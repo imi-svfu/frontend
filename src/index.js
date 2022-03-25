@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter, Route, Routes } from 'react-router-dom';
-import { CssBaseline } from '@mui/material';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import MenuComponent from './menu';
 import HomeComponent from './routes/home';
@@ -9,14 +8,12 @@ import PageComponent from './routes/page';
 import QuestionComponent from './routes/question';
 import QuestionsComponent from './routes/questions';
 
-const { API_URL } = process.env;
-
 function Main() {
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     if (!questions.length) {
-      fetch(`${API_URL}/questions/`)
+      fetch(`/api/questions/`)
         .then((response) => response.json())
         .then((data) => setQuestions(data));
     }
@@ -24,8 +21,7 @@ function Main() {
 
   return (
     <React.StrictMode>
-      <HashRouter>
-        <CssBaseline />
+      <BrowserRouter>
         <Routes>
           <Route path="" element={<MenuComponent />}>
             <Route index element={<HomeComponent />} />
@@ -34,7 +30,7 @@ function Main() {
             <Route path="question/:id" element={<QuestionComponent questions={questions} />} />
           </Route>
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </React.StrictMode>
   );
 }
