@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  Calendar,
-  Scheduler,
-  useArrayState,
-} from "@cubedoodl/react-simple-scheduler";
-import {
-  Button
-} from "@mui/material";
+import Calendar from "./scheduler/Calendar/Calendar";
+import Scheduler from "./scheduler/Scheduler/Scheduler";
+import { useArrayState } from "./scheduler/useArrayState";
 import "../styles/main.css";
 import styles from "./timetable.modules.css"
 import ChoiceData from "./ChoiceData";
@@ -18,15 +13,10 @@ const Timetable = () => {
   const [selected, setSelected] = useState(new Date());
   const [events, setEvents, addEvent] = useArrayState();
 
-  // console.log(selected.toISOString().split('T', 1)[0])
-  // console.log(selected.getDay())
-  // const weekStart = selected - selected.getDate();
   const weekStart = new Date();
   const weekEnd = new Date();
   weekStart.setDate(selected.getDate() - selected.getDay() + 1);
   weekEnd.setDate(selected.getDate() - selected.getDay() + 7);
-  // console.log(weekStart.toISOString().split('T', 1)[0])
-  // console.log(weekEnd.toISOString().split('T', 1)[0])
 
   const [requestParams, setRequestParams] = useState({});
 

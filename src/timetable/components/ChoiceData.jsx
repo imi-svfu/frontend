@@ -8,8 +8,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  LinearProgress,
-  Button,
 } from "@mui/material";
 
 const ChoiceData = ({ requestParams, setRequestParams }) => {
@@ -52,8 +50,6 @@ const ChoiceData = ({ requestParams, setRequestParams }) => {
       setRooms(data);
     });
   }, []);
-
-  // console.log(type);
 
   return (
     <>
