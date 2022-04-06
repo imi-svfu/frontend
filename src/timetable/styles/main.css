@@ -1,0 +1,28 @@
+.module {
+  display: flex;
+  margin-top: 20px;
+}
+
+.left-side {
+  /* border: 2px solid red; */
+  width: 20%;
+}
+
+.comboboxes {
+  margin-bottom: 20px;
+  /* border: 2px solid green; */
+}
+
+.calendar {
+  display: flex;
+  justify-content: center;
+}
+
+.scheduler {
+  /* border: 2px solid red; */
+  /*width: 80%;*/
+}
+
+.form-control {
+  margin-bottom: 100px;
+}

@@ -17,6 +17,7 @@ import {
   Home as HomeIcon,
   Menu as MenuIcon,
   QuestionMark as QuestionMarkIcon,
+  EventNote as ScheduleIcon
 } from '@mui/icons-material';
 
 // Меню
@@ -44,6 +45,12 @@ function drawer() {
           <ListItemIcon><QuestionMarkIcon /></ListItemIcon>
           <ListItemText>
             <Link to="/questions" style={{ textDecoration: 'none' }}>Вопросы</Link>
+          </ListItemText>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon><ScheduleIcon /></ListItemIcon>
+          <ListItemText>
+            <Link to="/timetable" style={{ textDecoration: 'none' }}>Расписание</Link>
           </ListItemText>
         </ListItem>
       </List>
