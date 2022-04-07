@@ -7,15 +7,15 @@ const TODAY = new Date();
 
 const SATURDAY = 6;
 
-const SHORT_DAYS_OF_WEEK = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+const SHORT_DAYS_OF_WEEK = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 const LONG_DAYS_OF_WEEK = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  "Понедельник",
+  "Вторник",
+  "Среда",
+  "Четверг",
+  "Пятница",
+  "Суббота",
+  "Воскресенье",
 ];
 
 const SHORT_MONTHS = [
@@ -34,18 +34,18 @@ const SHORT_MONTHS = [
 ];
 
 const LONG_MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  "Январь",
+  "Февраль",
+  "Март",
+  "Апрель",
+  "Май",
+  "Июнь",
+  "Июль",
+  "Август",
+  "Сентябрь",
+  "Октябрь",
+  "Ноябрь",
+  "Декабрь",
 ];
 
 const MINUTE_IN_MS = 60 * 1000;
@@ -59,7 +59,7 @@ const walk_month = (date: Date, amt: number = 1) => {
 };
 const walk_day = (date: Date, amt: number = 1) => {
   const out = new Date(date);
-  out.setDate(out.getDate() + amt);
+  out.setDate(out.getDate() + amt + 1);
   return out;
 };
 const walk_hour = (date: Date, amt: number = 1) => {
@@ -81,7 +81,9 @@ const first_of_month = (date: Date) => {
 };
 const first_of_week = (date: Date) => {
   const out = new Date(date);
-  out.setDate(out.getDate() - out.getDay());
+  let weekDay = out.getDay() !== 0 ? (out.getDay() - 1) : 6
+  out.setDate(out.getDate() - weekDay);
+
   return out;
 };
 const last_of_week = (date: Date) => {

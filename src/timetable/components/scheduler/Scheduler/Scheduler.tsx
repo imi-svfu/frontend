@@ -44,7 +44,6 @@ const Scheduler = ({
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const eventSizeRef = useRef() as React.MutableRefObject<HTMLTableDataCellElement>;
   const headerRef = useRef() as React.MutableRefObject<HTMLTableHeaderCellElement>;
-
   /*
    * HOOKS and CALLBACKS
    */
@@ -64,7 +63,6 @@ const Scheduler = ({
   }, []);
 
   useEffect(() => setWeekStart(DATE_UTILS.first_of_week(selected)), [selected]);
-
   /*
    * STYLE and FORMATTING
    */
@@ -92,9 +90,9 @@ const Scheduler = ({
     const rect: SchedulerRectangle = eventSizeRef.current.getBoundingClientRect();
     const header: SchedulerRectangle = headerRef.current.getBoundingClientRect();
 
-    const x: number = date.getDay() * rect.width + header.width;
+    const x: number = ( date.getDay() !== 0 ? (date.getDay() - 1) * rect.width + header.width : 6 * rect.width + header.width );
     const y: number =
-      date.getHours() * rect.height +
+        (date.getHours() - 8) * rect.height +
       (date.getMinutes() / 60) * rect.height +
       header.height;
 
@@ -333,19 +331,19 @@ const Scheduler = ({
                     className={DATE_UTILS.compare_dates(DATE_UTILS.TODAY, tmp) ? "today" : ""}
                   >
                     <div>{day}</div>
-                    <div>{tmp.getDate()}</div>
+                    <div>{tmp.getDate() - 1}</div>
                   </th>
                 );
               })}
             </tr>
           </thead>
           <tbody>
-            {[...Array(24).keys()].map((i) => (
-              <tr key={i}>
+            {[...Array(12).keys()].map((i) => (
+              <tr key={i + 8}>
                 <td className="time">
-                  {i > 0 ? <DateFormatter date={DATE_UTILS.set_hour(i)} fmt="h P" /> : ""}
+                  {i > 0 ? <DateFormatter date={DATE_UTILS.set_hour(i + 8)} fmt="h P" /> : ""}
                 </td>
-                <td ref={i === 0 ? eventSizeRef : null} />
+                <td ref={i === 8 ? eventSizeRef : null} />
                 <td />
                 <td />
                 <td />

@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
-import Calendar from "./scheduler/Calendar/Calendar";
 import Scheduler from "./scheduler/Scheduler/Scheduler";
 import { useArrayState } from "./scheduler/useArrayState";
 import "../styles/main.css";
-import styles from "./timetable.modules.css"
 import ChoiceData from "./ChoiceData";
 import { WEEK_EVENTS } from "../../config";
 import axios from "axios";
+import Calendar from "./Calendar";
+import DATE_UTILS from "./scheduler/date"
 
 const Timetable = () => {
-  const [schedules, setSchedules] = useState([]);
   const [selected, setSelected] = useState(new Date());
   const [events, setEvents, addEvent] = useArrayState();
 
-  const weekStart = new Date();
+  const weekStart = DATE_UTILS.first_of_week(selected);
   const weekEnd = new Date();
-  weekStart.setDate(selected.getDate() - selected.getDay() + 1);
-  weekEnd.setDate(selected.getDate() - selected.getDay() + 7);
+  weekEnd.setDate(weekStart.getDate() + 6)
+  weekStart.setHours(0, 0, 0, 0)
 
   const [requestParams, setRequestParams] = useState({});
 
@@ -31,10 +30,8 @@ const Timetable = () => {
         },
         })
         .then(({ data }) => setEventsHandler(data))
-        // .then(() => setEventsHandler())
         .catch(function (error) {
           console.log(error.response.data);
-          console.log(arguments);
         })
 
   }, [selected, requestParams.param_id]);
@@ -55,8 +52,6 @@ const Timetable = () => {
       );
   };
 
-  console.log(events);
-
   return (
     <div style={{ marginTop: "30px" }}>
       <div className="module">
@@ -68,7 +63,7 @@ const Timetable = () => {
             />
           </div>
           <div className="calendar">
-            <Calendar selected={selected} setSelected={setSelected} />
+              <Calendar selected={selected} setSelected={setSelected}/>
           </div>
         </div>
         <div className="scheduler">
@@ -78,7 +73,6 @@ const Timetable = () => {
             setSelected={setSelected}
             onRequestAdd={(evt) => addEvent(evt)}
             onRequestEdit={(evt) => alert("Edit element requested")}
-            style={styles.scheduler}
           />
         </div>
       </div>
