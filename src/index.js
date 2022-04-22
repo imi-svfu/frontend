@@ -8,6 +8,7 @@ import PageComponent from './routes/page';
 import QuestionComponent from './routes/question';
 import QuestionsComponent from './routes/questions';
 import Timetable from './timetable/components/Timetable';
+import ManageTabletime from "./timetable/components/ManageTabletime";
 
 function Main() {
   const [questions, setQuestions] = useState([]);
@@ -36,6 +37,7 @@ function Main() {
               element={<QuestionComponent questions={questions} />}
             />
             <Route path="timetable" element={<Timetable />} />
+            <Route path="managetabletime" element={<ManageTabletime />} />
           </Route>
         </Routes>
       </BrowserRouter>

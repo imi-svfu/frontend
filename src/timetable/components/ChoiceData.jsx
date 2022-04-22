@@ -10,8 +10,8 @@ import {
   MenuItem,
 } from "@mui/material";
 
-const ChoiceData = ({ requestParams, setRequestParams }) => {
-  const [groups, setGroups] = useState([]);
+const ChoiceData = ({ requestParams, setRequestParams, groups}) => {
+  // const [groups, setGroups] = useState([]);
   const [group, setGroup] = useState("");
   const [lecturers, setLecturers] = useState([]);
   const [lecturer, setLecturer] = useState("");
@@ -33,11 +33,11 @@ const ChoiceData = ({ requestParams, setRequestParams }) => {
     },
   ];
 
-  useEffect(() => {
-    axios.get(GROUP_LSIT).then(({ data }) => {
-      setGroups(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get(GROUP_LSIT).then(({ data }) => {
+  //     setGroups(data);
+  //   });
+  // }, []);
 
   useEffect(() => {
     axios.get(LECTURER_LIST).then(({ data }) => {

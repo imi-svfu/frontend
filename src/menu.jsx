@@ -17,7 +17,8 @@ import {
   Home as HomeIcon,
   Menu as MenuIcon,
   QuestionMark as QuestionMarkIcon,
-  EventNote as ScheduleIcon
+  EventNote as ScheduleIcon,
+  EditRoad as ScheduleManageIcon
 } from '@mui/icons-material';
 
 // Меню
@@ -52,6 +53,12 @@ function drawer() {
           <ListItemText>
             <Link to="/timetable" style={{ textDecoration: 'none' }}>Расписание</Link>
           </ListItemText>
+        </ListItem>
+        <ListItem>
+            <ListItemIcon><ScheduleManageIcon /></ListItemIcon>
+            <ListItemText>
+                <Link to="/managetabletime" style={{ textDecoration: 'none' }}>Управление расписанием</Link>
+            </ListItemText>
         </ListItem>
       </List>
     </Box>

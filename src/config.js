@@ -7,3 +7,5 @@ export const GROUP_LSIT = BASE_URL + "groups/";
 export const LECTURER_LIST = BASE_URL + "lecturers/";
 
 export const ROOM_LIST = BASE_URL + "rooms/";
+
+export const GROUP_SCHEDULES = BASE_URL + "schedules/group/"
