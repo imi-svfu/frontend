@@ -5,6 +5,7 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import {TableCell} from "@mui/material";
 import Paper from '@mui/material/Paper';
+import EditOptions from './EditOptions';
 
 const styles = {
   rightGrayBorder: {
@@ -12,7 +13,7 @@ const styles = {
   }
 }
 
-const ManageTableComponent = ({schedules}) => {
+const ManageTableComponent = ({schedules, setSchedules, setSnackOpen}) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table" sx={{overflow: 'auto'}}>
@@ -54,7 +55,8 @@ const ManageTableComponent = ({schedules}) => {
                         <div className="CellWrapper">
                           {cellSchedules.map(schedule => {
                           return<>
-                          <div className="bodyLessonCell">
+                          <div className="bodyCell bodyLessonCell">
+                            <EditOptions id={schedule.id} schedules={schedules} setSchedules={setSchedules} setSnackOpen={setSnackOpen} />
                             {schedule.lesson.subject}
                             {(() => {switch (schedule.repeat_option) {
                               case 1:
@@ -65,10 +67,10 @@ const ManageTableComponent = ({schedules}) => {
                                 return ("");
                             }})()}
                           </div>
-                          <div className="bodyTypeCell">
+                          <div className="bodyCell bodyTypeCell">
                             {schedule.type}
                           </div>
-                          <div className="bodyCabCell">
+                          <div className="bodyCell bodyCabCell">
                             {schedule.room.num}
                           </div>
                         </>

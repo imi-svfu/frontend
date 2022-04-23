@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {Button, FormControl, IconButton, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import {GROUP_LSIT, GROUP_SCHEDULES} from "../../config";
 import '../styles/manage.css'
 import ManageTableComponent from "./ManageTableComponent";
@@ -9,6 +10,7 @@ const ManageTabletime = () => {
   const [groups, setGroups] = useState([]);
   const [group, setGroup] = useState("");
   const [schedules, setSchedules] = useState([]);
+  const [snackOpen, setSnackOpen] = useState(false)
 
 
   useEffect(() => {
@@ -30,6 +32,30 @@ const ManageTabletime = () => {
       setGroups(data);
     });
   }, []);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackOpen(false);
+  };
+
+  const action = (
+    <>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
 
   return (
     <>
@@ -53,7 +79,15 @@ const ManageTabletime = () => {
           </Select>
         </FormControl>
       </div>
-      <ManageTableComponent schedules={schedules} />
+      <ManageTableComponent schedules={schedules} setSchedules={setSchedules} setSnackOpen={setSnackOpen} />
+      
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Note archived"
+        action={action}
+      />
     </>
   )
 }
