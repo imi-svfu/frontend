@@ -14,15 +14,30 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Select from '@mui/material/Select';
 
-import {availableRoomsForSchedule, SCHEDULES} from "../../config";
+import {availableRoomsForSchedule, scheduleById, SCHEDULES} from "../../config";
 
-const ScheduleForm = ({open, setOpen, lessons, groupId, weekDay, pairNum, schedules, setSchedules}) => {
+const ScheduleForm =
+  ({
+     open,
+     setOpen,
+     lessons,
+     groupId,
+     weekDay,
+     pairNum,
+     schedules,
+     setSchedules,
+     scheduleId,
+     setScheduleId
+  }) => {
+
   const [lesson, setLesson] = useState();
   const [repeatOption, setRepeatOption] = useState(0);
   const [type, setType] = useState();
   const [cab, setCab] = useState();
   const [availableCabs, setAvailableCabs] = useState([]);
   const [common, setCommon] = useState(false);
+
+
 
   useEffect(() => {
     axios
@@ -31,28 +46,60 @@ const ScheduleForm = ({open, setOpen, lessons, groupId, weekDay, pairNum, schedu
       .catch(function (error) {
         console.log(error.response.data);
       })
-  }, [weekDay, pairNum]);
+
+    if (scheduleId) {
+      const schedule = schedules.find(s => s.id === scheduleId)
+      setLesson(schedule.lesson.id)
+      setRepeatOption(schedule.repeat_option)
+      setType(schedule.type)
+      setCab(schedule.room.id)
+      setCommon(schedule.common)
+    }
+  }, [weekDay, pairNum, schedules]);
 
   console.log(lessons.find(l => l.id === lesson))
 
   const handleClose = () => {
+    setScheduleId(null)
     setOpen(false);
   };
 
   const handleSubmit = () => {
-    axios
-      .post(SCHEDULES, {
-        lesson: lesson,
-        room: cab,
-        type: type,
-        pair_num: pairNum,
-        week_day: weekDay,
-        repeat_option: repeatOption,
-        common: common
-      })
-      .then(res => setSchedules([...schedules, {...res.data}]))
-      .then(() => handleClose())
-      .catch(err => console.log(err))
+    if (!scheduleId) {
+      axios
+        .post(SCHEDULES, {
+          lesson: lesson,
+          room: cab,
+          type: type,
+          pair_num: pairNum,
+          week_day: weekDay,
+          repeat_option: repeatOption,
+          common: common
+        })
+        .then(res => setSchedules([...schedules, {...res.data}]))
+        .then(() => handleClose())
+        .catch(err => console.log(err))
+    } else {
+      axios
+        .patch(scheduleById(scheduleId), {
+          lesson: lesson,
+          room: cab,
+          type: type,
+          pair_num: pairNum,
+          week_day: weekDay,
+          repeat_option: repeatOption,
+          common: common
+        })
+        .then(res => {
+          const newSchedules = schedules
+          const schedIndex = newSchedules.findIndex(s => s.id === scheduleId)
+          newSchedules[schedIndex] = res.data
+          setSchedules(newSchedules)
+        })
+        .then(() => handleClose())
+        .catch(err => console.log(err))
+    }
+    setScheduleId(null)
   };
 
   return (
@@ -119,11 +166,12 @@ const ScheduleForm = ({open, setOpen, lessons, groupId, weekDay, pairNum, schedu
                 label="Кабинет"
                 onChange={e => setCab(e.target.value)}
               >
-                {
-                  availableCabs.map(cab =>
-                    <MenuItem key={cab.id} value={cab.id}>{cab.num}</MenuItem>
-                  )
+                {scheduleId &&
+                  <MenuItem key={cab} value={cab}>{schedules.find(s => s.id === scheduleId).room.num}</MenuItem>
                 }
+                {availableCabs.map(cab =>
+                    <MenuItem key={cab.id} value={cab.id}>{cab.num}</MenuItem>
+                )}
               </Select>
             </FormControl>
 
@@ -133,7 +181,7 @@ const ScheduleForm = ({open, setOpen, lessons, groupId, weekDay, pairNum, schedu
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Отмена</Button>
-          <Button onClick={() => handleSubmit()}>Добавить</Button>
+          <Button onClick={() => handleSubmit()}>Сохранить</Button>
         </DialogActions>
       </Dialog>
     </>

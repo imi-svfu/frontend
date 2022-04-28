@@ -13,7 +13,7 @@ const styles = {
   }
 }
 
-const ManageTableComponent = ({schedules, setSchedules, setSnackOpen, setFormOpen, setWeekDay, setPairNum}) => {
+const ManageTableComponent = ({schedules, setSchedules, setSnackOpen, setFormOpen, setWeekDay, setPairNum, setEditScheduleId}) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table" sx={{overflow: 'auto'}}>
@@ -68,6 +68,7 @@ const ManageTableComponent = ({schedules, setSchedules, setSnackOpen, setFormOpe
                               pairNum={i + 1}
                               setWeekDay={setWeekDay}
                               setPairNum={setPairNum}
+                              setEditScheduleId={setEditScheduleId}
                             />
                             {schedule.lesson.subject}
                             {(() => {switch (schedule.repeat_option) {

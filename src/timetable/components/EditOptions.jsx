@@ -3,6 +3,7 @@ import {Tooltip} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import axios from "axios";
 import { scheduleById } from "../../config";
@@ -19,7 +20,8 @@ const EditOptions =
     weekDay,
     pairNum,
     setWeekDay,
-    setPairNum
+    setPairNum,
+    setEditScheduleId
   }) => {
   const handleDeleteThen = (id) => {
     setSchedules(schedules.filter(item => item.id !== id))
@@ -41,6 +43,13 @@ const EditOptions =
     setFormOpen(true);
     setWeekDay(weekDay);
     setPairNum(pairNum);
+  }
+
+  const handleEditClick = () => {
+    setFormOpen(true);
+    setPairNum(pairNum);
+    setWeekDay(weekDay);
+    setEditScheduleId(id);
   }
 
   return (
@@ -65,6 +74,11 @@ const EditOptions =
             </IconButton>
           </Tooltip>
         }
+        <Tooltip title="Редактировать">
+          <IconButton onClick={() => handleEditClick()}>
+            <EditIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </div>
     </div>
   )
