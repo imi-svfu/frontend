@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import MenuComponent from './menu';
-import HomeComponent from './routes/home';
-import PageComponent from './routes/page';
-import QuestionComponent from './routes/question';
-import QuestionsComponent from './routes/questions';
-import Timetable from './timetable/components/Timetable';
+import MenuComponent from "./menu";
+import HomeComponent from "./routes/home";
+import PageComponent from "./routes/page";
+import QuestionComponent from "./routes/question";
+import QuestionsComponent from "./routes/questions";
+import Timetable from "./timetable/components/Timetable";
 import ManageTabletime from "./timetable/components/ManageTabletime";
 
 function Main() {
@@ -45,4 +45,5 @@ function Main() {
   );
 }
 
-ReactDOM.render(<Main />, document.getElementById('root'));
+const container = document.getElementById("root");
+createRoot(container).render(<Main />);
