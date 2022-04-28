@@ -13,7 +13,7 @@ const styles = {
   }
 }
 
-const ManageTableComponent = ({schedules, setSchedules, setSnackOpen}) => {
+const ManageTableComponent = ({schedules, setSchedules, setSnackOpen, setFormOpen, setWeekDay, setPairNum, setEditScheduleId}) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table" sx={{overflow: 'auto'}}>
@@ -56,7 +56,20 @@ const ManageTableComponent = ({schedules, setSchedules, setSnackOpen}) => {
                           {cellSchedules.map(schedule => {
                           return<>
                           <div className="bodyCell bodyLessonCell">
-                            <EditOptions id={schedule.id} schedules={schedules} setSchedules={setSchedules} setSnackOpen={setSnackOpen} />
+                            <EditOptions
+                              addButton={cellSchedules.length<2 && cellSchedules[0].repeat_option!==0}
+                              deleteButton={true}
+                              id={schedule.id}
+                              schedules={schedules}
+                              setSchedules={setSchedules}
+                              setSnackOpen={setSnackOpen}
+                              setFormOpen={setFormOpen}
+                              weekDay={j + 1}
+                              pairNum={i + 1}
+                              setWeekDay={setWeekDay}
+                              setPairNum={setPairNum}
+                              setEditScheduleId={setEditScheduleId}
+                            />
                             {schedule.lesson.subject}
                             {(() => {switch (schedule.repeat_option) {
                               case 1:
@@ -82,7 +95,21 @@ const ManageTableComponent = ({schedules, setSchedules, setSnackOpen}) => {
                     return <>
                       <TableCell sx={styles.rightGrayBorder}>
                         <div className="CellWrapper">
-                          <div className="bodyLessonCell">-----</div>
+                          <div className="bodyLessonCell">
+                            <EditOptions
+                              addButton={true}
+                              deleteButton={false}
+                              schedules={schedules}
+                              setSchedules={setSchedules}
+                              setSnackOpen={setSnackOpen}
+                              setFormOpen={setFormOpen}
+                              weekDay={j + 1}
+                              pairNum={i + 1}
+                              setWeekDay={setWeekDay}
+                              setPairNum={setPairNum}
+                            />
+                            -----
+                          </div>
                           <div className="bodyTypeCell">--</div>
                           <div className="bodyCabCell">--</div>
                         </div>
