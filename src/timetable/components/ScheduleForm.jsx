@@ -15,6 +15,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Select from '@mui/material/Select';
 
 import {availableRoomsForSchedule, scheduleById, SCHEDULES} from "../../config";
+import {FormLabel, RadioGroup, Radio} from "@mui/material";
 
 const ScheduleForm =
   ({
@@ -37,8 +38,23 @@ const ScheduleForm =
   const [availableCabs, setAvailableCabs] = useState([]);
   const [common, setCommon] = useState(false);
 
+  const repOptParams = [
+    {
+      value: 0,
+      label: "Каждую неделю"
+    },
+    {
+      value: 1,
+      label: "* По нечетным"
+    },
+    {
+      value: 2,
+      label: "** По четным"
+    },
+  ]
 
-
+  const [availableRepeatOptions, setAvailableRepeatOptions] = useState(repOptParams);
+  const schedule = schedules.find(s => s.id === scheduleId)
   useEffect(() => {
     axios
       .get(availableRoomsForSchedule(groupId, weekDay, pairNum))
@@ -47,20 +63,44 @@ const ScheduleForm =
         console.log(error.response.data);
       })
 
+    const currentPairSchedules = schedules?.filter(schedule => schedule.week_day === weekDay && schedule.pair_num === pairNum)
+    console.log("schedules - ", currentPairSchedules)
+    const result = currentPairSchedules?.reduce((sum, current) => {return sum + current.repeat_option}, 0)
+    console.log("repOpt sum - ", result)
+
+
+    //Если в режиме редактирования
     if (scheduleId) {
-      const schedule = schedules.find(s => s.id === scheduleId)
       setLesson(schedule.lesson.id)
       setRepeatOption(schedule.repeat_option)
       setType(schedule.type)
       setCab(schedule.room.id)
       setCommon(schedule.common)
-    }
-  }, [weekDay, pairNum, schedules]);
 
-  console.log(lessons.find(l => l.id === lesson))
+      if (result === 3) {
+        setAvailableRepeatOptions([repOptParams.find(rop => rop.value === schedule?.repeat_option)])
+      } else {
+        setAvailableRepeatOptions(repOptParams);
+      }
+    } else {
+      switch (result) {
+        case 1:
+          setAvailableRepeatOptions([repOptParams.find(rop => rop.value === 2)])
+          break;
+        case 2:
+          setAvailableRepeatOptions([repOptParams.find(rop => rop.value === 1)])
+          break;
+        default:
+          setAvailableRepeatOptions(repOptParams);
+      }
+    }
+
+  }, [weekDay, pairNum, schedules, scheduleId, open]);
+
 
   const handleClose = () => {
-    setScheduleId(null)
+    setScheduleId(null);
+    setAvailableRepeatOptions(repOptParams);
     setOpen(false);
   };
 
@@ -127,35 +167,34 @@ const ScheduleForm =
               </Select>
             </FormControl>
 
-            <FormControl fullWidth>
-              <InputLabel id="repeatOption-select-label">Параметр повторения</InputLabel>
-              <Select
-                labelId="repeatOption-select-label"
-                id="repeatOption-select"
-                value={repeatOption}
-                label="Вид занятия"
-                onChange={e => setRepeatOption(e.target.value)}
-              >
-                <MenuItem value={0}>Каждую неделю</MenuItem>
-                <MenuItem value={1}>По нечетным</MenuItem>
-                <MenuItem value={2}>По четным</MenuItem>
-              </Select>
-            </FormControl>
+            <div className="radioFormWrapper">
+              <FormControl className="radioForm">
+                <FormLabel >Параметр повторения</FormLabel>
+                <RadioGroup className="radioGroup" onChange={e => setRepeatOption(e.target.value)}>
+                  {availableRepeatOptions.map (arop =>
+                    <FormControlLabel
+                      key={arop.value}
+                      value={arop.value}
+                      checked={repeatOption === arop.value}
+                      control={<Radio />}
+                      label={arop.label}
+                    />
+                  )}
+                  {/*   <FormControlLabel value={0} checked={repeatOption === 0} control={<Radio />} label="Каждую неделю" />
+                  <FormControlLabel value={1} checked={repeatOption === 1} control={<Radio />} label="* По нечетным" />
+                  <FormControlLabel value={2} checked={repeatOption === 2} control={<Radio />} label="** По четным" /> */}
+                </RadioGroup>
+              </FormControl>
 
-            <FormControl fullWidth>
-              <InputLabel id="type-select-label">Вид занятия</InputLabel>
-              <Select
-                labelId="type-select-label"
-                id="type-select"
-                value={type}
-                label="Вид занятия"
-                onChange={e => setType(e.target.value)}
-              >
-                <MenuItem value="LEC">Лекция</MenuItem>
-                <MenuItem value="PRA">Практика</MenuItem>
-                <MenuItem value="LAB">Лабораторная</MenuItem>
-              </Select>
-            </FormControl>
+              <FormControl className="radioForm">
+                <FormLabel >Вид занятия</FormLabel>
+                <RadioGroup onChange={e => setType(e.target.value)} className="radioGroup" >
+                  <FormControlLabel value="LEC" checked={type === "LEC"} control={<Radio />} label="Лекция" />
+                  <FormControlLabel value="PRA" checked={type === "PRA"} control={<Radio />} label="Практика" />
+                  <FormControlLabel value="LAB" checked={type === "LAB"} control={<Radio />} label="Лабораторная" />
+                </RadioGroup>
+              </FormControl>
+            </div>
 
             <FormControl fullWidth>
               <InputLabel id="cab-select-label">Кабинет</InputLabel>
