@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 export default function HomeComponent() {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
 
   useEffect(() => {
     if (!content) {
@@ -12,9 +12,5 @@ export default function HomeComponent() {
     }
   });
 
-  return (
-    <ReactMarkdown>
-      {content}
-    </ReactMarkdown>
-  );
+  return <ReactMarkdown children={content} />;
 }

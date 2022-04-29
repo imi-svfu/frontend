@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import MenuComponent from "./menu";
 import HomeComponent from "./routes/home";
@@ -23,19 +24,14 @@ function Main() {
 
   return (
     <React.StrictMode>
+      <CssBaseline />
       <BrowserRouter>
         <Routes>
           <Route path="" element={<MenuComponent />}>
             <Route index element={<HomeComponent />} />
             <Route path="page" element={<PageComponent />} />
-            <Route
-              path="questions"
-              element={<QuestionsComponent questions={questions} />}
-            />
-            <Route
-              path="question/:id"
-              element={<QuestionComponent questions={questions} />}
-            />
+            <Route path="questions" element={<QuestionsComponent questions={questions} />} />
+            <Route path="question/:id" element={<QuestionComponent questions={questions} />} />
             <Route path="timetable" element={<Timetable />} />
             <Route path="managetabletime" element={<ManageTabletime />} />
           </Route>
