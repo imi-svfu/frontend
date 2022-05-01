@@ -15,7 +15,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Select from '@mui/material/Select';
 
 import {availableRoomsForSchedule, scheduleById, SCHEDULES} from "../../config";
-import {FormLabel, RadioGroup, Radio} from "@mui/material";
+import {FormLabel, RadioGroup, Radio, Typography} from "@mui/material";
 
 const ScheduleForm =
   ({
@@ -37,6 +37,33 @@ const ScheduleForm =
   const [cab, setCab] = useState();
   const [availableCabs, setAvailableCabs] = useState([]);
   const [common, setCommon] = useState(false);
+
+  const weekDays = [
+    {
+      num: 1,
+      str: "Понедельник"
+    },
+    {
+      num: 2,
+      str: "Вторник"
+    },
+    {
+      num: 3,
+      str: "Среда"
+    },
+    {
+      num: 4,
+      str: "Четверг"
+    },
+    {
+      num: 5,
+      str: "Пятница"
+    },
+    {
+      num: 6,
+      str: "Суббота"
+    },
+  ]
 
   const repOptParams = [
     {
@@ -102,6 +129,11 @@ const ScheduleForm =
     setScheduleId(null);
     setAvailableRepeatOptions(repOptParams);
     setOpen(false);
+    setLesson();
+    setRepeatOption(0);
+    setType();
+    setCab();
+    setCommon(false);
   };
 
   const handleSubmit = () => {
@@ -147,6 +179,11 @@ const ScheduleForm =
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Добавить график занятия</DialogTitle>
         <DialogContent>
+          <div className="info">
+            <Typography><b>День недели: </b>{weekDays.find(wd => wd.num === weekDay)?.str}</Typography>
+            <Typography><b>Пара: </b>{pairNum}</Typography>
+            <Typography><b>Преподаватель: </b>{lessons.find(l => l.id === lesson)?.lecturer.name}</Typography>
+          </div>
           <DialogContentText>
             Выберите параметры графика занятия
           </DialogContentText>

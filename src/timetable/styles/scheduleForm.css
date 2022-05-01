@@ -2,7 +2,7 @@
     margin-top: 20px;
 }
 
-.formControlWrapper > * {
+.formControlWrapper>* {
     margin-bottom: 20px !important;
 }
 
@@ -20,4 +20,8 @@
 .MuiFormControlLabel-root {
     margin: 0 !important;
     margin-right: 9px !important;
+}
+
+.info {
+    margin-bottom: 20px;
 }
