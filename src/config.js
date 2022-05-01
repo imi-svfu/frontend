@@ -6,6 +6,8 @@ export const WEEK_EVENTS = BASE_URL + "events/get_week_events/";
 
 export const GROUP_LSIT = BASE_URL + "groups/";
 
+export const LESSON_LIST = BASE_URL + "lessons/"
+
 export const LECTURER_LIST = BASE_URL + "lecturers/";
 
 export const ROOM_LIST = BASE_URL + "rooms/";

@@ -1,16 +1,18 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Button, FormControl, IconButton, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
+import {Box, Button, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Snackbar} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import {GROUP_LSIT, GROUP_SCHEDULES, lessonsByGroupId, getLessonHours} from "../../config";
+import {GROUP_LSIT, GROUP_SCHEDULES, LESSON_LIST, lessonsByGroupId, getLessonHours} from "../../config";
 import '../styles/manage.css'
 import ManageTableComponent from "./ManageTableComponent";
 import ScheduleForm from "./ScheduleForm";
+import LessonHourProgress from "./LessonHourProgress";
 
 const ManageTabletime = () => {
   const [groups, setGroups] = useState([]);
   const [group, setGroup] = useState("");
   const [schedules, setSchedules] = useState([]);
+  const [lessonsGlobal, setLessonsGlobal] = useState([]);
   const [lessons, setLessons] = useState([]);
   const [snackOpen, setSnackOpen] = useState(false)
   const [formOpen, setFormOpen] = useState(false)
@@ -32,12 +34,7 @@ const ManageTabletime = () => {
         console.log(error.response.data);
       })
 
-    axios
-      .get(lessonsByGroupId(group))
-      .then(({data}) => setLessons(data))
-      .catch(function (error) {
-        console.log(error.response.data);
-      })
+    setLessons(lessonsGlobal.filter(lesson => lesson.group.id === group))
 
     axios
       .get(getLessonHours(group))
@@ -50,6 +47,14 @@ const ManageTabletime = () => {
     axios.get(GROUP_LSIT).then(({data}) => {
       setGroups(data);
     });
+
+    axios
+      .get(LESSON_LIST)
+      .then(({data}) => setLessonsGlobal(data))
+      .catch(function (error) {
+        console.log(error.response.data);
+      })
+
   }, []);
 
 
@@ -99,17 +104,31 @@ const ManageTabletime = () => {
           </Select>
         </FormControl>
       </div>
-      <div className="hours">
-        {/*{*/}
-        {/*  lessons.length !== 0 && (scheduleHours.map(sh => (*/}
-        {/*  <div>*/}
-        {/*    <h5>{lessons.find(lesson => lesson.id === sh.lesson_id).subject} -</h5>*/}
-        {/*    <p> LEC - {sh.lec} из {lessons.find(lesson => lesson.id === sh.lesson_id).lectures}</p>*/}
-        {/*    <p> PRA - {sh.pra} из {lessons.find(lesson => lesson.id === sh.lesson_id).practices}</p>*/}
-        {/*    <p> LAB - {sh.lab} из {lessons.find(lesson => lesson.id === sh.lesson_id).labs}</p>*/}
-        {/*  </div>*/}
-        {/*)))}*/}
-      </div>
+      <Box sx={{display:'flex', gap:5, flexWrap:'wrap', justifyContent: 'center', mb:3}}>
+        {
+          lessons.length !== 0 && (scheduleHours.map(sh => {
+            const lecHours = lessons.find(lesson => lesson.id === sh.lesson_id)?.lectures;
+            const praHours = lessons.find(lesson => lesson.id === sh.lesson_id)?.practices;
+            const labHours = lessons.find(lesson => lesson.id === sh.lesson_id)?.labs;
+
+            return (
+              <Paper elevation={3} sx={{width: 250, textAlign: 'center'}}>
+                <h5>{lessons.find(lesson => lesson.id === sh.lesson_id)?.subject}</h5>
+                <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:1}}>
+                  <LessonHourProgress value={lecHours && sh.lec / lecHours * 100} />
+                  <p> LEC - {sh.lec} из {lecHours}</p>
+                </Box>
+                <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:1}}>
+                  <LessonHourProgress value={praHours && sh.pra / praHours * 100} />
+                  <p> PRA - {sh.pra} из {praHours}</p>
+                </Box>
+                <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:1}}>
+                  <LessonHourProgress value={labHours && sh.lab / labHours * 100} />
+                  <p> LAB - {sh.lab} из {labHours}</p>
+                </Box>
+              </Paper>
+            )}))}
+      </Box>
       <ManageTableComponent 
         schedules={schedules} 
         setSchedules={setSchedules} 
