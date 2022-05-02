@@ -217,9 +217,6 @@ const ScheduleForm =
                       label={arop.label}
                     />
                   )}
-                  {/*   <FormControlLabel value={0} checked={repeatOption === 0} control={<Radio />} label="Каждую неделю" />
-                  <FormControlLabel value={1} checked={repeatOption === 1} control={<Radio />} label="* По нечетным" />
-                  <FormControlLabel value={2} checked={repeatOption === 2} control={<Radio />} label="** По четным" /> */}
                 </RadioGroup>
               </FormControl>
 

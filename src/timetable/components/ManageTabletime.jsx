@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {Box, Button, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Snackbar} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import {GROUP_LSIT, GROUP_SCHEDULES, LESSON_LIST, lessonsByGroupId, getLessonHours} from "../../config";
+import {GROUP_LSIT, GROUP_SCHEDULES, LESSON_LIST, getLessonHours} from "../../config";
 import '../styles/manage.css'
 import ManageTableComponent from "./ManageTableComponent";
 import ScheduleForm from "./ScheduleForm";

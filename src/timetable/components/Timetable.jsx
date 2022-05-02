@@ -7,16 +7,11 @@ import {GROUP_LSIT, WEEK_EVENTS} from "../../config";
 import axios from "axios";
 import Calendar from "./Calendar";
 import DATE_UTILS from "./scheduler/date"
-import {Box, Button, Modal, Typography} from "@mui/material";
-import Admin from "./ManageTabletime";
 
 const Timetable = () => {
   const [selected, setSelected] = useState(new Date());
   const [events, setEvents, addEvent] = useArrayState();
   const [groups, setGroups] = useState([]);
-  const [openAdmin, setOpenAdmin] = useState(false);
-  const handleOpenAdmin = () => setOpenAdmin(true);
-  const handleCloseAdmin = () => setOpenAdmin(false);
 
   const weekStart = DATE_UTILS.first_of_week(selected);
   const weekEnd = new Date();
@@ -78,12 +73,6 @@ const Timetable = () => {
           <div className="calendar">
               <Calendar selected={selected} setSelected={setSelected}/>
           </div>
-          <Button
-              variant="outlined"
-              onClick={handleOpenAdmin}
-          >
-              Редактирование
-          </Button>
 
         </div>
         <div className="scheduler">
@@ -91,8 +80,6 @@ const Timetable = () => {
             events={events}
             selected={selected}
             setSelected={setSelected}
-            onRequestAdd={(evt) => addEvent(evt)}
-            onRequestEdit={(evt) => alert("Edit element requested")}
           />
         </div>
       </div>
