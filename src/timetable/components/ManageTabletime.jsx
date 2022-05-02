@@ -112,19 +112,19 @@ const ManageTabletime = () => {
             const labHours = lessons.find(lesson => lesson.id === sh.lesson_id)?.labs;
 
             return (
-              <Paper elevation={3} sx={{width: 250, textAlign: 'center'}}>
+              <Paper elevation={3} sx={{width: 150, textAlign: 'center'}}>
                 <h5>{lessons.find(lesson => lesson.id === sh.lesson_id)?.subject}</h5>
                 <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:1}}>
                   <LessonHourProgress value={lecHours && sh.lec / lecHours * 100} />
-                  <p> LEC - {sh.lec} из {lecHours}</p>
+                  <p> LEC - {sh.lec} / {lecHours}</p>
                 </Box>
                 <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:1}}>
                   <LessonHourProgress value={praHours && sh.pra / praHours * 100} />
-                  <p> PRA - {sh.pra} из {praHours}</p>
+                  <p> PRA - {sh.pra} / {praHours}</p>
                 </Box>
                 <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:1}}>
                   <LessonHourProgress value={labHours && sh.lab / labHours * 100} />
-                  <p> LAB - {sh.lab} из {labHours}</p>
+                  <p> LAB - {sh.lab} / {labHours}</p>
                 </Box>
               </Paper>
             )}))}
