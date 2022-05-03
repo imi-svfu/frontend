@@ -15,7 +15,7 @@ const styles = {
 
 const ManageTableComponent = ({schedules, setSchedules, setSnackOpen, setFormOpen, setWeekDay, setPairNum, setEditScheduleId}) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer sx={{marginBottom: '100px'}} component={Paper}>
       <Table aria-label="simple table" sx={{overflow: 'auto'}}>
         <TableHead>
           <TableRow>

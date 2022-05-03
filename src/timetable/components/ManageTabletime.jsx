@@ -6,7 +6,7 @@ import {GROUP_LSIT, GROUP_SCHEDULES, LESSON_LIST, getLessonHours} from "../../co
 import '../styles/manage.css'
 import ManageTableComponent from "./ManageTableComponent";
 import ScheduleForm from "./ScheduleForm";
-import LessonHourProgress from "./LessonHourProgress";
+import LessonHours from "./LessonHours";
 
 const ManageTabletime = () => {
   const [groups, setGroups] = useState([]);
@@ -18,7 +18,7 @@ const ManageTabletime = () => {
   const [formOpen, setFormOpen] = useState(false)
   const [weekDay, setWeekDay] = useState();
   const [pairNum, setPairNum] = useState();
-  const [scheduleHours, setScheduleHours] = useState([]);
+  const [lessonHours, setLessonHours] = useState([]);
   const [editScheduleId, setEditScheduleId] = useState();
 
 
@@ -38,7 +38,7 @@ const ManageTabletime = () => {
 
     axios
       .get(getLessonHours(group))
-      .then(({data}) => setScheduleHours(data))
+      .then(({data}) => setLessonHours(data))
       .catch(err => console.log(err))
 
   }, [group]);
@@ -104,31 +104,9 @@ const ManageTabletime = () => {
           </Select>
         </FormControl>
       </div>
-      <Box sx={{display:'flex', gap:5, flexWrap:'wrap', justifyContent: 'center', mb:3}}>
-        {
-          lessons.length !== 0 && (scheduleHours.map(sh => {
-            const lecHours = lessons.find(lesson => lesson.id === sh.lesson_id)?.lectures;
-            const praHours = lessons.find(lesson => lesson.id === sh.lesson_id)?.practices;
-            const labHours = lessons.find(lesson => lesson.id === sh.lesson_id)?.labs;
 
-            return (
-              <Paper elevation={3} sx={{width: 150, textAlign: 'center'}}>
-                <h5>{lessons.find(lesson => lesson.id === sh.lesson_id)?.subject}</h5>
-                <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:1}}>
-                  <LessonHourProgress value={lecHours && sh.lec / lecHours * 100} />
-                  <p> LEC - {sh.lec} / {lecHours}</p>
-                </Box>
-                <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:1}}>
-                  <LessonHourProgress value={praHours && sh.pra / praHours * 100} />
-                  <p> PRA - {sh.pra} / {praHours}</p>
-                </Box>
-                <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', gap:1}}>
-                  <LessonHourProgress value={labHours && sh.lab / labHours * 100} />
-                  <p> LAB - {sh.lab} / {labHours}</p>
-                </Box>
-              </Paper>
-            )}))}
-      </Box>
+      <LessonHours lessons={lessons} lessonHours={lessonHours} />
+
       <ManageTableComponent 
         schedules={schedules} 
         setSchedules={setSchedules} 

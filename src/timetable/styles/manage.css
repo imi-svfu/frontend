@@ -1,7 +1,9 @@
+
+
 table td.MuiTableCell-body,
 table th.MuiTableCell-head {
     text-align: center;
-    padding: 5px
+    padding: 5px;
 }
 
 table th {

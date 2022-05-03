@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box !important;
+}
+
+.lesson-hours {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.lesson-hours__item {
+    width: 180px;
+    text-align: center;
+    padding: 0 15px;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.lesson-hours__item__title {
+    display: flex;
+    padding-top: 20px;
+    height: 60px;
+    align-items: center;
+}
+
+.lesson-hours__item > ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lesson-hours__item > ul > li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
