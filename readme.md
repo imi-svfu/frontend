@@ -13,44 +13,19 @@
 
 ## Использованные пакеты
 
-* React:
+* [React](https://reactjs.org/):
   - `react`
   - `react-dom`
 
-* React-Router — навигация по сайту:
+* [React-Router](https://v5.reactrouter.com/web) — навигация по сайту:
   - `react-router-dom`
 
-* Material UI — компоненты интерфейса пользователя:
+* [Material UI](https://mui.com/) — компоненты интерфейса пользователя:
   - `@emotion/react`
   - `@emotion/styled`
   - `@mui/icons-material`
   - `@mui/material`
 
-* React-Markdown — рендеринг Markdown в HTML.
+* [React-Markdown](https://github.com/remarkjs/react-markdown) — рендеринг Markdown в HTML.
 
-* PropTypes — библиотека валидации типов данных
-  - `prop-types`
-
-* Babel — компилятор JS
-  - `@babel/core`
-  - `babel/loader`
-  - `@babel/preset-env`
-  - `@babel/preset-react`
-  - `babel-plugin-import`
-
-Использование `babel-plugin-import` — позволяет ускорить импорт компонентов при работе с Material UI.
-
-* ESLint - линтер кода:
-  - `eslint`
-  - `eslint-config-airbnb`
-  - `eslint-config-import`
-  - `eslint-config-react`
-  - `eslint-config-react-hooks`
-
-* WebPack — сборщик модулей:
-  - `webpack`
-  - `webpack-cli`
-  - `webpack-dev-server`
-  - `copy-webpack-plugin`
-
-Использование `copy-webpack-plugin` вместо `html-webpack-plugin` позволяет явным образом копировать несколько файлов из `src` при компиляции (`index.html`, `favicon.ico`, `service-worker.js`).
+* [Framer](https://www.framer.com/docs/) — библиотека для анимации.  

@@ -1,161 +1,95 @@
-/* https://mui.com/components/drawers/#responsive-drawer */
-
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { useState } from "react";
+import { Link, Outlet } from "react-router-dom";
 import {
   AppBar,
-  Box,
-  Drawer,
+  Container,
   IconButton,
-  List, ListItem, ListItemIcon, ListItemText,
+  List,
+  ListItemButton,
+  ListItemText,
+  SvgIcon,
+  SwipeableDrawer,
   Toolbar,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
+import { Menu as MenuIcon } from "@mui/icons-material";
 
-import {
-  Article as ArticleIcon,
-  Home as HomeIcon,
-  Menu as MenuIcon,
-  QuestionMark as QuestionMarkIcon,
-  EventNote as ScheduleIcon,
-  EditRoad as ScheduleManageIcon
-} from '@mui/icons-material';
+import { ReactComponent as ImiLogo } from "./assets/imi_logo.svg";
 
-// Меню
-function drawer() {
-  return (
-    <Box>
-      {/* Пустая панель заполняющая место под верхней панелью */}
-      <Toolbar />
-
-      {/* Пункты меню */}
-      <List>
-        <ListItem>
-          <ListItemIcon><HomeIcon /></ListItemIcon>
-          <ListItemText>
-            <Link to="/" style={{ textDecoration: 'none' }}>Главная</Link>
-          </ListItemText>
-        </ListItem>
-        <ListItem>
-          <ListItemIcon><ArticleIcon /></ListItemIcon>
-          <ListItemText>
-            <Link to="/page" style={{ textDecoration: 'none' }}>Страница</Link>
-          </ListItemText>
-        </ListItem>
-        <ListItem>
-          <ListItemIcon><QuestionMarkIcon /></ListItemIcon>
-          <ListItemText>
-            <Link to="/questions" style={{ textDecoration: 'none' }}>Вопросы</Link>
-          </ListItemText>
-        </ListItem>
-        <ListItem>
-          <ListItemIcon><ScheduleIcon /></ListItemIcon>
-          <ListItemText>
-            <Link to="/timetable" style={{ textDecoration: 'none' }}>Расписание</Link>
-          </ListItemText>
-        </ListItem>
-        <ListItem>
-            <ListItemIcon><ScheduleManageIcon /></ListItemIcon>
-            <ListItemText>
-                <Link to="/managetabletime" style={{ textDecoration: 'none' }}>Управление расписанием</Link>
-            </ListItemText>
-        </ListItem>
-      </List>
-    </Box>
-  );
-}
-
-// Ширина выдвижного меню
-const drawerWidth = 240;
-
-// Функциональный компонент
-export default function MenuComponent() {
-  // На телефоне есть два состояния: выдвинут / задвинут
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  // Нажатие на гамбургер в верхней панели (заговке)
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+function Menu() {
+  const [sidebarState, toggleSidebar] = useState(false);
 
   return (
-    <Box sx={{ display: 'flex' }}>
-
-      {/* Верхняя панель (заголовок) */}
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          marginLeft: { sm: `${drawerWidth}px` },
-        }}
-      >
+    <>
+      <AppBar>
         <Toolbar>
-          <Typography>
-            {/* Кнопка для выдвигания меню на телефоне */}
-            <IconButton
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{
-                marginRight: 1,
-                display: { sm: 'none' },
-              }}
-            >
-              <MenuIcon />
+          <Link to="/">
+            <IconButton color="inherit" edge="start">
+              <SvgIcon component={ImiLogo} inheritViewBox />
             </IconButton>
-            ИМИ СВФУ
-          </Typography>
+          </Link>
+          <Typography sx={{ flexGrow: 1 }}>ИМИ СВФУ</Typography>
+          <IconButton
+            color="inherit"
+            edge="end"
+            onClick={() => {
+              toggleSidebar(!sidebarState);
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
 
-      {/* Меню слева */}
-      <Box
-        component="nav"
-        sx={{
-          flexShrink: { sm: 0 },
-          width: { sm: drawerWidth },
-        }}
+      <SwipeableDrawer
+        anchor="right"
+        onClose={() => toggleSidebar(false)}
+        onOpen={() => toggleSidebar(true)}
+        open={sidebarState}
       >
-        {/* Телефон */}
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-          ModalProps={{
-            keepMounted: true, // Чтобы не тормозило на телефоне
-          }}
-        >
-          {drawer()}
-        </Drawer>
+        <List dense>
+          <ListItemButton>
+            <ListItemText>Институт</ListItemText>
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemText>О нас</ListItemText>
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemText>Новости</ListItemText>
+          </ListItemButton>
+          <ListItemButton>
+            <ListItemText>Мероприятия</ListItemText>
+          </ListItemButton>
+          <ListItemButton>
+            <ListItemText>Абитуриенту</ListItemText>
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemText>Направления и программы</ListItemText>
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemText>Список документов</ListItemText>
+          </ListItemButton>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemText>Задать вопрос</ListItemText>
+          </ListItemButton>
+          <ListItemButton>
+            <Link to="/timetable" style={{ textDecoration: "none" }}>
+              <ListItemText>Расписание</ListItemText>
+            </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Link to="/managetabletime" style={{ textDecoration: "none" }}>
+              <ListItemText>Управление расписанием</ListItemText>
+            </Link>
+          </ListItemButton>
+        </List>
+      </SwipeableDrawer>
 
-        {/* Нетелефон */}
-        <Drawer
-          variant="permanent"
-          open
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer()}
-        </Drawer>
-      </Box>
-
-      {/* Основная часть */}
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          padding: 2, // отступ вокруг
-          paddingTop: 6, // отступ сверху
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
+      <Container sx={{ marginTop: 10 }}>
         <Outlet />
-      </Box>
-    </Box>
+      </Container>
+    </>
   );
 }
+
+export default Menu;

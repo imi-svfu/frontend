@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CssBaseline from "@mui/material/CssBaseline";
+import { CssBaseline } from "@mui/material";
 
-import MenuComponent from "./menu";
+import Menu from "./menu";
 import HomeComponent from "./routes/home";
-import PageComponent from "./routes/page";
 import QuestionComponent from "./routes/question";
 import QuestionsComponent from "./routes/questions";
 import Timetable from "./timetable/components/Timetable";
@@ -27,9 +26,8 @@ function Main() {
       <CssBaseline />
       <BrowserRouter>
         <Routes>
-          <Route path="" element={<MenuComponent />}>
+          <Route path="" element={<Menu />}>
             <Route index element={<HomeComponent />} />
-            <Route path="page" element={<PageComponent />} />
             <Route path="questions" element={<QuestionsComponent questions={questions} />} />
             <Route path="question/:id" element={<QuestionComponent questions={questions} />} />
             <Route path="timetable" element={<Timetable />} />
@@ -41,5 +39,4 @@ function Main() {
   );
 }
 
-const container = document.getElementById("root");
-createRoot(container).render(<Main />);
+createRoot(document.getElementById("root")).render(<Main />);

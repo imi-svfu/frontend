@@ -1,6 +1,6 @@
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import ruLocale from "date-fns/locale/ru";
-import {LocalizationProvider, StaticDatePicker} from "@mui/lab";
+import {LocalizationProvider, StaticDatePicker} from "@mui/x-date-pickers";
 import {TextField} from "@mui/material";
 
 const Calendar = ({selected, setSelected}) => {

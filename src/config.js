@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000/api/timetable/";
+const BASE_URL = "/api/timetable/";
 
 export const SCHEDULES = BASE_URL + "schedules/";
 
