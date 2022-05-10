@@ -20,8 +20,8 @@ export const lessonsByGroupId = (groupId) =>
 export const scheduleById = (id) => 
     BASE_URL + "schedules/" + id + "/";
 
-export const availableRoomsForSchedule = (groupId, weekDay, pairNum) =>
-    BASE_URL + "rooms/get_available/?" + "group_id=" + groupId + "&" + "week_day=" + weekDay + "&" + "pair_num=" + pairNum
+export const availableRoomsForSchedule = (groupId, weekDay, pairNum, repeatOption) =>
+    BASE_URL + "rooms/get_available/?" + "group_id=" + groupId + "&week_day=" + weekDay + "&pair_num=" + pairNum  + "&repeat_option=" + repeatOption
 
 export const getLessonHours = (groupId) =>
     BASE_URL + "lessons/hours?group_id=" + groupId

@@ -32,7 +32,7 @@ const ScheduleForm =
   }) => {
 
   const [lesson, setLesson] = useState();
-  const [repeatOption, setRepeatOption] = useState(0);
+  const [repeatOption, setRepeatOption] = useState();
   const [type, setType] = useState();
   const [cab, setCab] = useState();
   const [availableCabs, setAvailableCabs] = useState([]);
@@ -83,18 +83,8 @@ const ScheduleForm =
   const [availableRepeatOptions, setAvailableRepeatOptions] = useState(repOptParams);
   const schedule = schedules.find(s => s.id === scheduleId)
   useEffect(() => {
-    axios
-      .get(availableRoomsForSchedule(groupId, weekDay, pairNum))
-      .then(({data}) => setAvailableCabs(data))
-      .catch(function (error) {
-        console.log(error.response.data);
-      })
-
     const currentPairSchedules = schedules?.filter(schedule => schedule.week_day === weekDay && schedule.pair_num === pairNum)
-    console.log("schedules - ", currentPairSchedules)
     const result = currentPairSchedules?.reduce((sum, current) => {return sum + current.repeat_option}, 0)
-    console.log("repOpt sum - ", result)
-
 
     //Если в режиме редактирования
     if (scheduleId) {
@@ -122,7 +112,17 @@ const ScheduleForm =
       }
     }
 
-  }, [weekDay, pairNum, schedules, scheduleId, open]);
+    setRepeatOption(availableRepeatOptions[0].value)
+
+    if (repeatOption !== undefined && open){
+      axios
+        .get(availableRoomsForSchedule(groupId, weekDay, pairNum, repeatOption))
+        .then(({data}) => setAvailableCabs(data))
+        .catch(function (error) {
+          console.log(error.response.data);
+        })
+    }
+  }, [weekDay, pairNum, schedules, scheduleId, open, repeatOption]);
 
 
   const handleClose = () => {
@@ -182,7 +182,7 @@ const ScheduleForm =
           <div className="info">
             <Typography><b>День недели: </b>{weekDays.find(wd => wd.num === weekDay)?.str}</Typography>
             <Typography><b>Пара: </b>{pairNum}</Typography>
-            <Typography><b>Преподаватель: </b>{lessons.find(l => l.id === lesson)?.lecturer.name}</Typography>
+            <Typography><b>Преподаватель: </b>{lessons.find(l => l.id === lesson)?.lecturer?.name}</Typography>
           </div>
           <DialogContentText>
             Выберите параметры графика занятия
@@ -215,6 +215,7 @@ const ScheduleForm =
                       checked={repeatOption === arop.value}
                       control={<Radio />}
                       label={arop.label}
+                      onClick={() => setRepeatOption(arop.value)}
                     />
                   )}
                 </RadioGroup>
