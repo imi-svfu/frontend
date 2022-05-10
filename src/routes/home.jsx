@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Card, Typography } from "@mui/material";
+import {Card, Container, Typography} from "@mui/material";
 import ReactMarkdown from "react-markdown";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -33,7 +33,7 @@ export default function HomeComponent() {
   }, []);
 
   return (
-    <>
+    <Container maxWidth="lg">
       <Card sx={{ marginY: 2, paddingX: 1 }}>
         <Typography variant="h3" sx={{ marginY: 2 }}>
           Институт математики и информатики СВФУ
@@ -59,6 +59,6 @@ export default function HomeComponent() {
       <Card sx={{ marginY: 2, paddingX: 2 }}>
         <ReactMarkdown children={content} />
       </Card>
-    </>
+    </Container>
   );
 }

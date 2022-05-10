@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CssBaseline } from "@mui/material";
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 
 import Menu from "./menu";
 import HomeComponent from "./routes/home";
@@ -9,6 +9,16 @@ import QuestionComponent from "./routes/question";
 import QuestionsComponent from "./routes/questions";
 import Timetable from "./timetable/components/Timetable";
 import ManageTabletime from "./timetable/components/ManageTabletime";
+
+const theme = createTheme({
+  components: {
+    MuiContainer: {
+      defaultProps: {
+        maxWidth: "xl",
+      },
+    },
+  },
+})
 
 function Main() {
   const [questions, setQuestions] = useState([]);
@@ -23,6 +33,7 @@ function Main() {
 
   return (
     <React.StrictMode>
+      <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
         <Routes>
@@ -35,6 +46,7 @@ function Main() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </ThemeProvider>
     </React.StrictMode>
   );
 }
