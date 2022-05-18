@@ -1,0 +1,9 @@
+name: Deploy
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ${{ secrets.SSH_KEY }} > ssh_key
+          ssh -i ssh_key ${{ secrets.SERVER }} ${{ secrets.SCRIPT }}
