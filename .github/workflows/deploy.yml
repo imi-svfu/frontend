@@ -4,6 +4,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo ${{ secrets.SSH_KEY }} > ssh_key
-          ssh -i ssh_key ${{ secrets.SERVER }} ${{ secrets.SCRIPT }}
+      - uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          script: ${{ secrets.SCRIPT }}
