@@ -82,6 +82,11 @@ function Menu() {
               <ListItemText>Управление расписанием</ListItemText>
             </Link>
           </ListItemButton>
+          <ListItemButton >
+            <Link to="/map" style={{ textDecoration: "none" }}>
+              <ListItemText>Карта студгородка</ListItemText>
+            </Link>
+          </ListItemButton>
         </List>
       </SwipeableDrawer>
 

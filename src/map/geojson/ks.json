@@ -1,0 +1,85 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-ide",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2022-04-08T06:05:09Z",
+  "name": "ks",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/274204026",
+        "addr:city": "Якутск",
+        "addr:housenumber": "58А",
+        "addr:postcode": "677013",
+        "addr:street": "улица Белинского",
+        "amenity": "community_centre",
+        "building": "yes",
+        "building:levels": "2",
+        "height": "20",
+        "name": "Сергеляхские огни",
+        "smoking": "no"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              129.7104394,
+              62.021049
+            ],
+            [
+              129.7104545,
+              62.0207436
+            ],
+            [
+              129.711311,
+              62.0207529
+            ],
+            [
+              129.711307,
+              62.020834
+            ],
+            [
+              129.7114373,
+              62.0208354
+            ],
+            [
+              129.7114993,
+              62.0208361
+            ],
+            [
+              129.7114953,
+              62.0209172
+            ],
+            [
+              129.711303,
+              62.0209151
+            ],
+            [
+              129.711299,
+              62.0209962
+            ],
+            [
+              129.7112189,
+              62.0209953
+            ],
+            [
+              129.7112158,
+              62.0210575
+            ],
+            [
+              129.7108352,
+              62.0210533
+            ],
+            [
+              129.7104394,
+              62.021049
+            ]
+          ]
+        ]
+      },
+      "id": "way/274204026"
+    }
+  ]
+}
