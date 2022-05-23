@@ -16,12 +16,15 @@ export const dataSlice = createSlice({
 
 export const { setItem } = dataSlice.actions;
 
-const mode = (state = { level: 4, cameramove: true }, action) => {
+const mode = (state = { level: 4, move: true }, action) => {
   switch (action.type) {
     case 'setLevel':
       state.level = action.level
-    case 'setMove':
-      state.cameramove = action.cameramove
+    case 'set':
+      state = { 
+        level: action.value.level, 
+        move: action.value.move 
+      }
     default:
       return state
   }

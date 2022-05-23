@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { search } from '../consts/functions'
+import { search, updateMove } from '../consts/functions'
 import { setItem } from '../store/tasks';
 import { useDispatch } from 'react-redux';
 
@@ -106,6 +106,7 @@ const MenuBar = () => {
                 height: '40px'
               }}
               onClick={() => {
+                updateMove(true)
                 setItems(search(text))
                 setPressed(true)
               }}

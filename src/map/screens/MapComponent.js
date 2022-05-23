@@ -1,16 +1,17 @@
 import React from 'react';
-import MapContent from './MapContent';
 import MenuBar from './MenuBar';
 import LevelBar from './LevelBar';
 import { Provider } from 'react-redux';
 import store from '../store';
+import MapSimple from './MapSimple';
+import { center, markerpos, places, floors } from '../consts/variables';
 
-const Main = () => {
+const MapComponent = () => {
   const [clicked, setClicked] = React.useState(false)
   return (
     <Provider store={ store }>
       <div>
-        <div onClick={() => { setClicked(!clicked) }}>
+        <div>
           <MenuBar/>
         </div>
         <div onClick={() => { setClicked(!clicked) }}>
@@ -24,11 +25,17 @@ const Main = () => {
           top: '60px', 
           left: '0' 
         }}>
-          <MapContent/>
+          <MapSimple data={{
+            center,
+            marker: markerpos,
+            places: places,
+            floors: floors,
+          }}
+          />
         </div>
       </div>
     </Provider>
   );
 }
 
-export default Main;
+export default MapComponent;

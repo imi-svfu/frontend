@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { places, floors } from './variables'
 import { GeoJSON } from 'react-leaflet';
+import { auth } from '../store/tasks'
 
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
@@ -76,14 +77,26 @@ export const Line = (height) => {
   return <div style={{ width: '100%', height: height, background: 'white', margin: '40px auto', borderRadius: '2px' }}></div>
 }
 
-export const searchResult = (data, map, style, move) => {
-  console.log(data)
+export const updateMove = (move = false) => {
+  const x = auth.getState().level
+  auth.dispatch({ 
+    type: 'set', 
+    value: { 
+      level: x, 
+      move: move 
+    }  
+  });
+}
+
+export const searchResult = (data, map, style) => {
+  const move = auth.getState().move
   if (data !== null) {
     if (map && move) { 
       map.flyTo({
         lat: data.geometry.coordinates[0][0][1],
         lng: data.geometry.coordinates[0][0][0]
       })
+      updateMove()
     }
     return <GeoJSON data={[data]} key={data.properties.number} style={style} onEachFeature={onResult}/>
   }
