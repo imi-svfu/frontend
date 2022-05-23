@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { places, floors } from './variables'
+import { places, floors, male, female, stairs } from './variables'
 import { GeoJSON, Marker, Popup } from 'react-leaflet';
 import { auth } from '../store/tasks'
-import { male } from './variables'
 import L from 'leaflet'
 
 const getWindowDimensions = () => {
@@ -110,6 +109,7 @@ const onClick = (e) => {
 
 const onEachBuilding = (feature, layer, map) => {
   const marker = new L.marker(layer.getBounds().getCenter())
+  marker.bindPopup(customPopup('building', feature.properties.number), {width: '500px'})
   marker.addTo(map)
 
   layer.bindPopup('<h5>' + feature.properties.type + '</h5> <p>' + feature.properties.number + '</p> <p>Свободно</p> ');
@@ -136,15 +136,21 @@ const customPopup = (type, number) => {
   )
 }
 
-const skater = new L.Icon({
-  iconUrl: male,
-  iconSize: [120, 100]
-});
-
-const onEachPoint = (feature, latlng) => {
-  console.log(latlng)
-  return L.Marker(latlng, skater)
+const getIcon = type => {
+  return new L.Icon({
+    iconUrl: type === "male" 
+      ? male 
+      : type === "female" 
+        ? female
+        : type === "Stairs" 
+          ? stairs
+          : 'kekw',
+    iconSize: [32, 32],
+    shadowSize:   [30, 30], // size of the shadow
+    iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
+  });
 }
+
 
 const onEachFeature = (feature, layer, map) => {
   const type = feature.properties.type
@@ -161,11 +167,18 @@ const onEachFeature = (feature, layer, map) => {
     fillOpacity: 1.5,
     weight: 1.5
   });
-  const marker = new L.marker(layer.getBounds().getCenter())
-  type === 'WC' 
-    ? marker.addTo(map)
-    : type === 'Stairs'  
-      ? marker.addTo(map)
+
+  const kekw = (icon = type) => {
+    console.log(layer.getBounds().getCenter())
+    const marker = new L.marker(layer.getBounds().getCenter(), {icon: getIcon(icon)})
+    marker.bindPopup(customPopup(type, feature.properties.number))
+    marker.addTo(map)
+  }
+
+  type === 'WC' && (feature.properties.for === "male" || feature.properties.for === "female")
+    ? kekw(feature.properties.for)
+    : type === 'Stairs' 
+      ? kekw()
       : ''
 }
 

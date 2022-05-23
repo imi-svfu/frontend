@@ -38,7 +38,6 @@ const MapSimple = props => {
   const data2 = useSelector((state) => state.data.value);
   const [map, setMap] = useState(null);
   const sizes = useWindowDimensions();
- 
   return (
     <MapContainer
       style={{

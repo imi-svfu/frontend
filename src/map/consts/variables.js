@@ -7,8 +7,9 @@ import eat from '../images/icons/eat.png'
 import apteka from '../images/icons/apteka.png'
 import product from '../images/icons/product.png'
 import uslugi from '../images/icons/uslugi.png'
-import male from '../images/icons/male.png'
-import female from '../images/icons/female.png'
+import male from '../images/icons/male2.png'
+import female from '../images/icons/female2.png'
+import stairs from '../images/icons/marker.png'
 
 import svfu from '../geojson/svfu.json'
 import guk from '../geojson/guk.json'
@@ -16,7 +17,8 @@ import departments from '../geojson/deparments.json'
 import ks from '../geojson/ks.json'
 import floor3 from '../geojson/kfenfloors/floor3.json'
 
-export { 
+export {
+  stairs, 
   studgorod, 
   imilogo,
   logo, 

@@ -8,6 +8,7 @@ import { searchlogo, eat, product, apteka, uslugi, imilogo } from '../consts/var
 
 const styles = {
   menuBar: {
+    display: 'none',
     zIndex: 4,
     width: '350px',
     position: 'fixed',
