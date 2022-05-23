@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { places, floors } from './variables'
-import { GeoJSON } from 'react-leaflet';
+import { GeoJSON, Marker, Popup } from 'react-leaflet';
 import { auth } from '../store/tasks'
+import { male } from './variables'
+import L from 'leaflet'
 
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
@@ -98,19 +100,19 @@ export const searchResult = (data, map, style) => {
       })
       updateMove()
     }
-    return <GeoJSON data={[data]} key={data.properties.number} style={style} onEachFeature={onResult}/>
+    return <GeoJSON data={[data]} key={data.properties.number} style={style} onEachFeature={onResult} pointToLayer={onEachPoint}/>
   }
 }
 
-const onEachBuilding = (feature, layer) => {
-  layer.bindPopup('<h5>' + feature.properties.type + '</h5> <p>' + feature.properties.number + '</p> <p>Свободно</p> ');
-  layer.on({
-    click: layer.openPopup(),
+const onClick = (e) => {
+  e.sourceTarget.openPopup()
+}
 
-    mouseout: e => {
-      layer.closePopup();
-    }
-  });
+const onEachBuilding = (feature, layer, map) => {
+  const marker = new L.marker(layer.getBounds().getCenter())
+  marker.addTo(map)
+
+  layer.bindPopup('<h5>' + feature.properties.type + '</h5> <p>' + feature.properties.number + '</p> <p>Свободно</p> ');
 }
 
 const customPopup = (type, number) => {
@@ -134,12 +136,19 @@ const customPopup = (type, number) => {
   )
 }
 
-const onEachFeature = (feature, layer) => {
+const skater = new L.Icon({
+  iconUrl: male,
+  iconSize: [120, 100]
+});
+
+const onEachPoint = (feature, latlng) => {
+  console.log(latlng)
+  return L.Marker(latlng, skater)
+}
+
+const onEachFeature = (feature, layer, map) => {
   const type = feature.properties.type
-  var customOptions =
-  {
-    width: 500,
-  }
+  var customOptions = { width: 500 }
   layer.bindPopup(customPopup(type, feature.properties.number), customOptions);
   layer.setStyle({
     fillColor: type === 'Audience' 
@@ -152,49 +161,57 @@ const onEachFeature = (feature, layer) => {
     fillOpacity: 1.5,
     weight: 1.5
   });
-
-  layer.on({
-    click: layer.openPopup(),
-
-    mouseout: e => {
-      layer.closePopup();
-    }
-  });
+  const marker = new L.marker(layer.getBounds().getCenter())
+  type === 'WC' 
+    ? marker.addTo(map)
+    : type === 'Stairs'  
+      ? marker.addTo(map)
+      : ''
 }
 
 const onResult = (feature, layer) => {
   const type = feature.properties.type
   layer.bindPopup(customPopup(type, feature.properties.number));
+  
   layer.setStyle({
     fillColor: '#aaa',
     fillOpacity: 1.5,
     weight: 1.5
   });
-  layer.openPopup()
-
   layer.on({
-    click: layer.openPopup(),
-
-    mouseout: e => {
-      layer.openPopup();
-    }
-  });
+    add: onClick, 
+  })
 }
 
-export const data = places => {
-  return (
-    <div>
-      {places.map(item => {
-        return <GeoJSON key={item.name} data={item.features} style={item.style} onEachFeature={onEachBuilding}/>
-      })}
-    </div>);
+export const data = (places, map) => {
+ 
+  useEffect(() => {
+    if (map) {
+      const x = map
+      places.map(item => {
+        const points = new L.geoJSON(item.features, {
+          pointToLayer: () => {
+            return L.marker(latlng)
+          },
+          onEachFeature: (feature, layer) => onEachBuilding(feature, layer, map),
+          style: item.style,
+        }).addTo(map)
+      })
+    } 
+  })
 };
 
-export const rooms = places => {
-  return (
-    <div>
-      {places.map(item => {
-        return <GeoJSON key={item.name} data={item.features} style={item.style} onEachFeature={onEachFeature}/>
-      })}
-    </div>);
+export const rooms = (places, map) => {
+  useEffect(() => {
+    if (map) {
+      places.map(item => {
+        const points = new L.geoJSON(item.features, {
+          onEachFeature: (feature, layer) => onEachFeature(feature, layer, map),
+          style: item.style,
+        })
+        points.addTo(map)
+      })
+    } 
+  })
 };
+

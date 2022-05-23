@@ -26,44 +26,19 @@ const styles = {
   },
   result: {
     color: '#5FD888',
+    fillColor: '#fff',
     weight: 4,
     opacity: 2,
   }
 };
 
 // Вызов функции при приближении или отдалении карты
-const LocationMarker = () => {
-  const [position, setPosition] = useState(null);
-  const map = useMap();
-
-  useEffect(() => {
-    map.locate().on('locationfound', function (e) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-      const radius = e.accuracy;
-      const circle = L.circle(e.latlng, radius);
-      circle.addTo(map);
-    });
-  }, [map]);
-
-  return position === null 
-    ? null 
-    : (
-        <Marker position={position} icon={skater}>
-          <Popup>
-            You are here. <br />
-            Map bbox: <br />
-          </Popup>
-        </Marker>
-      );
-}
 
 const MapSimple = props => {
   const data2 = useSelector((state) => state.data.value);
   const [map, setMap] = useState(null);
-  const level = props.data.bruh
   const sizes = useWindowDimensions();
-
+ 
   return (
     <MapContainer
       style={{
@@ -77,19 +52,13 @@ const MapSimple = props => {
       maxZoom={21}
     >
       <TileLayer
+        maxZoom={21}
         attribution='copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}@2x.png?key=e65VFhNaAEo0l5tGguVF"
       />
       {searchResult(data2, map, styles.result)}
-      {data(props.data.places)}
-      {rooms([props.data.floors.kfen[auth.getState().level]]) ? rooms([props.data.floors.kfen[auth.getState().level]]) : undefined}
-      <Marker
-        position={props.data.center}
-      >
-        <Popup>
-          Center of the map
-        </Popup>
-      </Marker>
+      {data(props.data.places, map)}
+      {rooms([props.data.floors.kfen[auth.getState().level]], map)}
     </MapContainer>
   );
 }

@@ -16,7 +16,6 @@ const styles = {
 const LevelBar = () => {
   const [level, setLevel] = useState(2);
   const x = auth.getState().move
-  console.log(x)
   auth.dispatch({ 
     type: 'set', 
     value: { 
@@ -39,7 +38,6 @@ const LevelBar = () => {
       }
     }
   }
-  console.log(auth.getState())
   return (
   <div style={ styles.levelBar }>
     <div style={{ display: 'flex', flexDirection: 'row' }}>

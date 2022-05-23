@@ -76,7 +76,7 @@ const MenuBar = () => {
   const [pressed, setPressed] = useState(false)
   const [items, setItems] = useState([]);
   const dispatch = useDispatch();
-  console.log(pressed)
+
   return (
     <div style={styles.menuBar}>
       <div style={styles.container}>
@@ -130,7 +130,7 @@ const MenuBar = () => {
               ? (items.length != 0)
                   ? items.map(item =>
                   <div 
-                    key={item.properties.name} 
+                    key={item.properties.number} 
                     style={ styles.searchItem } 
                     onClick={txt => { 
                       dispatch(setItem(item)) 
