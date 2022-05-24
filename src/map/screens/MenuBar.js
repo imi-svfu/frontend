@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 
-import { search, updateMove } from '../consts/functions'
-import { setItem } from '../store/tasks';
+import { search } from '../consts/functions'
+import { setItem, setMove } from '../store/tasks';
 import { useDispatch } from 'react-redux';
 
 import { searchlogo, eat, product, apteka, uslugi, imilogo } from '../consts/variables'
 
 const styles = {
   menuBar: {
-    display: 'none',
     zIndex: 4,
     width: '350px',
     position: 'fixed',
@@ -77,7 +76,6 @@ const MenuBar = () => {
   const [pressed, setPressed] = useState(false)
   const [items, setItems] = useState([]);
   const dispatch = useDispatch();
-
   return (
     <div style={styles.menuBar}>
       <div style={styles.container}>
@@ -107,7 +105,6 @@ const MenuBar = () => {
                 height: '40px'
               }}
               onClick={() => {
-                updateMove(true)
                 setItems(search(text))
                 setPressed(true)
               }}
@@ -134,6 +131,7 @@ const MenuBar = () => {
                     key={item.properties.number} 
                     style={ styles.searchItem } 
                     onClick={txt => { 
+                      dispatch(setMove(true)) 
                       dispatch(setItem(item)) 
                       setPressed(false)
                     }}

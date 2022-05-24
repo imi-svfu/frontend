@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MenuBar from './MenuBar';
 import LevelBar from './LevelBar';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import store from '../store';
 import MapSimple from './MapSimple';
 import { center, markerpos, places, floors } from '../consts/variables';
 
 const MapComponent = () => {
-  const [clicked, setClicked] = React.useState(false)
+  console.log('xd')
   return (
     <Provider store={ store }>
       <div>
         <div>
           <MenuBar/>
         </div>
-        <div onClick={() => { setClicked(!clicked) }}>
+        <div>
           <LevelBar />
         </div>
         <div style={{ 

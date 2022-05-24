@@ -4,10 +4,9 @@ import {
 } from 'react-leaflet';
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
-import { useWindowDimensions, searchResult, data, rooms } from '../consts/functions';
-import { useSelector, useDispatch } from 'react-redux';
+import { useWindowDimensions, searchResult, data, rooms, Markers, getFeatureLocation, getRoomLocation } from '../consts/functions';
+import { useDispatch, useSelector } from 'react-redux';
 import { male } from '../consts/variables'
-import { auth } from '../store/tasks'
 
 const skater = new L.Icon({
   iconUrl: male,
@@ -34,9 +33,15 @@ const styles = {
 
 // Вызов функции при приближении или отдалении карты
 
+
 const MapSimple = props => {
-  const data2 = useSelector((state) => state.data.value);
+  const storeData = useSelector((state) => state.data);
   const [map, setMap] = useState(null);
+  const dispatch = useDispatch()
+  const data2 = storeData.result
+  const move = storeData.move
+  const level = storeData.level
+  getRoomLocation(props.data.floors.kfen[level])
   const sizes = useWindowDimensions();
   return (
     <MapContainer
@@ -55,9 +60,11 @@ const MapSimple = props => {
         attribution='copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}@2x.png?key=e65VFhNaAEo0l5tGguVF"
       />
-      {searchResult(data2, map, styles.result)}
+      {searchResult(data2, map, styles.result, move)}
       {data(props.data.places, map)}
-      {rooms([props.data.floors.kfen[auth.getState().level]], map)}
+      {rooms([props.data.floors.kfen[level]], map)}
+      {Markers(getFeatureLocation(props.data.places))}
+      {Markers(getRoomLocation(props.data.floors.kfen[level]))}
     </MapContainer>
   );
 }

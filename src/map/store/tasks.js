@@ -5,31 +5,24 @@ export const dataSlice = createSlice({
   name: 'data',
   initialState: {
     value: null,
+    result: null,
+    level: 4, 
+    move: true,
     loading: false,
   },
   reducers: {
     setItem: (state, action) => {
-      state.value = action.payload
+      state.result = action.payload
+    },
+    setMove: (state, action) => {
+      state.move = action.payload
+    },
+    setLevel: (state, action) => {
+      state.level = action.payload
     },
   },
 });
 
-export const { setItem } = dataSlice.actions;
-
-const mode = (state = { level: 4, move: true }, action) => {
-  switch (action.type) {
-    case 'setLevel':
-      state.level = action.level
-    case 'set':
-      state = { 
-        level: action.value.level, 
-        move: action.value.move 
-      }
-    default:
-      return state
-  }
-}
-
-export const auth = createStore(mode)
+export const { setItem, setMove, setLevel } = dataSlice.actions;
 
 export default dataSlice.reducer;

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { places, floors, male, female, stairs } from './variables'
 import { GeoJSON, Marker, Popup } from 'react-leaflet';
-import { auth } from '../store/tasks'
+import { setMove } from '../store/tasks';
+import { useDispatch } from 'react-redux';
 import L from 'leaflet'
 
 const getWindowDimensions = () => {
@@ -79,18 +80,11 @@ export const Line = (height) => {
 }
 
 export const updateMove = (move = false) => {
-  const x = auth.getState().level
-  auth.dispatch({ 
-    type: 'set', 
-    value: { 
-      level: x, 
-      move: move 
-    }  
-  });
+  const dispatch = useDispatch();
+  dispatch(setMove(move)) 
 }
 
-export const searchResult = (data, map, style) => {
-  const move = auth.getState().move
+export const searchResult = (data, map, style, move) => {
   if (data !== null) {
     if (map && move) { 
       map.flyTo({
@@ -99,20 +93,12 @@ export const searchResult = (data, map, style) => {
       })
       updateMove()
     }
-    return <GeoJSON data={[data]} key={data.properties.number} style={style} onEachFeature={onResult} pointToLayer={onEachPoint}/>
+    return <GeoJSON data={[data]} key={data.properties.number} style={style} onEachFeature={onResult}/>
   }
 }
 
 const onClick = (e) => {
   e.sourceTarget.openPopup()
-}
-
-const onEachBuilding = (feature, layer, map) => {
-  const marker = new L.marker(layer.getBounds().getCenter())
-  marker.bindPopup(customPopup('building', feature.properties.number), {width: '500px'})
-  marker.addTo(map)
-
-  layer.bindPopup('<h5>' + feature.properties.type + '</h5> <p>' + feature.properties.number + '</p> <p>Свободно</p> ');
 }
 
 const customPopup = (type, number) => {
@@ -151,8 +137,13 @@ const getIcon = type => {
   });
 }
 
+const onEachBuilding = (feature, layer, map) => {
+  const kek = {center: {lat: layer.getBounds().getCenter().lat, lng: layer.getBounds().getCenter().lng}, type: 'building'}
+  layer.bindPopup('<h5>' + feature.properties.type + '</h5> <p>' + feature.properties.number + '</p> <p>Свободно</p> ');
+}
 
 const onEachFeature = (feature, layer, map) => {
+  const dispatch = useDispatch();
   const type = feature.properties.type
   var customOptions = { width: 500 }
   layer.bindPopup(customPopup(type, feature.properties.number), customOptions);
@@ -168,18 +159,6 @@ const onEachFeature = (feature, layer, map) => {
     weight: 1.5
   });
 
-  const kekw = (icon = type) => {
-    console.log(layer.getBounds().getCenter())
-    const marker = new L.marker(layer.getBounds().getCenter(), {icon: getIcon(icon)})
-    marker.bindPopup(customPopup(type, feature.properties.number))
-    marker.addTo(map)
-  }
-
-  type === 'WC' && (feature.properties.for === "male" || feature.properties.for === "female")
-    ? kekw(feature.properties.for)
-    : type === 'Stairs' 
-      ? kekw()
-      : ''
 }
 
 const onResult = (feature, layer) => {
@@ -196,35 +175,98 @@ const onResult = (feature, layer) => {
   })
 }
 
-export const data = (places, map) => {
- 
-  useEffect(() => {
-    if (map) {
-      const x = map
-      places.map(item => {
-        const points = new L.geoJSON(item.features, {
-          pointToLayer: () => {
-            return L.marker(latlng)
-          },
-          onEachFeature: (feature, layer) => onEachBuilding(feature, layer, map),
-          style: item.style,
-        }).addTo(map)
-      })
-    } 
-  })
+export const data = places => {
+  return (
+    <div>
+      {places.map(item => {
+        return <GeoJSON key={item.name} data={item.features} style={item.style} onEachFeature={onEachBuilding}/>
+      })}
+    </div>);
 };
 
-export const rooms = (places, map) => {
-  useEffect(() => {
-    if (map) {
-      places.map(item => {
-        const points = new L.geoJSON(item.features, {
-          onEachFeature: (feature, layer) => onEachFeature(feature, layer, map),
-          style: item.style,
-        })
-        points.addTo(map)
-      })
-    } 
-  })
+export const rooms = places => {
+  return (
+    <div>
+      {places.map(item => {
+        return <GeoJSON key={item.name} data={item.features} style={item.style} onEachFeature={onEachFeature}/>
+      })}
+    </div>);
 };
 
+const markerPopup = (type, number) => {
+  return (
+    <Popup>
+      <div style={{width: "250px", height: "100px", margin: "auto"}}>
+        <h2>
+          {type}
+        </h2> 
+        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", fontSize: "16px"}}>
+          <div>
+            КФЕН 
+          </div>
+          <div>
+            {number} 
+          </div>
+        </div>
+        <p style= {{fontSize: '16px'}}>
+          Свободно
+        </p>
+      </div>
+    </Popup>
+  )
+}
+
+export const Markers = places => {
+  return (
+    <div>
+      {places.map(item => {
+        return( 
+          <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
+            {item.type !== 'building' ? markerPopup(item.popup.type, item.popup.number) : 'building'}
+          </Marker>
+        )  
+      })}
+    </div>);
+};
+
+export const getFeatureLocation = places => {
+  let markers = []
+  places.map(place => {
+    var feature = L.geoJson(place)
+    for (var item in feature._layers) {
+      const x = feature._layers[item].getBounds().getCenter()
+      markers.push({
+        center: {
+          lat: x.lat, 
+          lng: x.lng
+        }, 
+        type: 'building'
+      })
+    }
+  })
+  return markers
+}
+
+export const getRoomLocation = place => {
+  let markers = []
+  place
+  var feature = L.geoJson(place)
+  for (var item in feature._layers) {
+    const room = feature._layers[item]
+    if (room.feature.properties.type !== undefined && room.feature.properties.type !== 'Audience')
+      markers.push({
+        center: {
+          lat: room.getBounds().getCenter().lat, 
+          lng: room.getBounds().getCenter().lng
+        }, 
+        type: room.feature.properties.type === 'WC' 
+          ? room.feature.properties.for
+          : room.feature.properties.type,
+        popup: { 
+          type: room.feature.properties.type, 
+          number: room.feature.properties.number 
+        }
+      })
+  }
+  return markers
+}

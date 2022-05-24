@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { auth } from '../store/tasks'
+import { setLevel } from '../store/tasks';
+import { useDispatch } from 'react-redux';
 
 const styles = {
   levelBar: {
-    zIndex: 3,
+    zIndex: 4,
     width: '300px',  
     position: 'fixed',
     top: '60px', 
@@ -14,27 +15,21 @@ const styles = {
 }
 
 const LevelBar = () => {
-  const [level, setLevel] = useState(2);
-  const x = auth.getState().move
-  auth.dispatch({ 
-    type: 'set', 
-    value: { 
-      level: level, 
-      move: x 
-    }  
-  });
+  const [level, setLvl] = useState(2);
+  const dispatch = useDispatch();
+  dispatch(setLevel(level)) 
   const change = op => {
     if (op === 'up') {
       if (level === 4) {
-        setLevel(0)
+        setLvl(0)
       } else {
-        setLevel(level + 1)
+        setLvl(level + 1)
       }
     } else {
       if (level === 0) {
-        setLevel(4)
+        setLvl(4)
       } else {
-        setLevel(level - 1)
+        setLvl(level - 1)
       }
     }
   }
