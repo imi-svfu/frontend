@@ -5,12 +5,14 @@ import { useDispatch } from 'react-redux';
 const styles = {
   levelBar: {
     zIndex: 4,
-    width: '300px',  
     position: 'fixed',
     top: '60px', 
-    right: 250,
-    background: '#EEEEEE',
-    height: '50px'
+    right: 0,
+    background: '#E8DCC6',
+    color: 'black',
+    padding: '5px',
+    border: '2px solid #AAA',
+    borderRadius: '5px'
   },
 }
 
@@ -35,14 +37,30 @@ const LevelBar = () => {
   }
   return (
   <div style={ styles.levelBar }>
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div>
         Этаж: { level + 1 }
       </div>
-      <button onClick={() => change('up')}>
+      <button 
+        style={{
+          display: 'flex',
+          padding: '5px 5px',
+          textAlign: 'center',
+          margin: '0 auto',
+        }}
+        onClick={() => change('up')
+      }>
         U
       </button>
-      <button onClick={() => change('down')}>
+      <button 
+        style={{
+          display: 'flex',
+          padding: '5px 5px',
+          textAlign: 'center',
+          margin: '0 auto',
+        }}
+        onClick={() => change('down')
+      }>
         D
       </button>
     </div>

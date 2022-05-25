@@ -54,6 +54,7 @@ const MapSimple = props => {
       zoom={19}
       minZoom={16}
       maxZoom={21}
+      zoomControl={false}
     >
       <TileLayer
         maxZoom={21}

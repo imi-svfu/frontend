@@ -5,6 +5,7 @@ import { Provider, useDispatch } from 'react-redux';
 import store from '../store';
 import MapSimple from './MapSimple';
 import { center, markerpos, places, floors } from '../consts/variables';
+import '../fonts/fonts.css'
 
 const MapComponent = () => {
   console.log('xd')

@@ -16,6 +16,7 @@ import guk from '../geojson/guk.json'
 import departments from '../geojson/deparments.json'
 import ks from '../geojson/ks.json'
 import floor3 from '../geojson/kfenfloors/floor3.json'
+import floor4 from '../geojson/kfenfloors/floor4.json'
 
 export {
   stairs, 
@@ -49,5 +50,5 @@ export const places = [
 ]
 
 export const floors = {
-  kfen: [0, 0, floor3, 0, 0]
+  kfen: [0, 0, floor3, floor4, 0]
 }

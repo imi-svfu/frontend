@@ -1,0 +1,16 @@
+        <div style={styles.buttons}>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '15px 0' }}>
+            <div style={styles.columns}>
+              <div style={{ margin: '5px auto' }}>поесть</div>
+              <img src={eat} style={ styles.img }></img>
+            </div>
+            <div style={styles.columns}>
+              <div style={{ margin: '5px auto' }}>места</div>
+              <img src={eat} style={ styles.img }></img>
+            </div>
+            <div style={styles.columns}>
+            <div style={{ margin: '5px auto' }}>аптека</div>
+              <img src={apteka} style={ styles.img }></img>
+            </div>
+          </div>
+        </div>

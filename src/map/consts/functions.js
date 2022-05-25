@@ -51,7 +51,7 @@ export const search = (item, mode) => {
           if (buildings !== 0) {
             buildings.features.map(place => {
               const x = place
-              if (x.properties.number !== undefined) {
+              if (x.properties.number !== undefined && result.length < 10) {
                 if (x.properties.number.includes(item)) {
                   result.push(x)
                 }
@@ -101,22 +101,23 @@ const onClick = (e) => {
   e.sourceTarget.openPopup()
 }
 
-const customPopup = (type, number) => {
+const customPopup = (type, entity, number) => {
   return (
-   `<div style="width: 250px; height: 100px; margin: auto">
-      <h2>
+   `<div style="width: 200px; height: 80px; margin: auto">
+      <h4>
         ${type}
-      </h2> 
-      <div style="display: flex; flex-direction: row; justify-content: space-between; font-size: 16px">
+      </h4> 
+      <div style="display: flex; flex-direction: row; justify-content: space-between; font-size: 12px">
         <div>
-          КФЕН 
+          <b>КФЕН</b>
         </div>
         <div>
-          ${number} 
+          ${number}
+          ${entity} 
         </div>
       </div>
-      <p style="font-size: 16px">
-        Свободно
+      <p style="font-size: 12px">
+        <b>Свободно</b>
       </p>
     </div>`
   )
@@ -131,22 +132,29 @@ const getIcon = type => {
         : type === "Stairs" 
           ? stairs
           : 'kekw',
-    iconSize: [32, 32],
+    iconSize: [24, 24],
     shadowSize:   [30, 30], // size of the shadow
-    iconAnchor:   [16, 16], // point of the icon which will correspond to marker's location
+    iconAnchor:   [12, 12], // point of the icon which will correspond to marker's location
   });
 }
 
 const onEachBuilding = (feature, layer, map) => {
   const kek = {center: {lat: layer.getBounds().getCenter().lat, lng: layer.getBounds().getCenter().lng}, type: 'building'}
-  layer.bindPopup('<h5>' + feature.properties.type + '</h5> <p>' + feature.properties.number + '</p> <p>Свободно</p> ');
+  layer.bindPopup('<h6>' + feature.properties.type + '</h6> <p>' + feature.properties.number + '</p> <p>Свободно</p> ');
+}
+
+export const checkLevel = (item) => {
+  const dispatch = useDispatch();
+  const level = useSelector((state) => state.data.level);
+  if (item.properties.number !== level.toString())
+    dispatch(setLevel(item.properties.number))
 }
 
 const onEachFeature = (feature, layer, map) => {
   const dispatch = useDispatch();
   const type = feature.properties.type
-  var customOptions = { width: 500 }
-  layer.bindPopup(customPopup(type, feature.properties.number), customOptions);
+  var customOptions = { width: 400 }
+  layer.bindPopup(customPopup(type, feature.properties.EntityHandle, feature.properties.number), customOptions);
   layer.setStyle({
     fillColor: type === 'Audience' 
       ? '#E2E2F1' 
@@ -154,9 +162,12 @@ const onEachFeature = (feature, layer, map) => {
         ? '#ACDCF0' 
         : type === 'Stairs'  
           ? '#F4AA99'
-          : '#aaa',
+          : type === 'noroute'
+            ? '#888'
+            : '#555',
     fillOpacity: 1.5,
-    weight: 1.5
+    weight: 1.5,
+    color: "gray"
   });
 
 }
@@ -222,7 +233,7 @@ export const Markers = places => {
       {places.map(item => {
         return( 
           <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
-            {item.type !== 'building' ? markerPopup(item.popup.type, item.popup.number) : 'building'}
+            {item.type !== 'building' ? markerPopup(item.popup.type, item.popup.number) : <Popup>just marker</Popup>}
           </Marker>
         )  
       })}
