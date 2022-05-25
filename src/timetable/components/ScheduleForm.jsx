@@ -36,6 +36,7 @@ const ScheduleForm =
   const [type, setType] = useState();
   const [cab, setCab] = useState();
   const [availableCabs, setAvailableCabs] = useState([]);
+  const [subGroup, setSubGroup] = useState(false);
   const [common, setCommon] = useState(false);
 
   const weekDays = [
@@ -146,7 +147,8 @@ const ScheduleForm =
           pair_num: pairNum,
           week_day: weekDay,
           repeat_option: repeatOption,
-          common: common
+          subgroup: subGroup,
+          common,
         })
         .then(res => setSchedules([...schedules, {...res.data}]))
         .then(() => handleClose())
@@ -160,7 +162,8 @@ const ScheduleForm =
           pair_num: pairNum,
           week_day: weekDay,
           repeat_option: repeatOption,
-          common: common
+          subgroup: subGroup,
+          common,
         })
         .then(res => {
           const newSchedules = schedules
@@ -250,6 +253,7 @@ const ScheduleForm =
             </FormControl>
 
             <FormControlLabel control={<Checkbox checked={common} onChange={() => setCommon(!common)} />} label="Потоковое занятие" />
+            <FormControlLabel control={<Checkbox checked={subGroup} onChange={() => setSubGroup(!subGroup)} />} label="Подгруппа" />
 
           </div>
         </DialogContent>
