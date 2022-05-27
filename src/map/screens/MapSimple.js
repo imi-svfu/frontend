@@ -36,12 +36,6 @@ const MapSimple = props => {
   const move = storeData.move
   const level = storeData.level;
   const sizes = props.data.sizes;
-  console.log(storeData.schedule)
-
-  if (isLoaded) {
-    dayOfWeek("2022-06-15T11:40:00")
-  }
-
   CheckoutDetails()
   return (
     <MapContainer

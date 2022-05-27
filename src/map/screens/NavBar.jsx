@@ -90,7 +90,7 @@ function DropdownMenu(props) {
   const [items, setItems] = useState([]);
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
-
+  console.log(items)
   useEffect(() => {
     setMenuHeight(dropdownRef.current?.firstChild.offsetHeight + 30)
   }, [])
@@ -140,7 +140,11 @@ function DropdownMenu(props) {
           </DropdownItem>
           <DropdownItem
             leftIcon={<SearchIcon />}
-            goToMenu="search">
+            goToMenu="search"
+            customClickEvent={() => { 
+              setItems([])
+            }}
+          >
             Поиск
           </DropdownItem>
         </div>
@@ -258,7 +262,7 @@ function DropdownMenu(props) {
                         navBarItems[item.properties.type] ? navBarItems[item.properties.type].icon : <ArrowIcon />
                       }
                       style={{background: "#66666688", height: '50px'}}
-                      key={item.properties.number ? item.properties.number : item.properties["@id"]}
+                      key={item.properties.number ? item.properties.number : item.properties.name}
                       customClickEvent={() => { 
                         item.properties.number && dispatch(setLevel(parseInt(item.properties.number[0], 10) - 1))
                         dispatch(setMove(true)) 

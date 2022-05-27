@@ -45,10 +45,9 @@ export const search = (item, mode) => {
   if (item.length > 0) {
     places.map(buildings => {
       buildings.features.map(place => {
-        const x = place
-        if (x.properties.name !== undefined) {
-          if (x.properties.name.includes(item)) {
-            result.push(x)
+        if (place.properties.name) {
+          if (place.properties.name.includes(item)) {
+            result.push(place)
           }
         }
       })
@@ -57,18 +56,20 @@ export const search = (item, mode) => {
         floors[x].map(buildings => {
           if (buildings !== 0) {
             buildings.features.map(place => {
-              const x = place
-              if (x.properties.number) {
-                if (x.properties.number.includes(item)) {
-                  result.push(x)
+              if (place.properties.number) {
+                if (place.properties.number.includes(item)) {
+                  result.push(place)
                 }
-              } else if (x.properties.name) {
-                if (x.properties.name.includes(item)) {
-                  result.push(x)
+              } 
+              if (place.properties.name) {
+                if (place.properties.name.includes(item)) {
+                  result.push(place)
+                  console.log(place)
                 }
-              } else if (x.properties.type) {
-                if (x.properties.type.includes(item)) {
-                  result.push(x)
+              } 
+              if (place.properties.type) {
+                if (place.properties.type.includes(item)) {
+                  result.push(place)
                 }
               }
             })
