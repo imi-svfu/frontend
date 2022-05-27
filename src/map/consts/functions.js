@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { places, floors, male, female, stairs } from './variables'
+import { places, floors, male, female, stairs, navBarItems } from './variables'
 import { GeoJSON, Marker, Popup } from 'react-leaflet';
 import { setMove } from '../store/tasks';
 import { useDispatch } from 'react-redux';
@@ -42,7 +42,6 @@ export const search = (item, mode) => {
               result.push(x)
             }
           }
-          /// console.log(x)
         })
       })
     } else {
@@ -51,12 +50,11 @@ export const search = (item, mode) => {
           if (buildings !== 0) {
             buildings.features.map(place => {
               const x = place
-              if (x.properties.number !== undefined && result.length < 10) {
+              if (x.properties.number !== undefined && result.length < 5) {
                 if (x.properties.number.includes(item)) {
                   result.push(x)
                 }
               }
-              /// console.log(x)
             })
           }
         })
@@ -101,23 +99,19 @@ const onClick = (e) => {
   e.sourceTarget.openPopup()
 }
 
-const customPopup = (type, entity, number) => {
+const customPopup = (type, number) => {
   return (
-   `<div style="width: 200px; height: 80px; margin: auto">
-      <h4>
-        ${type}
-      </h4> 
+   `<div style="width: 200px; height: 50px; margin: auto">
       <div style="display: flex; flex-direction: row; justify-content: space-between; font-size: 12px">
         <div>
           <b>КФЕН</b>
         </div>
         <div>
           ${number}
-          ${entity} 
         </div>
       </div>
       <p style="font-size: 12px">
-        <b>Свободно</b>
+        ${type === 'Audience' ? 'Свободно' : ''}
       </p>
     </div>`
   )
@@ -140,7 +134,7 @@ const getIcon = type => {
 
 const onEachBuilding = (feature, layer, map) => {
   const kek = {center: {lat: layer.getBounds().getCenter().lat, lng: layer.getBounds().getCenter().lng}, type: 'building'}
-  layer.bindPopup('<h6>' + feature.properties.type + '</h6> <p>' + feature.properties.number + '</p> <p>Свободно</p> ');
+  layer.bindPopup('<p>' + feature.properties.name + '</p> <p>' + feature.properties['addr:street'] + ' ' + feature.properties['addr:housenumber'] +'</p> ');
 }
 
 export const checkLevel = (item) => {
@@ -150,23 +144,34 @@ export const checkLevel = (item) => {
     dispatch(setLevel(item.properties.number))
 }
 
-const onEachFeature = (feature, layer, map) => {
-  const dispatch = useDispatch();
+const onEachFeature = (feature, layer) => {
   const type = feature.properties.type
   var customOptions = { width: 400 }
-  layer.bindPopup(customPopup(type, feature.properties.EntityHandle, feature.properties.number), customOptions);
+  layer.bindPopup(customPopup(type, feature.properties.number), customOptions);
   layer.setStyle({
     fillColor: type === 'Audience' 
-      ? '#E2E2F1' 
+      ? navBarItems[0].color 
       : type === 'WC' 
-        ? '#ACDCF0' 
+        ? navBarItems[3].color 
         : type === 'Stairs'  
-          ? '#F4AA99'
+          ? navBarItems[5].color
           : type === 'noroute'
-            ? '#888'
-            : '#555',
+            ? '#AAA'
+            : type === 'Elevator'
+              ? navBarItems[4].color
+              : type === 'Shop'
+                ? navBarItems[2].color
+                : type === 'Eatery'
+                  ? navBarItems[6].color
+                  : type === 'Exit'
+                    ? '#C7F2DD'
+                    : type === 'Hallway'
+                      ? '#FFF6F6'
+                      : type === 'Museum'
+                        ? '#E8DCC6'
+                        : '#888',
     fillOpacity: 1.5,
-    weight: 1.5,
+    weight: feature.properties.border === 'no' ? 0 : 1.5,
     color: "gray"
   });
 
@@ -207,11 +212,8 @@ export const rooms = places => {
 const markerPopup = (type, number) => {
   return (
     <Popup>
-      <div style={{width: "250px", height: "100px", margin: "auto"}}>
-        <h2>
-          {type}
-        </h2> 
-        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", fontSize: "16px"}}>
+      <div style={{width: "250px", height: "50px", margin: "auto"}}>
+        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", fontSize: "12px"}}>
           <div>
             КФЕН 
           </div>
@@ -219,8 +221,8 @@ const markerPopup = (type, number) => {
             {number} 
           </div>
         </div>
-        <p style= {{fontSize: '16px'}}>
-          Свободно
+        <p style= {{fontSize: '12px'}}>
+          {type === 'Audience' ? 'Свободно' : ''}
         </p>
       </div>
     </Popup>

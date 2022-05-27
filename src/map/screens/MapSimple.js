@@ -14,9 +14,6 @@ const skater = new L.Icon({
 });
 
 const styles = {
-  red: {
-    fillColor: '#EC526D'
-  },
   departments: {
     weight: 1,
     fillColor: '#ffffff',
@@ -40,7 +37,7 @@ const MapSimple = props => {
   const dispatch = useDispatch()
   const data2 = storeData.result
   const move = storeData.move
-  const level = storeData.level
+  const level = useSelector((state) => state.data.level);
   getRoomLocation(props.data.floors.kfen[level])
   const sizes = useWindowDimensions();
   return (

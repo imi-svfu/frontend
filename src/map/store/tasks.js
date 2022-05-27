@@ -6,7 +6,7 @@ export const dataSlice = createSlice({
   initialState: {
     value: null,
     result: null,
-    level: 4, 
+    level: 0, 
     move: true,
     loading: false,
   },

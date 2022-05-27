@@ -12,7 +12,7 @@ const styles = {
     position: 'fixed',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    top: '80px', 
+    bottom: '0',
     margin: '0 auto'
   },
   container: {
@@ -37,6 +37,8 @@ const styles = {
     border: '2px solid #DDDDDD',
     borderRadius: '10px',
     padding: '0px 20px',
+    height: '40px',
+    margin: '2px',
     fontSize: 14,
     fontAlign: 'center',
     fontFamily: 'HelveticaNeue',
@@ -111,7 +113,7 @@ const MenuBar = () => {
                   ? items.map(item =>
                   <button
                     key={item.properties.number} 
-                    style={ styles.searchItem } 
+                    style={{ ...styles.searchItem, transform: 'translate(0, -0' + (480 - (10 - items.length) * 44) + 'px)', }} 
                     onClick={() => { 
                       dispatch(setLevel(parseInt(item.properties.number[0], 10) - 1))
                       dispatch(setMove(true)) 

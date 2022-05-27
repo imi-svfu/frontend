@@ -206,6 +206,10 @@
       "id": "way/88567889"
     },
     {
+      "style" : {
+        "fillColor": "#aaa",
+        "opacity": "1"
+      },
       "type": "Feature",
       "properties": {
         "@id": "way/261656444",

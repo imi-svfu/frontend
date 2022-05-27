@@ -4,20 +4,17 @@ import LevelBar from './LevelBar';
 import { Provider, useDispatch } from 'react-redux';
 import store from '../store';
 import MapSimple from './MapSimple';
+import NavigationBar from './NavigationBar';
 import { center, markerpos, places, floors } from '../consts/variables';
 import '../fonts/fonts.css'
 
 const MapComponent = () => {
-  console.log('xd')
   return (
     <Provider store={ store }>
       <div>
-        <div>
-          <MenuBar/>
-        </div>
-        <div>
-          <LevelBar />
-        </div>
+        <MenuBar/>
+        <LevelBar />
+        <NavigationBar />
         <div style={{ 
           zIndex: 1, 
           position: 'fixed', 
