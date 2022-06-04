@@ -19,6 +19,58 @@ import { ReactComponent as ImiLogo } from "./assets/imi_logo.svg";
 function Menu() {
   const [sidebarState, toggleSidebar] = useState(false);
 
+  const [listItems] = useState([
+    {
+      text: 'Институт',
+      link: '/',
+    },
+    {
+      text: 'О нас',
+      link: '/',
+      subItem: true,
+    },
+    {
+      text: 'Новости',
+      link: '/',
+      subItem: true,
+    },
+    {
+      text: 'Мероприятия',
+      link: '/',
+    },
+    {
+      text: 'Абитуриенту',
+      link: '/',
+    },
+    {
+      text: 'Направления и программы',
+      link: '/',
+      subItem: true,
+    },
+    {
+      text: 'Список документов',
+      link: '/',
+      subItem: true,
+    },
+    {
+      text: 'Задать вопрос',
+      link: '/',
+      subItem: true,
+    },
+    {
+      text: 'Расписание',
+      link: '/timetable',
+    },
+    {
+      text: 'Управление расписанием',
+      link: '/managetabletime',
+    },
+    {
+      text: 'Карта студгородка',
+      link: '/map',
+    },
+  ]);
+
   return (
     <>
       <AppBar>
@@ -48,45 +100,17 @@ function Menu() {
         open={sidebarState}
       >
         <List dense>
-          <ListItemButton>
-            <ListItemText>Институт</ListItemText>
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemText>О нас</ListItemText>
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemText>Новости</ListItemText>
-          </ListItemButton>
-          <ListItemButton>
-            <ListItemText>Мероприятия</ListItemText>
-          </ListItemButton>
-          <ListItemButton>
-            <ListItemText>Абитуриенту</ListItemText>
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemText>Направления и программы</ListItemText>
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemText>Список документов</ListItemText>
-          </ListItemButton>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemText>Задать вопрос</ListItemText>
-          </ListItemButton>
-          <ListItemButton>
-            <Link to="/timetable" style={{ textDecoration: "none" }}>
-              <ListItemText>Расписание</ListItemText>
-            </Link>
-          </ListItemButton>
-          <ListItemButton>
-            <Link to="/managetabletime" style={{ textDecoration: "none" }}>
-              <ListItemText>Управление расписанием</ListItemText>
-            </Link>
-          </ListItemButton>
-          <ListItemButton >
-            <Link to="/map" style={{ textDecoration: "none" }}>
-              <ListItemText>Карта студгородка</ListItemText>
-            </Link>
-          </ListItemButton>
+          {listItems.map((el, i) =>
+            <ListItemButton
+              onClick={() => toggleSidebar(false)}
+              key={i}
+              sx={el.subItem && { pl: 4 }}
+            >
+              <Link to={el.link}>
+                <ListItemText>{el.text}</ListItemText>
+              </Link>
+            </ListItemButton>
+          )}
         </List>
       </SwipeableDrawer>
 
