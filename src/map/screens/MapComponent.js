@@ -4,7 +4,7 @@ import LevelBar from './LevelBar';
 import { Provider, useDispatch } from 'react-redux';
 import store from '../store';
 import MapSimple from './MapSimple';
-import NavigationBar from './NavigationBar';
+import NavigationBar from './NavBar';
 import { center, markerpos, places, floors } from '../consts/variables';
 import '../fonts/fonts.css'
 

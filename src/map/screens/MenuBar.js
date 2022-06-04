@@ -81,9 +81,13 @@ const MenuBar = () => {
   const [items, setItems] = useState([]);
   const dispatch = useDispatch();
   
+  const somefunc = el => {
+    console.log(el)
+  }
+
   return (
     <div style={styles.menuBar}>
-      <div style={styles.container}>
+      <div style={styles.container} onDragEnter={somefunc}>
         <div style={{ marginVertical: '50px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'center' }} >
             <input

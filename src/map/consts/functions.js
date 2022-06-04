@@ -148,7 +148,12 @@ const onEachFeature = (feature, layer) => {
   const type = feature.properties.type
   var customOptions = { width: 400 }
   layer.bindPopup(customPopup(type, feature.properties.number), customOptions);
-  layer.setStyle({
+  layer.setStyle(setStyle(feature))
+}
+
+const setStyle = (feature) => {
+  const type = feature.properties.type
+  return {
     fillColor: type === 'Audience' 
       ? navBarItems[0].color 
       : type === 'WC' 
@@ -173,8 +178,7 @@ const onEachFeature = (feature, layer) => {
     fillOpacity: 1.5,
     weight: feature.properties.border === 'no' ? 0 : 1.5,
     color: "gray"
-  });
-
+  }
 }
 
 const onResult = (feature, layer) => {

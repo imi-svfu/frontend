@@ -4,13 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const styles = {
   levelBar: {
-    zIndex: 4,
-    position: 'fixed',
-    top: '60px', 
-    right: 0,
-    background: '#E8DCC6',
-    color: 'black',
-    padding: '5px',
+    margin: 'auto',
+    color: 'white',
     border: '2px solid #AAA',
     borderRadius: '5px'
   },
@@ -36,7 +31,7 @@ const LevelBar = () => {
   }
   return (
   <div style={ styles.levelBar }>
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
       <div>
         Этаж: { level + 1 }
       </div>
