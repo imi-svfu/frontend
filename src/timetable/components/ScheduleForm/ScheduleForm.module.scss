@@ -1,0 +1,32 @@
+.dialogContent {
+  padding: 0 24px;
+}
+
+.info {
+  margin-bottom: 20px;
+}
+
+
+.formControlWrapper {
+  margin-top: 20px;
+}
+
+.formControlWrapper>* {
+  margin-bottom: 20px !important;
+}
+
+.radioGroup label {
+  margin: 0 !important;
+  margin-right: 9px !important;
+}
+
+.radioFormWrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.MuiFormControlLabel-root {
+  margin: 0 !important;
+  margin-right: 9px !important;
+}

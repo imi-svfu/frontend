@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import Scheduler from "./scheduler/Scheduler/Scheduler";
-import { useArrayState } from "./scheduler/useArrayState";
-import "../styles/main.css";
-import ChoiceData from "./ChoiceData";
-import {GROUP_LSIT, WEEK_EVENTS} from "../../config";
-import axios from "axios";
-import Calendar from "./Calendar";
-import DATE_UTILS from "./scheduler/date"
+import { useEffect, useState } from 'react';
+import styles from './TimeTablePage.module.scss';
+import Scheduler from '../../components/scheduler/Scheduler/Scheduler';
+import { useArrayState } from '../../components/scheduler/useArrayState';
+import ChoiceData from '../../components/ChoiceData';
+import {GROUP_LSIT, WEEK_EVENTS} from '../../../config';
+import axios from 'axios';
+import Calendar from '../../components/Calendar';
+import DATE_UTILS from '../../components/scheduler/date';
 
-const Timetable = () => {
+const TimeTablePage = () => {
   const [selected, setSelected] = useState(new Date());
-  const [events, setEvents, addEvent] = useArrayState();
+  const [events, setEvents] = useArrayState();
   const [groups, setGroups] = useState([]);
 
   const weekStart = DATE_UTILS.first_of_week(selected);
@@ -60,31 +60,26 @@ const Timetable = () => {
   };
 
   return (
-    <div style={{ marginTop: "30px" }}>
-      <div className="module">
-        <div className="left-side">
-          <div className="comboboxes">
+      <div className={styles.main}>
+        <aside className={styles.inputWrapper}>
+          <div className={styles.comboboxes}>
             <ChoiceData
               requestParams={requestParams}
               setRequestParams={setRequestParams}
               groups={groups}
             />
           </div>
-          <div className="calendar">
-              <Calendar selected={selected} setSelected={setSelected}/>
+          <div className={styles.datePicker}>
+            <Calendar selected={selected} setSelected={setSelected}/>
           </div>
-
-        </div>
-        <div className="scheduler">
-          <Scheduler
-            events={events}
-            selected={selected}
-            setSelected={setSelected}
-          />
-        </div>
+        </aside>
+        <Scheduler
+          events={events}
+          selected={selected}
+          setSelected={setSelected}
+        />
       </div>
-    </div>
   );
 };
 
-export default Timetable;
+export default TimeTablePage;

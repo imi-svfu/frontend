@@ -1,10 +1,10 @@
 import {Box, Paper} from "@mui/material";
 import LessonHourProgress from "./LessonHourProgress";
-import "../styles/lessonHours.css"
+import styles from './LessonHours.module.scss';
 
 const LessonHours = ({ lessons, lessonHours }) => {
   return (
-  <Box className="lesson-hours" >
+  <Box className={styles.lessonHours} >
     {
       lessons.length !== 0 && (lessonHours.map(sh => {
         const lecHours = lessons.find(lesson => lesson.id === sh.lesson_id)?.lectures;
@@ -12,8 +12,8 @@ const LessonHours = ({ lessons, lessonHours }) => {
         const labHours = lessons.find(lesson => lesson.id === sh.lesson_id)?.labs;
 
         return (
-          <Paper elevation={3} className="lesson-hours__item" >
-            <h5 className="lesson-hours__item__title">{lessons.find(lesson => lesson.id === sh.lesson_id)?.subject}</h5>
+          <Paper elevation={3} className={styles.card} >
+            <h5 className={styles.cardTitle}>{lessons.find(lesson => lesson.id === sh.lesson_id)?.subject}</h5>
             <ul>
               <li>
                 <LessonHourProgress value={lecHours && sh.lec / lecHours * 100} />

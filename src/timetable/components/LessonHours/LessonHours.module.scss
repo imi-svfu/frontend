@@ -1,0 +1,42 @@
+.lessonHours {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+    text-align: center;
+    padding: 0 15px;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+
+    > ul {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      flex: 1 0 auto;
+
+      > li {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+    }
+
+    &Title {
+      display: flex;
+      padding-top: 20px;
+      height: 60px;
+      align-items: center;
+    }
+
+
+  }
+}

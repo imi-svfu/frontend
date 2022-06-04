@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
+import styles from './ScheduleForm.module.scss';
 import axios from "axios";
-import '../styles/scheduleForm.css'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -14,7 +14,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Select from '@mui/material/Select';
 
-import {availableRoomsForSchedule, scheduleById, SCHEDULES} from "../../config";
+import {availableRoomsForSchedule, scheduleById, SCHEDULES} from "../../../config";
 import {FormLabel, RadioGroup, Radio, Typography} from "@mui/material";
 
 const ScheduleForm =
@@ -181,8 +181,8 @@ const ScheduleForm =
     <>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Добавить график занятия</DialogTitle>
-        <DialogContent>
-          <div className="info">
+        <DialogContent className={styles.dialogContent}>
+          <div className={styles.info}>
             <Typography><b>День недели: </b>{weekDays.find(wd => wd.num === weekDay)?.str}</Typography>
             <Typography><b>Пара: </b>{pairNum}</Typography>
             <Typography><b>Преподаватель: </b>{lessons.find(l => l.id === lesson)?.lecturer?.name}</Typography>
@@ -190,7 +190,7 @@ const ScheduleForm =
           <DialogContentText>
             Выберите параметры графика занятия
           </DialogContentText>
-          <div className="formControlWrapper">
+          <div className={styles.formControlWrapper}>
             <FormControl fullWidth>
               <InputLabel id="lesson-select-label">Дисциплина</InputLabel>
               <Select
@@ -207,10 +207,10 @@ const ScheduleForm =
               </Select>
             </FormControl>
 
-            <div className="radioFormWrapper">
-              <FormControl className="radioForm">
+            <div className={styles.radioFormWrapper}>
+              <FormControl>
                 <FormLabel >Параметр повторения</FormLabel>
-                <RadioGroup className="radioGroup" onChange={e => setRepeatOption(e.target.value)}>
+                <RadioGroup onChange={e => setRepeatOption(e.target.value)} className={styles.radioGroup}>
                   {availableRepeatOptions.map (arop =>
                     <FormControlLabel
                       key={arop.value}
@@ -224,9 +224,9 @@ const ScheduleForm =
                 </RadioGroup>
               </FormControl>
 
-              <FormControl className="radioForm">
+              <FormControl>
                 <FormLabel >Вид занятия</FormLabel>
-                <RadioGroup onChange={e => setType(e.target.value)} className="radioGroup" >
+                <RadioGroup onChange={e => setType(e.target.value)} >
                   <FormControlLabel value="LEC" checked={type === "LEC"} control={<Radio />} label="Лекция" />
                   <FormControlLabel value="PRA" checked={type === "PRA"} control={<Radio />} label="Практика" />
                   <FormControlLabel value="LAB" checked={type === "LAB"} control={<Radio />} label="Лабораторная" />

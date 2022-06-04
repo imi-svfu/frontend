@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { GROUP_LSIT, LECTURER_LIST, ROOM_LIST } from "../../config";
-import "../styles/main.css";
 
 import {
   FormControl,

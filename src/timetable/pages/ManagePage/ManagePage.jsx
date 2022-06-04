@@ -1,14 +1,14 @@
-import {useEffect, useState} from "react";
-import axios from "axios";
-import {Box, Button, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Snackbar} from "@mui/material";
+import {useEffect, useState} from 'react';
+import styles from './ManagePage.module.scss';
+import axios from 'axios';
+import {Button, FormControl, IconButton, InputLabel, MenuItem, Select, Snackbar} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import {GROUP_LSIT, GROUP_SCHEDULES, LESSON_LIST, getLessonHours} from "../../config";
-import '../styles/manage.css'
-import ManageTableComponent from "./ManageTableComponent";
-import ScheduleForm from "./ScheduleForm";
-import LessonHours from "./LessonHours";
+import {GROUP_LSIT, GROUP_SCHEDULES, LESSON_LIST, getLessonHours} from '../../../config';
+import ManageTableComponent from '../../components/ManageTableComponent/ManageTableComponent';
+import ScheduleForm from '../../components/ScheduleForm/ScheduleForm';
+import LessonHours from '../../components/LessonHours/LessonHours';
 
-const ManageTabletime = () => {
+const ManagePage = () => {
   const [groups, setGroups] = useState([]);
   const [group, setGroup] = useState("");
   const [schedules, setSchedules] = useState([]);
@@ -84,8 +84,8 @@ const ManageTabletime = () => {
 
   return (
     <>
-      <div style={{display: 'flex', alignItems: 'center', margin: '2rem 0'}}>
-        <FormControl sx={{width: '20%', margin: '0 auto'}}>
+      <div className={styles.inputWrapper}>
+        <FormControl className={styles.formControl}>
           <InputLabel id="group-label"> Группа </InputLabel>
           <Select
             labelId="group-label"
@@ -140,4 +140,4 @@ const ManageTabletime = () => {
     </>
   )
 }
-export default ManageTabletime
+export default ManagePage
