@@ -34,7 +34,6 @@
   "devDependencies": {
     "react-scripts": "^5.0.1"
   },
-  "proxy": "http://localhost:8000",
   "main": "src/index.js",
   "scripts": {
     "start": "react-scripts start",

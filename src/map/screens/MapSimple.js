@@ -4,7 +4,7 @@ import {
 } from 'react-leaflet';
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
-import { useWindowDimensions, searchResult, data, rooms, Markers, getFeatureLocation, getRoomLocation } from '../consts/functions';
+import { searchResult, data, rooms, Markers, getFeatureLocation, getRoomLocation } from '../consts/functions';
 import { useDispatch, useSelector } from 'react-redux';
 import { male } from '../consts/variables'
 
@@ -38,8 +38,7 @@ const MapSimple = props => {
   const data2 = storeData.result
   const move = storeData.move
   const level = useSelector((state) => state.data.level);
-  getRoomLocation(props.data.floors.kfen[level])
-  const sizes = useWindowDimensions();
+  const sizes = props.data.sizes;
   return (
     <MapContainer
       style={{

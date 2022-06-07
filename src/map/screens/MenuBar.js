@@ -8,15 +8,10 @@ import { searchlogo, eat, product, apteka, uslugi, imilogo } from '../consts/var
 
 const styles = {
   menuBar: {
-    zIndex: 4,
-    position: 'fixed',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    bottom: '0',
     margin: '0 auto'
   },
   container: {
-    margin: '0px auto',
+    margin: '0 auto',
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column'
@@ -43,51 +38,16 @@ const styles = {
     fontAlign: 'center',
     fontFamily: 'HelveticaNeue',
   },
-  logo: {
-    width: '175px',
-    height: '175px',
-    display: 'flex',
-    margin: '25px auto'
-  },
-  menuTitle: {
-    fontSize: 20,
-    fontAlign: 'center',
-    fontFamily: 'HelveticaNeue',
-    fontStyle: 'Medium',
-    margin: '0 auto'
-  },
-  searchLogo: {
-    width: 25,
-    height: 25,
-  },
-  columns: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '0 15px',
-    fontAlign: 'center'
-  },
-  buttons: {
-    justifyContent: 'space'
-  },
-  img: {
-    width: 60,
-    height: 60,
-    margin: 'auto'
-  }
 }
 
 const MenuBar = () => {
   const [pressed, setPressed] = useState(false)
   const [items, setItems] = useState([]);
   const dispatch = useDispatch();
-  
-  const somefunc = el => {
-    console.log(el)
-  }
 
   return (
     <div style={styles.menuBar}>
-      <div style={styles.container} onDragEnter={somefunc}>
+      <div style={styles.container}>
         <div style={{ marginVertical: '50px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'center' }} >
             <input
@@ -99,15 +59,11 @@ const MenuBar = () => {
               onChange={txt => {
                 setItems(search(txt.target.value))
                 setPressed(true)
-                console.log(txt.target.value)
               }}
             />
           </div>
           <div style={{
-            position: 'fixed',
             // top: 0,
-            left: '50%',
-            transform: 'translate(-50%, 0)',
             height: (pressed) ? '50px' : 0,
             color: items.length > 0 ? 'black' : 'white',
             margin: '0px auto'
@@ -117,7 +73,7 @@ const MenuBar = () => {
                   ? items.map(item =>
                   <button
                     key={item.properties.number} 
-                    style={{ ...styles.searchItem, transform: 'translate(0, -0' + (480 - (10 - items.length) * 44) + 'px)', }} 
+                    style={{ ...styles.searchItem }} 
                     onClick={() => { 
                       dispatch(setLevel(parseInt(item.properties.number[0], 10) - 1))
                       dispatch(setMove(true)) 

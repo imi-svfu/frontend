@@ -19,7 +19,7 @@ ul {
 }
 
 a {
-  color: var(--text-color);
+  color: white;
   text-decoration: none;;
 }
 
@@ -27,12 +27,8 @@ a {
 
 /* <nav> */
 .navbar {
-  height: var(--nav-size);
-  background-color: var(--bg);
-  padding: 0 1rem;
-  border-bottom: var(--border);
   position: fixed;
-  top: 60px;
+  top: 0;
   z-index: 6;
   left: 0;
 }
@@ -153,7 +149,7 @@ a {
   transition: all var(--speed) ease;
 }
 .menu-secondary-exit {
-
+  position: absolute;
 }
 .menu-secondary-exit-active {
   transform: translateX(110%);
