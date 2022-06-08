@@ -19,7 +19,6 @@ ul {
 }
 
 a {
-  color: white;
   text-decoration: none;;
 }
 
@@ -104,6 +103,7 @@ a {
   padding: 0.5rem;
   margin: 0.3rem ;
   font-size: 14px;
+  color: white;
 }
 
 .menu-item .icon-button {

@@ -10,7 +10,6 @@ import { ReactComponent as BoltIcon } from './icons/bolt.svg';
 import { navBarItems } from '../consts/variables'
 
 import LevelBar from './LevelBar'
-import MenuBar from './MenuBar';;
 
 import { search, checkLevel } from '../consts/functions'
 import { setItem, setMove, setLevel } from '../store/tasks';
@@ -46,7 +45,7 @@ const styles = {
     borderRadius: '10px',
     padding: '0px 20px',
     height: '40px',
-    margin: '2px',
+    margin: '2px auto',
     fontSize: 14,
     fontAlign: 'center',
     fontFamily: 'HelveticaNeue',
@@ -86,7 +85,7 @@ function NavItem(props) {
 function DropdownMenu(props) {
   const [activeMenu, setActiveMenu] = useState('main');
   const [menuHeight, setMenuHeight] = useState(null);
-  const [menuWidth, setMenuWidth] = useState(250);
+  const [menuWidth, setMenuWidth] = useState(300);
   const [pressed, setPressed] = useState(false)
   const [items, setItems] = useState([]);
   const dispatch = useDispatch();
@@ -96,17 +95,24 @@ function DropdownMenu(props) {
   useEffect(() => {
     setMenuHeight(dropdownRef.current?.firstChild.offsetHeight + 30)
   }, [])
-  console.log(menuWidth, menuHeight, ' ', props.sizes)
+
   function calcHeight(el) {
     const height = el.offsetHeight;
-    console.log(el)
     setMenuHeight(height + 25);
     if (props.sizes.width < 600) setMenuWidth(props.sizes.width)
   }
 
   function DropdownItem(props) {
     return (
-      <a href="#" className="menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
+      <a 
+        href="#" 
+        className="menu-item" 
+        onClick={() => {
+          props.goToMenu && setActiveMenu(props.goToMenu)
+          props.customClickEvent()
+        }} 
+        style={props.style}
+      >
         <span className="icon-button">{props.leftIcon}</span>
         {props.children}
         <span className="icon-right">{props.rightIcon}</span>
@@ -123,7 +129,7 @@ function DropdownMenu(props) {
         unmountOnExit
         onEnter={(el) => {
           calcHeight(el)
-          setMenuWidth(250)
+          setMenuWidth(300)
         }}>
         <div className="menu">
           <a className="menu-item" style={{ background: '#AAAAAA88'}}>Навигационное меню</a>
@@ -150,7 +156,7 @@ function DropdownMenu(props) {
         onEnter={calcHeight}>
         <div className="menu">
           <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-            <h2>My Tutorial</h2>
+            <h2>Меню</h2>
           </DropdownItem>
           <DropdownItem goToMenu="outer" leftIcon={<ArrowIcon />}>
             В студгородке
@@ -168,7 +174,7 @@ function DropdownMenu(props) {
         onEnter={calcHeight}>
         <div className="menu">
           <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-            <h2>My Tutorial</h2>
+            <h2>Меню</h2>
           </DropdownItem>
           <DropdownItem goToMenu="outer" leftIcon={<ArrowIcon />}>
             В студгородке
@@ -186,7 +192,7 @@ function DropdownMenu(props) {
         onEnter={calcHeight}>
         <div className="menu">
           <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-            <h2>My Tutorial</h2>
+            <h2>Меню</h2>
           </DropdownItem>
           {navBarItems.map(item => {
             return(
@@ -202,11 +208,10 @@ function DropdownMenu(props) {
         timeout={500}
         classNames="menu-secondary"
         unmountOnExit
-        onEnter={calcHeight}
-        onClick={() => calcHeight({offsetHeight: 90 + items.length * 40})}>
+        onEnter={() => {calcHeight({offsetHeight: 100})}}>
         <div className="menu">
           <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
-            <h2>My Tutorial</h2>
+            <h2>Меню</h2>
           </DropdownItem>
           <div style={{ marginVertical: '50px', margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'center' }} >
@@ -218,6 +223,8 @@ function DropdownMenu(props) {
                 autoComplete="off"
                 onChange={txt => {
                   setItems(search(txt.target.value))
+                  setMenuHeight(100 + search(txt.target.value).length * 60)
+                  console.log(menuHeight)
                   setPressed(true)
                 }}
               />
@@ -226,30 +233,42 @@ function DropdownMenu(props) {
               // top: 0,
               height: (pressed) ? '50px' : 0,
               color: items.length > 0 ? 'black' : 'white',
-              margin: '0px auto'
+              margin: '0px auto',
+              display: 'flex',
+              flexDirection: 'column'
             }}>
               {(pressed)
                 ? (items.length != 0)
-                    ? items.map(item =>
-                    <button
-                      key={item.properties.number} 
-                      style={{ ...styles.searchItem }} 
-                      onClick={() => { 
+                  ? items.map(item =>
+                    <DropdownItem
+                      goToMenu="main"
+                      style={{background: "#66666688", height: '50px'}}
+                      customClickEvent={() => { 
                         dispatch(setLevel(parseInt(item.properties.number[0], 10) - 1))
                         dispatch(setMove(true)) 
                         dispatch(setItem(item)) 
                         setPressed(false)
                       }}
-                      href="/kek"
                     >
-                      <div style={{margin: 'auto'}}>
-                      Местоположение: {item.properties.name }
-                      <br />Аудитория: {item.properties.number}
+                      <div
+                        key={item.properties.number} 
+                        style={{height: '40px'}}
+
+                        href="/kek"
+                      >
+                        <div style={{margin: 'auto'}}>
+                        { item.properties.name ? item.properties.name : 'Аудитория' }
+                        <br />{ 
+                                item.properties.building 
+                                  ? item.properties["addr:street"] + ' ' +item.properties["addr:housenumber"] 
+                                  : "Номер аудитории:" + item.properties.number 
+                              }
+                        </div>
                       </div>
-                    </button>
-                    )
-                    : undefined
-                : ''}
+                    </DropdownItem>
+                  )
+                  : undefined
+                : undefined}
             </div>
           </div>
         </div>

@@ -33,25 +33,28 @@ export const useWindowDimensions = () => {
 export const search = (item, mode) => {
   const result = []
   if (item.length > 0) {
-    if (mode) {
-      places.map(buildings => {
-        buildings.features.map(place => {
-          const x = place
-          if (x.properties.name !== undefined) {
-            if (x.properties.name.includes(item)) {
-              result.push(x)
-            }
+    places.map(buildings => {
+      buildings.features.map(place => {
+        const x = place
+        if (x.properties.name !== undefined) {
+          if (x.properties.name.includes(item)) {
+            result.push(x)
           }
-        })
+        }
       })
-    } else {
+    })
       for (var x in floors) {
         floors[x].map(buildings => {
           if (buildings !== 0) {
             buildings.features.map(place => {
               const x = place
-              if (x.properties.number !== undefined && result.length < 5) {
+              if (x.properties.number && result.length < 5) {
                 if (x.properties.number.includes(item)) {
+                  result.push(x)
+                }
+              }
+              if (x.properties.name && result.length < 5) {
+                if (x.properties.name.includes(item)) {
                   result.push(x)
                 }
               }
@@ -60,7 +63,6 @@ export const search = (item, mode) => {
         })
       }
     }
-  }
   return result
 }
 
@@ -99,20 +101,39 @@ const onClick = (e) => {
   e.sourceTarget.openPopup()
 }
 
-const customPopup = (type, number) => {
+const customPopup = (feature) => {
   return (
-   `<div style="width: 200px; height: 50px; margin: auto">
-      <div style="display: flex; flex-direction: row; justify-content: space-between; font-size: 12px">
+   `<div style="width: 200px; height: 80px; margin: auto; font-size: 12px; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; flex-direction: row; justify-content: space-between">
         <div>
           <b>КФЕН</b>
         </div>
         <div>
-          ${number}
+          №${feature.properties.number 
+              ? feature.properties.number 
+              : ''
+            }
         </div>
       </div>
-      <p style="font-size: 12px">
-        ${type === 'Audience' ? 'Свободно' : ''}
-      </p>
+      ${feature.properties.name 
+        ?
+      `
+      <div>
+        ${feature.properties.name ? feature.properties.name : ''}
+      </div>
+      <div>
+        кол-во мест: ${feature.properties.count}
+      </div>
+      `
+        : ''
+      }
+      <div>
+        ${ 
+          feature.properties.type && feature.properties.type === 'Audience' 
+            ? 'Свободно' 
+            : ''
+          }
+      </div>
     </div>`
   )
 }
@@ -145,9 +166,7 @@ export const checkLevel = (item) => {
 }
 
 const onEachFeature = (feature, layer) => {
-  const type = feature.properties.type
-  var customOptions = { width: 400 }
-  layer.bindPopup(customPopup(type, feature.properties.number), customOptions);
+  layer.bindPopup(customPopup(feature));
   layer.setStyle(setStyle(feature))
 }
 
@@ -182,8 +201,7 @@ const setStyle = (feature) => {
 }
 
 const onResult = (feature, layer) => {
-  const type = feature.properties.type
-  layer.bindPopup(customPopup(type, feature.properties.number));
+  layer.bindPopup(customPopup(feature));
   
   layer.setStyle({
     fillColor: '#aaa',
@@ -216,7 +234,7 @@ export const rooms = places => {
 const markerPopup = (type, number) => {
   return (
     <Popup>
-      <div style={{width: "250px", height: "50px", margin: "auto"}}>
+      <div style={{width: "200px", height: "50px", margin: "auto"}}>
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", fontSize: "12px"}}>
           <div>
             КФЕН 

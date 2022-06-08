@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
-import MenuBar from './MenuBar';
-import LevelBar from './LevelBar';
 import { Provider, useDispatch } from 'react-redux';
-import store from '../store';
+
 import MapSimple from './MapSimple';
 import NavigationBar from './NavBar';
+
 import { center, markerpos, places, floors } from '../consts/variables';
 import { useWindowDimensions } from '../consts/functions'
 import '../fonts/fonts.css'
+
+import store from '../store';
 
 const MapComponent = () => {
   const sizes = useWindowDimensions();
   return (
     <Provider store={ store }>
       <div>
-        <MenuBar />
         <NavigationBar sizes={ sizes }/>
         <div style={{ 
           zIndex: 1, 
