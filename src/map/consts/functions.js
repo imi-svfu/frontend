@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { places, floors, male, female, stairs, navBarItems } from './variables'
+import { 
+  places, floors, 
+  stairs, WC, shop, elevator, eatery, hanger,
+  navBarItems
+} from './variables'
 import { GeoJSON, Marker, Popup } from 'react-leaflet';
 import { setMove } from '../store/tasks';
 import { useDispatch } from 'react-redux';
@@ -140,20 +144,26 @@ const customPopup = (feature) => {
 
 const getIcon = type => {
   return new L.Icon({
-    iconUrl: type === "male" 
-      ? male 
-      : type === "female" 
-        ? female
-        : type === "Stairs" 
-          ? stairs
-          : 'kekw',
+    iconUrl: type === "Wc" 
+      ? WC
+      : type === "Stairs" 
+        ? stairs
+        : type === "Elevator"
+          ? elevator
+          : type === "Eatery"
+            ? eatery
+            : type === "Wardrobe"
+              ? hanger
+              : type === "Shop"
+                ? shop
+                : 'kekw',
     iconSize: [24, 24],
     shadowSize:   [30, 30], // size of the shadow
     iconAnchor:   [12, 12], // point of the icon which will correspond to marker's location
   });
 }
 
-const onEachBuilding = (feature, layer, map) => {
+const onEachBuilding = (feature, layer) => {
   const kek = {center: {lat: layer.getBounds().getCenter().lat, lng: layer.getBounds().getCenter().lng}, type: 'building'}
   layer.bindPopup('<p>' + feature.properties.name + '</p> <p>' + feature.properties['addr:street'] + ' ' + feature.properties['addr:housenumber'] +'</p> ');
 }
@@ -175,7 +185,7 @@ const setStyle = (feature) => {
   return {
     fillColor: type === 'Audience' 
       ? navBarItems[0].color 
-      : type === 'WC' 
+      : type === 'Wc' 
         ? navBarItems[3].color 
         : type === 'Stairs'  
           ? navBarItems[5].color
@@ -256,9 +266,19 @@ export const Markers = places => {
     <div>
       {places.map(item => {
         return( 
-          <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
-            {item.type !== 'building' ? markerPopup(item.popup.type, item.popup.number) : <Popup>just marker</Popup>}
-          </Marker>
+          item.type !== 'building'  && item.type !== 'noroute' && item.type !== 'Hallway' 
+            ?
+              <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
+                {markerPopup(item.popup.type, item.popup.number)}
+              </Marker>
+            : item.type === 'building'
+              ? 
+                <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
+                  <Popup>
+                    kekw
+                  </Popup>
+                </Marker>
+              : undefined
         )  
       })}
     </div>);
@@ -288,7 +308,10 @@ export const getRoomLocation = place => {
   var feature = L.geoJson(place)
   for (var item in feature._layers) {
     const room = feature._layers[item]
-    if (room.feature.properties.type !== undefined && room.feature.properties.type !== 'Audience')
+    if (room.feature.properties.type !== undefined 
+        && room.feature.properties.type !== 'Audience'
+        && room.feature.properties.type !== 'noroute'
+        )
       markers.push({
         center: {
           lat: room.getBounds().getCenter().lat, 

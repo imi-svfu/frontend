@@ -226,6 +226,7 @@ function DropdownMenu(props) {
                   setMenuHeight(100 + search(txt.target.value).length * 60)
                   console.log(menuHeight)
                   setPressed(true)
+                  console.log(items)
                 }}
               />
             </div>
@@ -247,6 +248,7 @@ function DropdownMenu(props) {
                         dispatch(setLevel(parseInt(item.properties.number[0], 10) - 1))
                         dispatch(setMove(true)) 
                         dispatch(setItem(item)) 
+                        console.log(item)
                         setPressed(false)
                       }}
                     >

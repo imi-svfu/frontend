@@ -1,15 +1,10 @@
-import background from '../images/bg2-2.png';
-import studgorod from '../images/studgorod.jpg';
-import logo from '../images/logo2.png';
-import imilogo from '../images/logo.png';
-import searchlogo from '../images/icons/search.png'
-import eat from '../images/icons/eat.png'
-import apteka from '../images/icons/apteka.png'
-import product from '../images/icons/product.png'
-import uslugi from '../images/icons/uslugi.png'
-import male from '../images/icons/male2.png'
-import female from '../images/icons/female2.png'
+import eatery from '../images/icons/rest.png'
+import drug from '../images/icons/drug.png'
+import elevator from '../images/icons/elevator.png'
 import stairs from '../images/icons/marker.png'
+import hanger from '../images/icons/hanger.png'
+import WC from '../images/icons/WC.png'
+import shop from '../images/icons/shop.png'
 
 import svfu from '../geojson/svfu.json'
 import guk from '../geojson/guk.json'
@@ -22,17 +17,13 @@ import floor4 from '../geojson/kfenfloors/floor4.json'
 import floor5 from '../geojson/kfenfloors/floor5.json'
 
 export {
+  shop,
   stairs, 
-  studgorod, 
-  imilogo,
-  logo, 
-  searchlogo, 
-  eat, 
-  apteka, 
-  product, 
-  uslugi, 
-  male,
-  female
+  eatery, 
+  drug, 
+  WC,
+  elevator,
+  hanger
 };
 
 export const navBarItems = [
@@ -70,7 +61,6 @@ export const navBarItems = [
   }
 ]
     
-export const bg = background;
 export const key = 'AIzaSyC3xUnuzP1RN_XKqaGPMRvz3BWBV7zR_nk';
 export const color2 = '#E8DCC6';
 
