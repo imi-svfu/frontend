@@ -13,14 +13,14 @@ const LevelBar = () => {
   const dispatch = useDispatch();
   const change = op => {
     if (op === 'up') {
-      if (level === 4) {
+      if (level === 6) {
         dispatch(setLevel(0))
       } else {
         dispatch(setLevel(level + 1))
       }
     } else {
       if (level === 0) {
-        dispatch(setLevel(4))
+        dispatch(setLevel(6))
       } else {
         dispatch(setLevel(level - 1))
       }

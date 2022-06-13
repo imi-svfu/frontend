@@ -5,6 +5,7 @@ import stairs from '../images/icons/marker.png'
 import hanger from '../images/icons/hanger.png'
 import WC from '../images/icons/WC.png'
 import shop from '../images/icons/shop.png'
+import building from '../images/icons/building.png'
 
 import svfu from '../geojson/svfu.json'
 import guk from '../geojson/guk.json'
@@ -15,6 +16,8 @@ import floor2 from '../geojson/kfenfloors/floor2.json'
 import floor3 from '../geojson/kfenfloors/floor3.json'
 import floor4 from '../geojson/kfenfloors/floor4.json'
 import floor5 from '../geojson/kfenfloors/floor5.json'
+import floor6 from '../geojson/kfenfloors/floor6.json'
+import floor7 from '../geojson/kfenfloors/floor7.json'
 
 export {
   shop,
@@ -23,7 +26,8 @@ export {
   drug, 
   WC,
   elevator,
-  hanger
+  hanger,
+  building
 };
 
 export const navBarItems = [
@@ -78,5 +82,5 @@ export const places = [
 ]
 
 export const floors = {
-  kfen: [floor1, floor2, floor3, floor4, floor5]
+  kfen: [floor1, floor2, floor3, floor4, floor5, 0, floor6]
 }

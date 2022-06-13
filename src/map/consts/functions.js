@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { 
   places, floors, 
-  stairs, WC, shop, elevator, eatery, hanger,
+  stairs, WC, shop, elevator, eatery, hanger, building,
   navBarItems
 } from './variables'
 import { GeoJSON, Marker, Popup } from 'react-leaflet';
@@ -107,8 +107,8 @@ const onClick = (e) => {
 
 const customPopup = (feature) => {
   return (
-   `<div style="width: 200px; height: 80px; margin: auto; font-size: 12px; display: flex; flex-direction: column; justify-content: space-between">
-      <div style="display: flex; flex-direction: row; justify-content: space-between">
+   `<div style="width: 200px; height: 100%; margin: auto; font-size: 12px; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; flex-direction: row; justify-content: space-between; margin: 2px 0px">
         <div>
           <b>КФЕН</b>
         </div>
@@ -119,19 +119,28 @@ const customPopup = (feature) => {
             }
         </div>
       </div>
+      <div style="margin: 2px 0px"">
+      ${feature.properties.institute 
+        ? feature.properties.institute
+        : ''
+      }
+      </div>
       ${feature.properties.name 
         ?
       `
-      <div>
+      <div style="margin: 2px 0px"">
         ${feature.properties.name ? feature.properties.name : ''}
       </div>
-      <div>
-        кол-во мест: ${feature.properties.count}
+      <div style="margin: 2px 0px"">
+        ${feature.properties.count 
+          ? 'кол-во мест:' + feature.properties.count
+          : ''
+        }
       </div>
       `
         : ''
       }
-      <div>
+      <div style="margin: 2px 0px"">
         ${ 
           feature.properties.type && feature.properties.type === 'Audience' 
             ? 'Свободно' 
@@ -156,7 +165,9 @@ const getIcon = type => {
               ? hanger
               : type === "Shop"
                 ? shop
-                : 'kekw',
+                : type === "building"
+                  ? building
+                  : 'kekw',
     iconSize: [24, 24],
     shadowSize:   [30, 30], // size of the shadow
     iconAnchor:   [12, 12], // point of the icon which will correspond to marker's location
@@ -203,7 +214,9 @@ const setStyle = (feature) => {
                       ? '#FFF6F6'
                       : type === 'Museum'
                         ? '#E8DCC6'
-                        : '#888',
+                        : type === 'Official'
+                          ? '#E8DCC6'
+                          : '#888',
     fillOpacity: 1.5,
     weight: feature.properties.border === 'no' ? 0 : 1.5,
     color: "gray"
@@ -311,6 +324,7 @@ export const getRoomLocation = place => {
     if (room.feature.properties.type !== undefined 
         && room.feature.properties.type !== 'Audience'
         && room.feature.properties.type !== 'noroute'
+        && room.feature.properties.type !== 'Official'
         )
       markers.push({
         center: {

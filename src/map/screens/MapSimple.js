@@ -33,6 +33,7 @@ const MapSimple = props => {
   const move = storeData.move
   const level = useSelector((state) => state.data.level);
   const sizes = props.data.sizes;
+  console.log(props.data.floors.kfen[level])
   return (
     <MapContainer
       style={{
