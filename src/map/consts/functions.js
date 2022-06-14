@@ -4,8 +4,9 @@ import {
   stairs, WC, shop, elevator, eatery, hanger, building,
   navBarItems
 } from './variables'
+import {useLocation} from 'react-router-dom'
 import { GeoJSON, Marker, Popup } from 'react-leaflet';
-import { setMove } from '../store/tasks';
+import { setMove, setItem, setLevel } from '../store/tasks';
 import { useDispatch } from 'react-redux';
 import L from 'leaflet'
 
@@ -341,4 +342,36 @@ export const getRoomLocation = place => {
       })
   }
   return markers
+}
+
+export const CheckoutDetails = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  // function to get query params using URLSearchParams
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    if (searchParams.has("item")) {
+      const amount = searchParams.get("item");
+      const item = search(amount)[0]
+      dispatch(setLevel(parseInt(item.properties.number[0], 10) - 1))
+      dispatch(setMove(true)) 
+      dispatch(setItem(item)) 
+    }
+  }, [location]);
+}
+
+export const shareSocial = (props) => {
+  console.log(window.location.href + '?item=' + props.properties.number)
+  Share.share(
+    {
+      title: 'kekw',
+      message: 'Your message',
+      url: window.location.href + '?item=' + props.item.number
+    }
+  ).then(({action, activityType}) => {
+  if (action === Share.sharedAction)
+    console.log('Share was successful');
+  else
+    console.log('Share was dismissed');
+  });
 }

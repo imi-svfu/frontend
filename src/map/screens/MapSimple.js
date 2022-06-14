@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
-  MapContainer, TileLayer, GeoJSON, Marker, useMap, Popup
+  MapContainer, TileLayer
 } from 'react-leaflet';
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
-import { searchResult, data, rooms, Markers, getFeatureLocation, getRoomLocation } from '../consts/functions';
+import { searchResult, data, rooms, Markers, getFeatureLocation, getRoomLocation, CheckoutDetails } from '../consts/functions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const styles = {
@@ -33,7 +33,7 @@ const MapSimple = props => {
   const move = storeData.move
   const level = useSelector((state) => state.data.level);
   const sizes = props.data.sizes;
-  console.log(props.data.floors.kfen[level])
+  CheckoutDetails()
   return (
     <MapContainer
       style={{
