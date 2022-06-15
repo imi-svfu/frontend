@@ -208,13 +208,21 @@ function DropdownMenu(props) {
         timeout={500}
         classNames="menu-secondary"
         unmountOnExit
-        onEnter={() => {calcHeight({offsetHeight: 100})}}>
+        onEnter={() => {calcHeight({offsetHeight: 400})}}>
         <div className="menu">
           <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
             <h2>Меню</h2>
           </DropdownItem>
-          <div style={{ marginVertical: '50px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'center' }} >
+          <div style={{ 
+            marginVertical: '50px', 
+            margin: '0 auto', 
+            display: 'flex', 
+            flexDirection: 'column' 
+          }}>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'center' 
+            }}>
               <input
                 style={{ ...styles.search }}
                 type="text"
@@ -223,24 +231,19 @@ function DropdownMenu(props) {
                 autoComplete="off"
                 onChange={txt => {
                   setItems(search(txt.target.value))
-                  setMenuHeight(100 + search(txt.target.value).length * 60)
-                  console.log(menuHeight)
                   setPressed(true)
-                  console.log(items)
                 }}
               />
             </div>
-            <div style={{
+            <ul style={{
+              overflowY: 'scroll', 
+              height: '350px'
               // top: 0,
-              height: (pressed) ? '50px' : 0,
-              color: items.length > 0 ? 'black' : 'white',
-              margin: '0px auto',
-              display: 'flex',
-              flexDirection: 'column'
             }}>
               {(pressed)
                 ? (items.length != 0)
                   ? items.map(item =>
+                    <li key={item.properties.number} >
                     <DropdownItem
                       goToMenu="main"
                       style={{background: "#66666688", height: '50px'}}
@@ -252,26 +255,60 @@ function DropdownMenu(props) {
                         setPressed(false)
                       }}
                     >
-                      <div
-                        key={item.properties.number} 
-                        style={{height: '40px'}}
-
-                        href="/kek"
-                      >
-                        <div style={{margin: 'auto'}}>
-                        { item.properties.name ? item.properties.name : 'Аудитория' }
-                        <br />{ 
-                                item.properties.building 
-                                  ? item.properties["addr:street"] + ' ' +item.properties["addr:housenumber"] 
-                                  : "Номер аудитории:" + item.properties.number 
-                              }
-                        </div>
-                      </div>
-                    </DropdownItem>
+                      {
+                        !item.properties.building
+                        ? <div
+                            style={{
+                              height: '40px', 
+                              display: 'flex', 
+                              flexDirection: 'row', 
+                              justifyContent: 'space-between', 
+                              width: '380px'
+                            }}
+                          >
+                            <div style={{
+                              fontSize: '12px', 
+                              textAlign: 'left'
+                            }}>
+                            { item.properties.name ? item.properties.name : 'Аудитория' }
+                            </div>
+                            <div style={{ width: '50px' }}>
+                              <div style={{
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                textAlign: 'right',
+                                fontSize: '10px', 
+                              }}>
+                                <div>КФЕН</div>
+                                <div>№{item.properties.number}</div>
+                              </div> 
+                            </div>
+                          </div>
+                        : <div
+                            style={{
+                              height: '40px', 
+                              display: 'flex', 
+                              flexDirection: 'row', 
+                              justifyContent: 'space-between', 
+                              width: '380px'
+                            }}
+                          >
+                            <div style={{
+                              fontSize: '12px', 
+                              textAlign: 'left'
+                            }}>
+                              { item.properties.name ? item.properties.name : 'Аудитория' }
+                                <br/>
+                              { item.properties["addr:street"] + ' ' +item.properties["addr:housenumber"] }
+                            </div>           
+                          </div>       
+                        }
+                      </DropdownItem>
+                    </li>
                   )
                   : undefined
                 : undefined}
-            </div>
+            </ul>
           </div>
         </div>
       </CSSTransition>

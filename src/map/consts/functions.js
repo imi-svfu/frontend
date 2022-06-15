@@ -53,12 +53,12 @@ export const search = (item, mode) => {
           if (buildings !== 0) {
             buildings.features.map(place => {
               const x = place
-              if (x.properties.number && result.length < 5) {
+              if (x.properties.number) {
                 if (x.properties.number.includes(item)) {
                   result.push(x)
                 }
               }
-              if (x.properties.name && result.length < 5) {
+              if (x.properties.name) {
                 if (x.properties.name.includes(item)) {
                   result.push(x)
                 }
@@ -270,6 +270,7 @@ const markerPopup = (type, number) => {
         <p style= {{fontSize: '12px'}}>
           {type === 'Audience' ? 'Свободно' : ''}
         </p>
+        {Whatsapp(window.location.href + number, 'kekw')}
       </div>
     </Popup>
   )
@@ -360,18 +361,13 @@ export const CheckoutDetails = () => {
   }, [location]);
 }
 
-export const shareSocial = (props) => {
-  console.log(window.location.href + '?item=' + props.properties.number)
-  Share.share(
-    {
-      title: 'kekw',
-      message: 'Your message',
-      url: window.location.href + '?item=' + props.item.number
-    }
-  ).then(({action, activityType}) => {
-  if (action === Share.sharedAction)
-    console.log('Share was successful');
-  else
-    console.log('Share was dismissed');
-  });
-}
+const Whatsapp = (link, message) => {
+  const href = `https://api.whatsapp.com/send?text=${link}`
+  return (
+  <a
+    name={'WhatsApp'}
+    href={href}
+  >
+    whatsapp
+  </a>
+)}
