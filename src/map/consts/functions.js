@@ -4,13 +4,16 @@ import {
   stairs, WC, shop, elevator, eatery, hanger, building,
   navBarItems
 } from './variables'
-import {useLocation} from 'react-router-dom'
+import { WhatsappShareButton, WhatsappIcon } from "react-share";
+import { useLocation } from 'react-router-dom'
+
 import { GeoJSON, Marker, Popup } from 'react-leaflet';
-import { setMove, setItem, setLevel } from '../store/tasks';
-import { useDispatch } from 'react-redux';
 import L from 'leaflet'
-import { WhatsappShareButton, TwitterShareButton } from "react-share";
-import { FacebookIcon, TwitterIcon } from "react-share";
+
+import { setMove, setItem, setLevel } from '../store/tasks';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
@@ -59,9 +62,12 @@ export const search = (item, mode) => {
                 if (x.properties.number.includes(item)) {
                   result.push(x)
                 }
-              }
-              if (x.properties.name) {
+              } else if (x.properties.name) {
                 if (x.properties.name.includes(item)) {
+                  result.push(x)
+                }
+              } else if (x.properties.type) {
+                if (x.properties.type.includes(item)) {
                   result.push(x)
                 }
               }
@@ -100,7 +106,7 @@ export const searchResult = (data, map, style, move) => {
       })
       updateMove()
     }
-    return <GeoJSON data={[data]} key={data.properties.number} style={style} onEachFeature={onResult}/>
+    return <GeoJSON data={[data]} key={data.properties.number ? data.properties.number : data.properties["@id"]} style={style} onEachFeature={onResult}/>
   }
 }
 
@@ -108,7 +114,7 @@ const onClick = (e) => {
   e.sourceTarget.openPopup()
 }
 
-const customPopup = (feature) => {
+const customPopup = (feature, info) => {
   return (
    `<div style="width: 200px; height: 100%; margin: auto; font-size: 12px; display: flex; flex-direction: column; justify-content: space-between">
       <div style="display: flex; flex-direction: row; justify-content: space-between; margin: 2px 0px">
@@ -143,13 +149,14 @@ const customPopup = (feature) => {
       `
         : ''
       }
-      <div style="margin: 2px 0px"">
-        ${ 
-          feature.properties.type && feature.properties.type === 'Audience' 
-            ? 'Свободно' 
-            : ''
+        ${
+          info 
+            ? `<div style="margin: 2px 0px"">${info.group}</div><div style="margin: 2px 0px"">${info.subject}</div>`
+            : feature.properties.type === 'Audience' 
+              ? `<div style="margin: 2px 0px"">В данный момент занятий нет </div>`
+              : ''
         }
-      </div>
+      
     </div>`
   )
 }
@@ -164,7 +171,7 @@ const getIcon = type => {
           ? elevator
           : type === "Eatery"
             ? eatery
-            : type === "Wardrobe"
+            : type === "Checkroom"
               ? hanger
               : type === "Shop"
                 ? shop
@@ -190,36 +197,44 @@ export const checkLevel = (item) => {
 }
 
 const onEachFeature = (feature, layer) => {
-  layer.bindPopup(customPopup(feature));
-  layer.setStyle(setStyle(feature))
+  const roomNum = useSelector((state) => state.data.schedule)
+  const lecture = roomNum[feature.properties.number] && dayOfWeek(roomNum[feature.properties.number])
+  const popupinfo = lecture && {
+    group: lecture.lesson.group.name,
+    subject: lecture.lesson.subject,
+  }
+  layer.bindPopup(customPopup(feature, popupinfo));
+  layer.setStyle(setStyle(feature, lecture ? true : false))
 }
 
-const setStyle = (feature) => {
+const setStyle = (feature, is) => {
   const type = feature.properties.type
   return {
-    fillColor: type === 'Audience' 
-      ? navBarItems[0].color 
-      : type === 'Wc' 
-        ? navBarItems[3].color 
-        : type === 'Stairs'  
-          ? navBarItems[5].color
-          : type === 'noroute'
-            ? '#AAA'
-            : type === 'Elevator'
-              ? navBarItems[4].color
-              : type === 'Shop'
-                ? navBarItems[2].color
-                : type === 'Eatery'
-                  ? navBarItems[6].color
-                  : type === 'Exit'
-                    ? '#C7F2DD'
-                    : type === 'Hallway'
-                      ? '#FFF6F6'
-                      : type === 'Museum'
-                        ? '#E8DCC6'
-                        : type === 'Official'
+    fillColor: is
+      ? "#FFB7B7"
+      : type === 'Audience' 
+        ? navBarItems.Audience.color 
+        : type === 'Wc' 
+          ? navBarItems.WC.color 
+          : type === 'Stairs'  
+            ? navBarItems.Stairs.color
+            : type === 'noroute'
+              ? '#AAA'
+              : type === 'Elevator'
+                ? navBarItems.Elevator.color
+                : type === 'Shop'
+                  ? navBarItems.Shop.color
+                  : type === 'Eatery'
+                    ? navBarItems.Eatery.color
+                    : type === 'Exit'
+                      ? '#C7F2DD'
+                      : type === 'Hallway'
+                        ? '#FFF6F6'
+                        : type === 'Museum'
                           ? '#E8DCC6'
-                          : '#888',
+                          : type === 'Official'
+                            ? '#E8DCC6'
+                            : '#888',
     fillOpacity: 1.5,
     weight: feature.properties.border === 'no' ? 0 : 1.5,
     color: "gray"
@@ -297,7 +312,7 @@ export const Markers = places => {
                       separator={"\n"}
                       className="Demo__some-network__share-button"
                     >
-                      <FacebookIcon size={32} round /> Facebookでshare
+                      <WhatsappIcon size={32} round /> Facebookでshare
                     </WhatsappShareButton>
                   </Popup>
                 </Marker>
@@ -367,4 +382,17 @@ export const CheckoutDetails = () => {
       dispatch(setItem(item)) 
     }
   }, [location]);
+}
+
+export const dayOfWeek = (array) => {
+  var today = new Date()
+  for (var i in array) {
+    const item = array[i]
+    var beg = new Date(item.begin);
+    var end = new Date(item.end)
+    if (today - beg > 0 && today - end < 0) {
+      return item
+    }
+  }
+  return undefined
 }

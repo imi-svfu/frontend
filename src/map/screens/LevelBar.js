@@ -11,16 +11,17 @@ const styles = {
 const LevelBar = () => {
   const level = useSelector((state) => state.data.level);
   const dispatch = useDispatch();
+  console.log()
   const change = op => {
     if (op === 'up') {
-      if (level === 6) {
+      if (level === 4) {
         dispatch(setLevel(0))
       } else {
         dispatch(setLevel(level + 1))
       }
     } else {
       if (level === 0) {
-        dispatch(setLevel(6))
+        dispatch(setLevel(4))
       } else {
         dispatch(setLevel(level - 1))
       }

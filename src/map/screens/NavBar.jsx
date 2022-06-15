@@ -1,15 +1,16 @@
 import './index.css';
-import { ReactComponent as BellIcon } from './icons/bell.svg';
-import { ReactComponent as MessengerIcon } from './icons/messenger.svg';
-import { ReactComponent as CaretIcon } from './icons/caret.svg';
-import { ReactComponent as PlusIcon } from './icons/plus.svg';
-import { ReactComponent as CogIcon } from './icons/cog.svg';
-import { ReactComponent as ChevronIcon } from './icons/chevron.svg';
-import { ReactComponent as ArrowIcon } from './icons/arrow.svg';
-import { ReactComponent as BoltIcon } from './icons/bolt.svg';
-import { navBarItems } from '../consts/variables'
+import { ReactComponent as CogIcon } from '../images/icons/cog.svg';
+import { ReactComponent as ChevronIcon } from '../images/icons/kekw.svg';
+import { ReactComponent as ArrowIcon } from '../images/icons/arrow.svg';
+import { 
+  FormatListNumberedOutlined as ListIcon, 
+  AccountBalanceOutlined as BuildingIcon,
+  ManageSearchOutlined as SearchIcon,
+  PlaceOutlined as PlaceIcon,
+} from "@mui/icons-material"
 
 import LevelBar from './LevelBar'
+import { navBarItems, mapPlaces } from '../consts/variables'
 import { search, checkLevel } from '../consts/functions'
 import { setItem, setMove, setLevel } from '../store/tasks';
 import { useDispatch } from 'react-redux';
@@ -88,7 +89,6 @@ function DropdownMenu(props) {
   const [pressed, setPressed] = useState(false)
   const [items, setItems] = useState([]);
   const dispatch = useDispatch();
-
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ function DropdownMenu(props) {
         className="menu-item" 
         onClick={() => {
           props.goToMenu && setActiveMenu(props.goToMenu)
-          props.customClickEvent()
+          props.customClickEvent && props.customClickEvent()
         }} 
         style={props.style}
       >
@@ -134,14 +134,12 @@ function DropdownMenu(props) {
           <a className="menu-item" style={{ background: '#AAAAAA88'}}>Навигационное меню</a>
           <LevelBar />
           <DropdownItem
-            leftIcon={<CogIcon />}
-            rightIcon={<ChevronIcon />}
+            leftIcon={<PlaceIcon sx={{color: 'white'}}/>}
             goToMenu="places">
             Места
           </DropdownItem>
           <DropdownItem
-            leftIcon="🦧"
-            rightIcon={<ChevronIcon />}
+            leftIcon={<SearchIcon />}
             goToMenu="search">
             Поиск
           </DropdownItem>
@@ -157,17 +155,17 @@ function DropdownMenu(props) {
           <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
             <h2>Меню</h2>
           </DropdownItem>
-          <DropdownItem goToMenu="outer" leftIcon={<ArrowIcon />}>
+          <DropdownItem goToMenu="outer" leftIcon={<BuildingIcon />}>
             В студгородке
           </DropdownItem>
-          <DropdownItem goToMenu="building" leftIcon={<ArrowIcon />}>
+          <DropdownItem goToMenu="building" leftIcon={<ListIcon />}>
             Внутри зданий
           </DropdownItem>
         </div>
       </CSSTransition>
       <CSSTransition
         in={activeMenu === 'outer'}
-        timeout={200}
+        timeout={500}
         classNames="menu-secondary"
         unmountOnExit
         onEnter={calcHeight}>
@@ -175,12 +173,18 @@ function DropdownMenu(props) {
           <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
             <h2>Меню</h2>
           </DropdownItem>
-          <DropdownItem goToMenu="outer" leftIcon={<ArrowIcon />}>
-            В студгородке
-          </DropdownItem>
-          <DropdownItem goToMenu="building" leftIcon={<ArrowIcon />}>
-            Внутри зданий
-          </DropdownItem>
+          {Object.keys(mapPlaces).map(key => {
+            return(
+              <DropdownItem 
+                goToMenu="search" 
+                key={key} 
+                leftIcon={mapPlaces[key].icon ? mapPlaces[key].icon : <ArrowIcon />}
+                customClickEvent={() => {setItems(search(key))}}
+              >
+                {mapPlaces[key].name}
+              </DropdownItem>
+            )
+          })}
         </div>
       </CSSTransition>
       <CSSTransition
@@ -193,10 +197,15 @@ function DropdownMenu(props) {
           <DropdownItem goToMenu="main" leftIcon={<ArrowIcon />}>
             <h2>Меню</h2>
           </DropdownItem>
-          {navBarItems.map(item => {
+          {Object.keys(navBarItems).map(key => {
             return(
-              <DropdownItem key={item.name}>
-                {item.name}
+              <DropdownItem 
+                goToMenu="search" 
+                key={key} 
+                leftIcon={navBarItems[key].icon ? navBarItems[key].icon : <ArrowIcon />}
+                customClickEvent={() => { setItems(search(navBarItems[key].name)) }}
+              >
+                {navBarItems[key].name}
               </DropdownItem>
             )
           })}
@@ -245,12 +254,15 @@ function DropdownMenu(props) {
                     <li key={item.properties.number} >
                     <DropdownItem
                       goToMenu="main"
+                      leftIcon={
+                        navBarItems[item.properties.type] ? navBarItems[item.properties.type].icon : <ArrowIcon />
+                      }
                       style={{background: "#66666688", height: '50px'}}
+                      key={item.properties.number ? item.properties.number : item.properties["@id"]}
                       customClickEvent={() => { 
-                        dispatch(setLevel(parseInt(item.properties.number[0], 10) - 1))
+                        item.properties.number && dispatch(setLevel(parseInt(item.properties.number[0], 10) - 1))
                         dispatch(setMove(true)) 
                         dispatch(setItem(item)) 
-                        console.log(item)
                         setPressed(false)
                       }}
                     >
@@ -266,7 +278,7 @@ function DropdownMenu(props) {
                             }}
                           >
                             <div style={{
-                              fontSize: '12px', 
+                              fontSize: '14px', 
                               textAlign: 'left'
                             }}>
                             { item.properties.name ? item.properties.name : 'Аудитория' }
@@ -276,7 +288,7 @@ function DropdownMenu(props) {
                                 display: 'flex', 
                                 flexDirection: 'column', 
                                 textAlign: 'right',
-                                fontSize: '10px', 
+                                fontSize: '12px', 
                               }}>
                                 <div>КФЕН</div>
                                 <div>№{item.properties.number}</div>

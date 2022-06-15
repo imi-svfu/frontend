@@ -67,15 +67,11 @@ a {
   filter: brightness(1.2);
 }
 
+/* Dropdown Menu */
 .icon-button svg { 
-  fill: var(--text-color);
   width: 20px;
   height: 20px;
 }
-
-
-/* Dropdown Menu */
-
 .dropdown {
   position: absolute;
   top: 58px;
