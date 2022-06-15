@@ -9,6 +9,8 @@ import { GeoJSON, Marker, Popup } from 'react-leaflet';
 import { setMove, setItem, setLevel } from '../store/tasks';
 import { useDispatch } from 'react-redux';
 import L from 'leaflet'
+import { WhatsappShareButton, TwitterShareButton } from "react-share";
+import { FacebookIcon, TwitterIcon } from "react-share";
 
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
@@ -146,7 +148,7 @@ const customPopup = (feature) => {
           feature.properties.type && feature.properties.type === 'Audience' 
             ? 'Свободно' 
             : ''
-          }
+        }
       </div>
     </div>`
   )
@@ -270,7 +272,6 @@ const markerPopup = (type, number) => {
         <p style= {{fontSize: '12px'}}>
           {type === 'Audience' ? 'Свободно' : ''}
         </p>
-        {Whatsapp(window.location.href + number, 'kekw')}
       </div>
     </Popup>
   )
@@ -290,7 +291,14 @@ export const Markers = places => {
               ? 
                 <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
                   <Popup>
-                    kekw
+                    <WhatsappShareButton
+                      title={"Кабинет"}
+                      url={window.location.href}
+                      separator={"\n"}
+                      className="Demo__some-network__share-button"
+                    >
+                      <FacebookIcon size={32} round /> Facebookでshare
+                    </WhatsappShareButton>
                   </Popup>
                 </Marker>
               : undefined
@@ -360,14 +368,3 @@ export const CheckoutDetails = () => {
     }
   }, [location]);
 }
-
-const Whatsapp = (link, message) => {
-  const href = `https://api.whatsapp.com/send?text=${link}`
-  return (
-  <a
-    name={'WhatsApp'}
-    href={href}
-  >
-    whatsapp
-  </a>
-)}

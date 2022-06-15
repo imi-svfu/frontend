@@ -10,7 +10,6 @@ import { ReactComponent as BoltIcon } from './icons/bolt.svg';
 import { navBarItems } from '../consts/variables'
 
 import LevelBar from './LevelBar'
-
 import { search, checkLevel } from '../consts/functions'
 import { setItem, setMove, setLevel } from '../store/tasks';
 import { useDispatch } from 'react-redux';

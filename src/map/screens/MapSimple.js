@@ -34,7 +34,6 @@ const MapSimple = props => {
   const level = useSelector((state) => state.data.level);
   const sizes = props.data.sizes;
   CheckoutDetails()
-  console.log(window.location.href)
   return (
     <MapContainer
       style={{
