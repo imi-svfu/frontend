@@ -22,9 +22,8 @@ import {
 } from '@mui/icons-material';
 
 import svfu from '../geojson/svfu.json'
-import guk from '../geojson/guk.json'
 import departments from '../geojson/deparments.json'
-import ks from '../geojson/ks.json'
+
 import floor1 from '../geojson/kfenfloors/floor1.json'
 import floor2 from '../geojson/kfenfloors/floor2.json'
 import floor3 from '../geojson/kfenfloors/floor3.json'
@@ -85,26 +84,31 @@ export const navBarItems = {
 export const mapPlaces = {
   Corps: {
     name: "Учебные корпуса",
-    icon: <BuildingIcon />
+    icon: <BuildingIcon />,
+    key: 'орпус'
   },
   Dormitory: {
     name: "Общежития",
-    icon: <DormitoryIcon />
+    icon: <DormitoryIcon />,
+    key: "Общежитие"
   },
   Service: {
     name: 'Услуги',
     color: '#B58DE9',
-    icon: <ServiceIcon sx={{ color: '#B58DE9' }} />
+    icon: <ServiceIcon sx={{ color: '#B58DE9' }} />,
+    key: 'Service'
   },
   Shop: {
     name: 'Магазин',
     color: '#99E98D',
-    icon: <ShopIcon sx={{ color: '#99E98D' }}/>
+    icon: <ShopIcon sx={{ color: '#99E98D' }}/>,
+    key: 'Shop'
   },
   Eatery: {
     name: 'Буфет, столовая',
     color: '#F9AEF1',
-    icon: <EatIcon sx={{ color: '#F9AEF1' }}/>
+    icon: <EatIcon sx={{ color: '#F9AEF1' }}/>,
+    key: 'Eatery'
   },
 }
     
@@ -121,7 +125,7 @@ export const markerpos = {
 };
 
 export const places = [
-  svfu, guk, departments, ks
+  svfu, departments, 
 ]
 
 export const floors = {

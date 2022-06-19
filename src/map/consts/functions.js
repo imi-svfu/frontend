@@ -4,7 +4,7 @@ import {
   stairs, WC, shop, elevator, eatery, hanger, building,
   navBarItems
 } from './variables'
-import { WhatsappShareButton, WhatsappIcon } from "react-share";
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { useLocation } from 'react-router-dom'
 
 import { GeoJSON, Marker, Popup } from 'react-leaflet';
@@ -12,7 +12,6 @@ import L from 'leaflet'
 
 import { setMove, setItem, setLevel } from '../store/tasks';
 import { useDispatch, useSelector } from 'react-redux';
-
 
 
 const getWindowDimensions = () => {
@@ -49,6 +48,10 @@ export const search = (item, mode) => {
           if (place.properties.name.includes(item)) {
             result.push(place)
           }
+        } else if (place.properties.building) {
+          if (place.properties.building.includes(item)) {
+            result.push(place)
+          }
         }
       })
     })
@@ -79,20 +82,6 @@ export const search = (item, mode) => {
     }
   return result
 }
-
-export const GetHeaderHeight = () => {
-  const [height, setHeight] = useState('');
-  React.useEffect(() => {
-    const x = document.getElementById('header');
-    setHeight(x.offsetHeight);
-  });
-  return height;
-};
-
-export const Line = (height) => {
-  return <div style={{ width: '100%', height: height, background: 'white', margin: '40px auto', borderRadius: '2px' }}></div>
-}
-
 export const updateMove = (move = false) => {
   const dispatch = useDispatch();
   dispatch(setMove(move)) 
@@ -156,8 +145,15 @@ const customPopup = (feature, info) => {
             : feature.properties.type === 'Audience' 
               ? `<div style="margin: 2px 0px"">В данный момент занятий нет </div>`
               : ''
-        }
-      
+            
+      }
+            
+      ${ feature.properties.number &&
+      `<a href="whatsapp://send?text=${window.location.host + '/map&item=' + feature.properties.number}"        
+        data-action="share/whatsapp/share"  
+        target="_blank"> Share to WhatsApp 
+      </a>`
+      }
     </div>`
   )
 }
@@ -307,14 +303,11 @@ export const Markers = places => {
               ? 
                 <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
                   <Popup>
-                    <WhatsappShareButton
-                      title={"Кабинет"}
-                      url={window.location.href}
-                      separator={"\n"}
-                      className="Demo__some-network__share-button"
-                    >
-                      <WhatsappIcon size={32} round /> Facebookでshare
-                    </WhatsappShareButton>
+                    <WhatsAppIcon/>
+                    <a href="whatsapp://send?text=This is WhatsApp sharing example using link&link=kit-imi.info&title=bruh"       
+                      data-action="share/whatsapp/share"  
+                      target="_blank"> Share to WhatsApp 
+                    </a>   
                   </Popup>
                 </Marker>
               : undefined

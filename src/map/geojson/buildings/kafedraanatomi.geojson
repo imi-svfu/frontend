@@ -1,0 +1,87 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-ide",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2022-06-19T09:47:44Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/88567962",
+        "addr:city": "Якутск",
+        "addr:housenumber": "34",
+        "addr:postcode": "677027",
+        "addr:street": "улица Кулаковского",
+        "building": "university",
+        "building:levels": "2",
+        "name": "Северо-восточный федеральный университет им М.К. Аммосова, (СВФУ)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              129.7139114,
+              62.0210504
+            ],
+            [
+              129.7149893,
+              62.0211614
+            ],
+            [
+              129.7148451,
+              62.0214697
+            ],
+            [
+              129.7145057,
+              62.0214347
+            ],
+            [
+              129.7145531,
+              62.0213333
+            ],
+            [
+              129.7146651,
+              62.0213448
+            ],
+            [
+              129.7147055,
+              62.0212586
+            ],
+            [
+              129.7141107,
+              62.0211974
+            ],
+            [
+              129.7140916,
+              62.0212382
+            ],
+            [
+              129.7138359,
+              62.0212119
+            ],
+            [
+              129.7139114,
+              62.0210504
+            ]
+          ]
+        ]
+      },
+      "id": "way/88567962"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/88567962"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -119.999253,
+          35.858341
+        ]
+      },
+      "id": "node/88567962"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-ide",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2022-06-19T09:42:42Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/88567976",
+        "addr:city": "Якутск",
+        "addr:housenumber": "58В",
+        "addr:postcode": "677000",
+        "addr:street": "улица Белинского",
+        "building": "yes",
+        "height": "15",
+        "leisure": "fitness_centre",
+        "name": "Спортивный зал №3 УЛК",
+        "smoking": "no"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              129.7101678,
+              62.0220053
+            ],
+            [
+              129.710166,
+              62.0220412
+            ],
+            [
+              129.7101565,
+              62.0222408
+            ],
+            [
+              129.7094591,
+              62.0222335
+            ],
+            [
+              129.7094683,
+              62.0220411
+            ],
+            [
+              129.7094715,
+              62.0219745
+            ],
+            [
+              129.7101689,
+              62.0219818
+            ],
+            [
+              129.7101678,
+              62.0220053
+            ]
+          ]
+        ]
+      },
+      "id": "way/88567976"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/88567976"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.9986835,
+          35.1657535
+        ]
+      },
+      "id": "node/88567976"
+    }
+  ]
+}

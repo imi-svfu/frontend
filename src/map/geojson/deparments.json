@@ -4,14 +4,62 @@
   "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
   "timestamp": "2022-04-08T05:57:09Z",
   "name": "departments",
-  "style" : {
-    "fillColor": "#eeeeee",
-    "fillOpacity": 1,
-    "weight": 2,
-    "opacity": 1,
-    "color": "gray"
-  },
   "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/88567850",
+        "addr:city": "Якутск",
+        "addr:housenumber": "2/21",
+        "addr:postcode": "677013",
+        "addr:street": "Сергеляхская улица",
+        "building": "dormitory"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              129.7047916,
+              62.0202853
+            ],
+            [
+              129.7045028,
+              62.0202946
+            ],
+            [
+              129.7043992,
+              62.0195831
+            ],
+            [
+              129.704688,
+              62.0195739
+            ],
+            [
+              129.7046933,
+              62.0196104
+            ],
+            [
+              129.7047194,
+              62.0197893
+            ],
+            [
+              129.7047611,
+              62.0200762
+            ],
+            [
+              129.7047837,
+              62.020231
+            ],
+            [
+              129.7047916,
+              62.0202853
+            ]
+          ]
+        ]
+      },
+      "id": "way/88567850"
+    },
     {
       "type": "Feature",
       "properties": {

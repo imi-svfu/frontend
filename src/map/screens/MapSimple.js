@@ -36,6 +36,7 @@ const MapSimple = props => {
   const move = storeData.move
   const level = storeData.level;
   const sizes = props.data.sizes;
+  console.log(window.location.host)
   CheckoutDetails()
   return (
     <MapContainer

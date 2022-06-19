@@ -183,7 +183,7 @@ function DropdownMenu(props) {
                 goToMenu="search" 
                 key={key} 
                 leftIcon={mapPlaces[key].icon ? mapPlaces[key].icon : <ArrowIcon />}
-                customClickEvent={() => {setItems(search(key))}}
+                customClickEvent={() => {setItems(search(mapPlaces[key].key))}}
               >
                 {mapPlaces[key].name}
               </DropdownItem>
