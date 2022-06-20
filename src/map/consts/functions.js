@@ -105,6 +105,7 @@ const onClick = (e) => {
 }
 
 const customPopup = (feature, info) => {
+  const url = window.innerWidth > 600 ? 'https://web.whatsapp.com' : 'whatsapp:/'
   return (
    `<div style="width: 200px; height: 100%; margin: auto; font-size: 12px; display: flex; flex-direction: column; justify-content: space-between">
       <div style="display: flex; flex-direction: row; justify-content: space-between; margin: 2px 0px">
@@ -149,10 +150,18 @@ const customPopup = (feature, info) => {
       }
             
       ${ feature.properties.number &&
-      `<a href="whatsapp://send?text=${window.location.host + '/map&item=' + feature.properties.number}"        
+      `<a href="${url}/send?text=http://${window.location.host + '/map?item=' + feature.properties.number}"        
         data-action="share/whatsapp/share"  
-        target="_blank"> Share to WhatsApp 
+        target="_blank"> Поделиться в WhatsApp
       </a>`
+      }
+      ${
+        window.innerWidth < 600 
+       ? `<a href="https://telegram.me/share/url?text=http://${window.location.host + '/map?item=' + feature.properties.number}"        
+        data-action="share/whatsapp/share"  
+        target="_blank"> Поделиться в WhatsApp
+        </a>`
+        : ''
       }
     </div>`
   )

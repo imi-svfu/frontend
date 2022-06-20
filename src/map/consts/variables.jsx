@@ -30,7 +30,6 @@ import floor3 from '../geojson/kfenfloors/floor3.json'
 import floor4 from '../geojson/kfenfloors/floor4.json'
 import floor5 from '../geojson/kfenfloors/floor5.json'
 
-
 export {
   shop,
   stairs, 
@@ -90,7 +89,7 @@ export const mapPlaces = {
   Dormitory: {
     name: "Общежития",
     icon: <DormitoryIcon />,
-    key: "Общежитие"
+    key: "бщежити"
   },
   Service: {
     name: 'Услуги',

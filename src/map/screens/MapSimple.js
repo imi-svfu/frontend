@@ -28,15 +28,11 @@ const styles = {
 
 const MapSimple = props => {
   const storeData = useSelector((state) => state.data);
-  const [count, setCount] = useState(0)
-  const [isLoaded, setIsLoaded] = useState(false)
   const [map, setMap] = useState(null);
-  const dispatch = useDispatch()
   const data2 = storeData.result
   const move = storeData.move
   const level = storeData.level;
   const sizes = props.data.sizes;
-  console.log(window.location.host)
   CheckoutDetails()
   return (
     <MapContainer

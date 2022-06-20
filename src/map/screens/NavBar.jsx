@@ -90,7 +90,6 @@ function DropdownMenu(props) {
   const [items, setItems] = useState([]);
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
-  console.log(items)
   useEffect(() => {
     setMenuHeight(dropdownRef.current?.firstChild.offsetHeight + 30)
   }, [])
