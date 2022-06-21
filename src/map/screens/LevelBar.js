@@ -4,16 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const styles = {
   levelBar: {
-    margin: 'auto',
     color: 'white',
-    border: '2px solid #AAA',
-    borderRadius: '5px'
   },
 }
 
 const LevelBar = () => {
   const level = useSelector((state) => state.data.level);
   const dispatch = useDispatch();
+  console.log()
   const change = op => {
     if (op === 'up') {
       if (level === 4) {
@@ -30,33 +28,35 @@ const LevelBar = () => {
     }
   }
   return (
-  <div style={ styles.levelBar }>
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div>
+  <div style={ styles.levelBar } className="menu-item">
+    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+      <div style={{ margin: 'auto' }}>
         Этаж: { level + 1 }
       </div>
-      <button 
-        style={{
-          display: 'flex',
-          padding: '5px 5px',
-          textAlign: 'center',
-          margin: '0 auto',
-        }}
-        onClick={() => change('up')
-      }>
-        U
-      </button>
-      <button 
-        style={{
-          display: 'flex',
-          padding: '5px 5px',
-          textAlign: 'center',
-          margin: '0 auto',
-        }}
-        onClick={() => change('down')
-      }>
-        D
-      </button>
+      <div style={{right: 0, display: 'flex', flexDirection: 'row'}}>
+        <button 
+          style={{
+            display: 'flex',
+            padding: '5px',
+            textAlign: 'center',
+            margin: '0 5px',
+          }}
+          onClick={() => change('up')
+        }>
+          +
+        </button>
+        <button 
+          style={{
+            display: 'flex',
+            padding: '5px 5px',
+            textAlign: 'center',
+            margin: '0 5px',
+          }}
+          onClick={() => change('down')
+        }>
+          -
+        </button>
+      </div>
     </div>
   </div>
   );

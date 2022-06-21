@@ -28,6 +28,7 @@
     "react-markdown": "^8.0.3",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
+    "react-share": "^4.4.0",
     "redux": "^4.2.0",
     "sass": "^1.51.0"
   },

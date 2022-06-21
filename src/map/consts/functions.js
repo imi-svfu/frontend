@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { places, floors, male, female, stairs, navBarItems } from './variables'
+import { 
+  places, floors, 
+  stairs, WC, shop, elevator, eatery, hanger, building,
+  navBarItems
+} from './variables'
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { useLocation } from 'react-router-dom'
+
 import { GeoJSON, Marker, Popup } from 'react-leaflet';
-import { setMove } from '../store/tasks';
-import { useDispatch } from 'react-redux';
 import L from 'leaflet'
+
+import { setMove, setItem, setLevel } from '../store/tasks';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
@@ -33,26 +42,37 @@ export const useWindowDimensions = () => {
 export const search = (item, mode) => {
   const result = []
   if (item.length > 0) {
-    if (mode) {
-      places.map(buildings => {
-        buildings.features.map(place => {
-          const x = place
-          if (x.properties.name !== undefined) {
-            if (x.properties.name.includes(item)) {
-              result.push(x)
-            }
+    places.map(buildings => {
+      buildings.features.map(place => {
+        if (place.properties.name) {
+          if (place.properties.name.includes(item)) {
+            result.push(place)
           }
-        })
+        } else if (place.properties.building) {
+          if (place.properties.building.includes(item)) {
+            result.push(place)
+          }
+        }
       })
-    } else {
+    })
       for (var x in floors) {
         floors[x].map(buildings => {
           if (buildings !== 0) {
             buildings.features.map(place => {
-              const x = place
-              if (x.properties.number !== undefined && result.length < 5) {
-                if (x.properties.number.includes(item)) {
-                  result.push(x)
+              if (place.properties.number) {
+                if (place.properties.number.includes(item)) {
+                  result.push(place)
+                }
+              } 
+              if (place.properties.name) {
+                if (place.properties.name.includes(item)) {
+                  result.push(place)
+                  console.log(place)
+                }
+              } 
+              if (place.properties.type) {
+                if (place.properties.type.includes(item)) {
+                  result.push(place)
                 }
               }
             })
@@ -60,23 +80,8 @@ export const search = (item, mode) => {
         })
       }
     }
-  }
   return result
 }
-
-export const GetHeaderHeight = () => {
-  const [height, setHeight] = useState('');
-  React.useEffect(() => {
-    const x = document.getElementById('header');
-    setHeight(x.offsetHeight);
-  });
-  return height;
-};
-
-export const Line = (height) => {
-  return <div style={{ width: '100%', height: height, background: 'white', margin: '40px auto', borderRadius: '2px' }}></div>
-}
-
 export const updateMove = (move = false) => {
   const dispatch = useDispatch();
   dispatch(setMove(move)) 
@@ -91,7 +96,7 @@ export const searchResult = (data, map, style, move) => {
       })
       updateMove()
     }
-    return <GeoJSON data={[data]} key={data.properties.number} style={style} onEachFeature={onResult}/>
+    return <GeoJSON data={[data]} key={data.properties.number ? data.properties.number : data.properties["@id"]} style={style} onEachFeature={onResult}/>
   }
 }
 
@@ -99,40 +104,93 @@ const onClick = (e) => {
   e.sourceTarget.openPopup()
 }
 
-const customPopup = (type, number) => {
+const customPopup = (feature, info) => {
+  const url = window.innerWidth > 600 ? 'https://web.whatsapp.com' : 'whatsapp:/'
   return (
-   `<div style="width: 200px; height: 50px; margin: auto">
-      <div style="display: flex; flex-direction: row; justify-content: space-between; font-size: 12px">
+   `<div style="width: 200px; height: 100%; margin: auto; font-size: 12px; display: flex; flex-direction: column; justify-content: space-between">
+      <div style="display: flex; flex-direction: row; justify-content: space-between; margin: 2px 0px">
         <div>
           <b>КФЕН</b>
         </div>
         <div>
-          ${number}
+          №${feature.properties.number 
+              ? feature.properties.number 
+              : ''
+            }
         </div>
       </div>
-      <p style="font-size: 12px">
-        ${type === 'Audience' ? 'Свободно' : ''}
-      </p>
+      <div style="margin: 2px 0px"">
+      ${feature.properties.institute 
+        ? feature.properties.institute
+        : ''
+      }
+      </div>
+      ${feature.properties.name 
+        ?
+      `
+      <div style="margin: 2px 0px"">
+        ${feature.properties.name ? feature.properties.name : ''}
+      </div>
+      <div style="margin: 2px 0px"">
+        ${feature.properties.count 
+          ? 'кол-во мест:' + feature.properties.count
+          : ''
+        }
+      </div>
+      `
+        : ''
+      }
+        ${
+          info 
+            ? `<div style="margin: 2px 0px"">${info.group}</div><div style="margin: 2px 0px"">${info.subject}</div>`
+            : feature.properties.type === 'Audience' 
+              ? `<div style="margin: 2px 0px"">В данный момент занятий нет </div>`
+              : ''
+            
+      }
+            
+      ${ feature.properties.number &&
+      `<a href="${url}/send?text=http://${window.location.host + '/map?item=' + feature.properties.number}"        
+        data-action="share/whatsapp/share"  
+        target="_blank"> Поделиться в WhatsApp
+      </a>`
+      }
+      ${
+        window.innerWidth < 600 
+       ? `<a href="https://telegram.me/share/url?text=http://${window.location.host + '/map?item=' + feature.properties.number}"        
+        data-action="share/whatsapp/share"  
+        target="_blank"> Поделиться в WhatsApp
+        </a>`
+        : ''
+      }
     </div>`
   )
 }
 
 const getIcon = type => {
   return new L.Icon({
-    iconUrl: type === "male" 
-      ? male 
-      : type === "female" 
-        ? female
-        : type === "Stairs" 
-          ? stairs
-          : 'kekw',
+    iconUrl: type === "Wc" 
+      ? WC
+      : type === "Stairs" 
+        ? stairs
+        : type === "Elevator"
+          ? elevator
+          : type === "Eatery"
+            ? eatery
+            : type === "Checkroom"
+              ? hanger
+              : type === "Shop"
+                ? shop
+                : type === "building"
+                  ? building
+                  : 'kekw',
     iconSize: [24, 24],
     shadowSize:   [30, 30], // size of the shadow
     iconAnchor:   [12, 12], // point of the icon which will correspond to marker's location
   });
 }
 
-const onEachBuilding = (feature, layer, map) => {
+const onEachBuilding = (feature, layer) => {
   const kek = {center: {lat: layer.getBounds().getCenter().lat, lng: layer.getBounds().getCenter().lng}, type: 'building'}
   layer.bindPopup('<p>' + feature.properties.name + '</p> <p>' + feature.properties['addr:street'] + ' ' + feature.properties['addr:housenumber'] +'</p> ');
 }
@@ -145,36 +203,44 @@ export const checkLevel = (item) => {
 }
 
 const onEachFeature = (feature, layer) => {
-  const type = feature.properties.type
-  var customOptions = { width: 400 }
-  layer.bindPopup(customPopup(type, feature.properties.number), customOptions);
-  layer.setStyle(setStyle(feature))
+  const roomNum = useSelector((state) => state.data.schedule)
+  const lecture = roomNum[feature.properties.number] && dayOfWeek(roomNum[feature.properties.number])
+  const popupinfo = lecture && {
+    group: lecture.lesson.group.name,
+    subject: lecture.lesson.subject,
+  }
+  layer.bindPopup(customPopup(feature, popupinfo));
+  layer.setStyle(setStyle(feature, lecture ? true : false))
 }
 
-const setStyle = (feature) => {
+const setStyle = (feature, is) => {
   const type = feature.properties.type
   return {
-    fillColor: type === 'Audience' 
-      ? navBarItems[0].color 
-      : type === 'WC' 
-        ? navBarItems[3].color 
-        : type === 'Stairs'  
-          ? navBarItems[5].color
-          : type === 'noroute'
-            ? '#AAA'
-            : type === 'Elevator'
-              ? navBarItems[4].color
-              : type === 'Shop'
-                ? navBarItems[2].color
-                : type === 'Eatery'
-                  ? navBarItems[6].color
-                  : type === 'Exit'
-                    ? '#C7F2DD'
-                    : type === 'Hallway'
-                      ? '#FFF6F6'
-                      : type === 'Museum'
-                        ? '#E8DCC6'
-                        : '#888',
+    fillColor: is
+      ? "#FFB7B7"
+      : type === 'Audience' 
+        ? navBarItems.Audience.color 
+        : type === 'Wc' 
+          ? navBarItems.WC.color 
+          : type === 'Stairs'  
+            ? navBarItems.Stairs.color
+            : type === 'noroute'
+              ? '#AAA'
+              : type === 'Elevator'
+                ? navBarItems.Elevator.color
+                : type === 'Shop'
+                  ? navBarItems.Shop.color
+                  : type === 'Eatery'
+                    ? navBarItems.Eatery.color
+                    : type === 'Exit'
+                      ? '#C7F2DD'
+                      : type === 'Hallway'
+                        ? '#FFF6F6'
+                        : type === 'Museum'
+                          ? '#E8DCC6'
+                          : type === 'Official'
+                            ? '#E8DCC6'
+                            : '#888',
     fillOpacity: 1.5,
     weight: feature.properties.border === 'no' ? 0 : 1.5,
     color: "gray"
@@ -182,8 +248,7 @@ const setStyle = (feature) => {
 }
 
 const onResult = (feature, layer) => {
-  const type = feature.properties.type
-  layer.bindPopup(customPopup(type, feature.properties.number));
+  layer.bindPopup(customPopup(feature));
   
   layer.setStyle({
     fillColor: '#aaa',
@@ -216,7 +281,7 @@ export const rooms = places => {
 const markerPopup = (type, number) => {
   return (
     <Popup>
-      <div style={{width: "250px", height: "50px", margin: "auto"}}>
+      <div style={{width: "200px", height: "50px", margin: "auto"}}>
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", fontSize: "12px"}}>
           <div>
             КФЕН 
@@ -238,9 +303,23 @@ export const Markers = places => {
     <div>
       {places.map(item => {
         return( 
-          <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
-            {item.type !== 'building' ? markerPopup(item.popup.type, item.popup.number) : <Popup>just marker</Popup>}
-          </Marker>
+          item.type !== 'building'  && item.type !== 'noroute' && item.type !== 'Hallway' 
+            ?
+              <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
+                {markerPopup(item.popup.type, item.popup.number)}
+              </Marker>
+            : item.type === 'building'
+              ? 
+                <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
+                  <Popup>
+                    <WhatsAppIcon/>
+                    <a href="whatsapp://send?text=This is WhatsApp sharing example using link&link=kit-imi.info&title=bruh"       
+                      data-action="share/whatsapp/share"  
+                      target="_blank"> Share to WhatsApp 
+                    </a>   
+                  </Popup>
+                </Marker>
+              : undefined
         )  
       })}
     </div>);
@@ -270,7 +349,11 @@ export const getRoomLocation = place => {
   var feature = L.geoJson(place)
   for (var item in feature._layers) {
     const room = feature._layers[item]
-    if (room.feature.properties.type !== undefined && room.feature.properties.type !== 'Audience')
+    if (room.feature.properties.type !== undefined 
+        && room.feature.properties.type !== 'Audience'
+        && room.feature.properties.type !== 'noroute'
+        && room.feature.properties.type !== 'Official'
+        )
       markers.push({
         center: {
           lat: room.getBounds().getCenter().lat, 
@@ -286,4 +369,33 @@ export const getRoomLocation = place => {
       })
   }
   return markers
+}
+
+export const CheckoutDetails = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  // function to get query params using URLSearchParams
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    if (searchParams.has("item")) {
+      const amount = searchParams.get("item");
+      const item = search(amount)[0]
+      dispatch(setLevel(parseInt(item.properties.number[0], 10) - 1))
+      dispatch(setMove(true)) 
+      dispatch(setItem(item)) 
+    }
+  }, [location]);
+}
+
+export const dayOfWeek = (array) => {
+  var today = new Date()
+  for (var i in array) {
+    const item = array[i]
+    var beg = new Date(item.begin);
+    var end = new Date(item.end)
+    if (today - beg > 0 && today - end < 0) {
+      return item
+    }
+  }
+  return undefined
 }

@@ -19,7 +19,6 @@ ul {
 }
 
 a {
-  color: var(--text-color);
   text-decoration: none;;
 }
 
@@ -27,12 +26,8 @@ a {
 
 /* <nav> */
 .navbar {
-  height: var(--nav-size);
-  background-color: var(--bg);
-  padding: 0 1rem;
-  border-bottom: var(--border);
   position: fixed;
-  top: 60px;
+  top: 0;
   z-index: 6;
   left: 0;
 }
@@ -72,15 +67,11 @@ a {
   filter: brightness(1.2);
 }
 
+/* Dropdown Menu */
 .icon-button svg { 
-  fill: var(--text-color);
   width: 20px;
   height: 20px;
 }
-
-
-/* Dropdown Menu */
-
 .dropdown {
   position: absolute;
   top: 58px;
@@ -108,6 +99,7 @@ a {
   padding: 0.5rem;
   margin: 0.3rem ;
   font-size: 14px;
+  color: white;
 }
 
 .menu-item .icon-button {
@@ -153,7 +145,7 @@ a {
   transition: all var(--speed) ease;
 }
 .menu-secondary-exit {
-
+  position: absolute;
 }
 .menu-secondary-exit-active {
   transform: translateX(110%);

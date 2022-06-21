@@ -9,7 +9,7 @@ import QuestionComponent from "./routes/question";
 import QuestionsComponent from "./routes/questions";
 import TimeTablePage from "./timetable/pages/TimeTablePage/TimeTablePage";
 import ManagePage from "./timetable/pages/ManagePage/ManagePage";
-import MapComponent from "./map/screens/MapComponent"
+import MainComponent from "./map/screens/MainComponent"
 
 const theme = createTheme({
   components: {
@@ -44,7 +44,7 @@ function Main() {
             <Route path="question/:id" element={<QuestionComponent questions={questions} />} />
             <Route path="timetable" element={<TimeTablePage />} />
             <Route path="managetabletime" element={<ManagePage />} />
-            <Route path="map" element={<MapComponent />} />
+            <Route path="map" element={<MainComponent />} />
           </Route>
         </Routes>
       </BrowserRouter>

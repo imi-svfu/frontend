@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {
-  MapContainer, TileLayer, GeoJSON, Marker, useMap, Popup
+  MapContainer, TileLayer
 } from 'react-leaflet';
-import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
-import { useWindowDimensions, searchResult, data, rooms, Markers, getFeatureLocation, getRoomLocation } from '../consts/functions';
+import { searchResult, data, rooms, Markers, getFeatureLocation, getRoomLocation, CheckoutDetails, dayOfWeek } from '../consts/functions';
+import { ExitIcon } from '../consts/variables'
 import { useDispatch, useSelector } from 'react-redux';
-import { male } from '../consts/variables'
-
-const skater = new L.Icon({
-  iconUrl: male,
-  iconSize: [120, 100]
-});
+import { setSchedule } from '../store/tasks';
 
 const styles = {
   departments: {
@@ -34,12 +29,11 @@ const styles = {
 const MapSimple = props => {
   const storeData = useSelector((state) => state.data);
   const [map, setMap] = useState(null);
-  const dispatch = useDispatch()
   const data2 = storeData.result
   const move = storeData.move
-  const level = useSelector((state) => state.data.level);
-  getRoomLocation(props.data.floors.kfen[level])
-  const sizes = useWindowDimensions();
+  const level = storeData.level;
+  const sizes = props.data.sizes;
+  CheckoutDetails()
   return (
     <MapContainer
       style={{
@@ -59,8 +53,8 @@ const MapSimple = props => {
         url="https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}@2x.png?key=e65VFhNaAEo0l5tGguVF"
       />
       {searchResult(data2, map, styles.result, move)}
-      {data(props.data.places, map)}
-      {rooms([props.data.floors.kfen[level]], map)}
+      {data(props.data.places)}
+      {rooms([props.data.floors.kfen[level]])}
       {Markers(getFeatureLocation(props.data.places))}
       {Markers(getRoomLocation(props.data.floors.kfen[level]))}
     </MapContainer>

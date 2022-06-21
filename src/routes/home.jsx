@@ -9,7 +9,7 @@ export default function HomeComponent() {
   const [content, setContent] = useState("");
   const [imageIndex, setImageIndex] = useState(1);
   const swapImageRef = useRef();
-
+  
   const swapImage = () => {
     setImageIndex((imageIndex + 1) % 3);
   };

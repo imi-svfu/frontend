@@ -1,15 +1,4 @@
 @font-face {
-  font-family: 'Nunito';
-  src: local('Nunito'), url(./Nunito-Light.ttf) format('opentype');
-}
-
-@font-face {
-    font-family: 'Nunito';
-    font-weight: 900;
-    src: local('Nunito'), url(./Nunito-Medium.ttf) format('opentype');
-}
-
-@font-face {
     font-family: 'HelveticaNeue';
     src: local('HelveticaNeue'), url(./HelveticaNeueCyr-Light.ttf) format('opentype');
 }
