@@ -303,7 +303,11 @@ export const Markers = places => {
     <div>
       {places.map(item => {
         return( 
-          item.type !== 'building'  && item.type !== 'noroute' && item.type !== 'Hallway' 
+          item.type !== 'building'  
+          && item.type !== 'noroute' 
+          && item.type !== 'Hallway' 
+          && item.type !== 'Exit'
+          && item.type !== 'Museum'
             ?
               <Marker position={item.center} key={item.center.lat} icon={getIcon(item.type)}>
                 {markerPopup(item.popup.type, item.popup.number)}
