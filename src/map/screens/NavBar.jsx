@@ -179,10 +179,8 @@ function DropdownMenu(props) {
           {Object.keys(mapPlaces).map(key => {
             return(
               <DropdownItem 
-                goToMenu="search" 
                 key={key} 
                 leftIcon={mapPlaces[key].icon ? mapPlaces[key].icon : <ArrowIcon />}
-                customClickEvent={() => {setItems(search(mapPlaces[key].key))}}
               >
                 {mapPlaces[key].name}
               </DropdownItem>
@@ -203,10 +201,10 @@ function DropdownMenu(props) {
           {Object.keys(navBarItems).map(key => {
             return(
               <DropdownItem 
-                goToMenu="search" 
+                
                 key={key} 
                 leftIcon={navBarItems[key].icon ? navBarItems[key].icon : <ArrowIcon />}
-                customClickEvent={() => { setItems(search(navBarItems[key].name)) }}
+       
               >
                 {navBarItems[key].name}
               </DropdownItem>

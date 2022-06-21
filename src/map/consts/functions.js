@@ -159,7 +159,7 @@ const customPopup = (feature, info) => {
         window.innerWidth < 600 
        ? `<a href="https://telegram.me/share/url?text=http://${window.location.host + '/map?item=' + feature.properties.number}"        
         data-action="share/whatsapp/share"  
-        target="_blank"> Поделиться в WhatsApp
+        target="_blank"> Поделиться в Telegram
         </a>`
         : ''
       }
