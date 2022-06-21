@@ -7,7 +7,7 @@ import {GROUP_LSIT, WEEK_EVENTS} from '../../../config';
 import axios from 'axios';
 import Calendar from '../../components/Calendar';
 import DATE_UTILS from '../../components/scheduler/date';
-import {Alert} from "@mui/material";
+import {Alert, Grid} from "@mui/material";
 
 const TimeTablePage = () => {
   const [selected, setSelected] = useState(new Date());
@@ -65,28 +65,32 @@ const TimeTablePage = () => {
   };
 
   return (
-      <div className={styles.main}>
-        <aside className={styles.inputWrapper}>
-          <div className={styles.comboboxes}>
-            <ChoiceData
-              requestParams={requestParams}
-              setRequestParams={setRequestParams}
-              groups={groups}
-            />
-          </div>
-          <div className={styles.datePicker}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={3} className={styles.inputWrapper}>
+          <Grid container>
+            <Grid item xs={12} sm={6} lg={12} style={{margin: 'auto 0'}}>
+              <ChoiceData
+                requestParams={requestParams}
+                setRequestParams={setRequestParams}
+                groups={groups}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} lg={12}>
             <Calendar selected={selected} setSelected={setSelected}/>
-          </div>
+          </Grid>
+          </Grid>
 
           {errorMsg && <Alert severity="info">{errorMsg}</Alert>}
 
-        </aside>
+        </Grid>
+        <Grid item xs={12} lg={9}>
         <Scheduler
           events={events}
           selected={selected}
           setSelected={setSelected}
         />
-      </div>
+        </Grid>
+      </Grid>
   );
 };
 
