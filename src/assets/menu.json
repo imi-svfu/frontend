@@ -1,0 +1,51 @@
+[
+  {
+    "text": "Институт",
+    "link": "/"
+  },
+  {
+    "text": "О нас",
+    "link": "/",
+    "subItem": true
+  },
+  {
+    "text": "Новости",
+    "link": "/",
+    "subItem": true
+  },
+  {
+    "text": "Мероприятия",
+    "link": "/"
+  },
+  {
+    "text": "Абитуриенту",
+    "link": "/"
+  },
+  {
+    "text": "Направления и программы",
+    "link": "/",
+    "subItem": true
+  },
+  {
+    "text": "Список документов",
+    "link": "/",
+    "subItem": true
+  },
+  {
+    "text": "Задать вопрос",
+    "link": "/",
+    "subItem": true
+  },
+  {
+    "text": "Расписание",
+    "link": "/timetable"
+  },
+  {
+    "text": "Управление расписанием",
+    "link": "/managetabletime"
+  },
+  {
+    "text": "Карта студгородка",
+    "link": "/map"
+  }
+]

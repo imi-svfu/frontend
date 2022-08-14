@@ -16,60 +16,10 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 
 import { ReactComponent as ImiLogo } from "./assets/imi_logo.svg";
 
+import listItems from "./assets/menu.json";
+
 function Menu() {
   const [sidebarState, toggleSidebar] = useState(false);
-
-  const [listItems] = useState([
-    {
-      text: 'Институт',
-      link: '/',
-    },
-    {
-      text: 'О нас',
-      link: '/',
-      subItem: true,
-    },
-    {
-      text: 'Новости',
-      link: '/',
-      subItem: true,
-    },
-    {
-      text: 'Мероприятия',
-      link: '/',
-    },
-    {
-      text: 'Абитуриенту',
-      link: '/',
-    },
-    {
-      text: 'Направления и программы',
-      link: '/',
-      subItem: true,
-    },
-    {
-      text: 'Список документов',
-      link: '/',
-      subItem: true,
-    },
-    {
-      text: 'Задать вопрос',
-      link: '/',
-      subItem: true,
-    },
-    {
-      text: 'Расписание',
-      link: '/timetable',
-    },
-    {
-      text: 'Управление расписанием',
-      link: '/managetabletime',
-    },
-    {
-      text: 'Карта студгородка',
-      link: '/map',
-    },
-  ]);
 
   return (
     <>
@@ -100,7 +50,7 @@ function Menu() {
         open={sidebarState}
       >
         <List dense>
-          {listItems.map((el, i) =>
+          {listItems.map((el, i) => (
             <ListItemButton
               onClick={() => toggleSidebar(false)}
               key={i}
@@ -110,7 +60,7 @@ function Menu() {
                 <ListItemText>{el.text}</ListItemText>
               </Link>
             </ListItemButton>
-          )}
+          ))}
         </List>
       </SwipeableDrawer>
 
