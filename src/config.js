@@ -1,4 +1,4 @@
-const BASE_URL = "https://kit-imi.info/api/timetable/";
+const BASE_URL = "https://kit-imi.info/api/";
 
 export const SCHEDULES = BASE_URL + "schedules/";
 
