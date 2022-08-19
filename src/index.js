@@ -26,7 +26,7 @@ function Main() {
 
   useEffect(() => {
     if (!questions.length) {
-      fetch(`http://127.0.0.1:8000/api/questions/`)
+      fetch(`/api/questions/`)
         .then((response) => response.json())
         .then((data) => setQuestions(data));
     }
